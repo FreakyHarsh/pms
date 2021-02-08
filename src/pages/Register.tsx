@@ -42,7 +42,11 @@ function Register() {
         <Grid item md={8} xs={12} style={{ height: '100%' }}>
           <Box p={4} height='100%'>
             <Box mb={2}>
-              <Typography variant='h4' className={classes.headerTextAlign}>
+              <Typography
+                variant='h4'
+                className={classes.headerTextAlign}
+                style={{ fontFamily: 'Playfair Display' }}
+              >
                 Register
               </Typography>
             </Box>

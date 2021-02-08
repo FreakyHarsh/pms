@@ -38,7 +38,7 @@ function Login() {
 
         <Grid item md={8} xs={12}>
           <Box p={4}>
-            <Box pb={1}>
+            <Box mb={1} style={{ fontFamily: 'Playfair Display' }}>
               <Typography variant='h4' className={classes.headerTextAlign}>
                 Login
               </Typography>
