@@ -1,13 +1,40 @@
-import { CssBaseline } from '@material-ui/core';
+import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#39A0ED',
+      contrastText: '#FFF',
+    },
+    secondary: {
+      main: '#39ED93',
+      contrastText: '#FFF',
+    },
+  },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          fontFamily: `"Roboto", "Playfair Display", sans-serif`,
+          scrollBehavior: 'smooth',
+        },
+      },
+    },
+  },
+});
 ReactDOM.render(
   <React.StrictMode>
-    <CssBaseline />
-    <App />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <CssBaseline />
+        <App />
+      </BrowserRouter>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
