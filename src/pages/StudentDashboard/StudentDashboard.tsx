@@ -20,8 +20,10 @@ import {
 import React, { useState } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import ViewJobCard from '../../components/ViewJobCard';
-import { Route, useHistory } from 'react-router-dom';
+import { Redirect, Route, useHistory, Switch } from 'react-router-dom';
 import ViewJobs from './ViewJobs';
+import { toSnakeCase } from '../../utils/toSnakeCase';
+import ViewOffers from './ViewOffers';
 
 interface Props {
   window?: () => Window;
@@ -85,7 +87,8 @@ function StudentDashboard(props: Props) {
             className={classes.select}
             onClick={() => {
               setSelectedTab(text);
-              history.replace('/student-dashboard');
+              mobileOpen && setMobileOpen(!mobileOpen);
+              history.replace('/student-dashboard/' + toSnakeCase(text));
             }}
             selected={text === selectedTab}
           >
@@ -154,9 +157,17 @@ function StudentDashboard(props: Props) {
         <Hidden smUp>
           <div className={classes.toolbar} />
         </Hidden>
-        <Route path='/student-dashboard' exact>
-          <ViewJobs />
-        </Route>
+        <Switch>
+          <Route path='/student-dashboard' exact>
+            <ViewJobs />
+          </Route>
+          <Route path='/student-dashboard/view-jobs' exact>
+            <Redirect to='/student-dashboard' />
+          </Route>
+          <Route path='/student-dashboard/view-offers' exact>
+            <ViewOffers />
+          </Route>
+        </Switch>
       </main>
     </div>
   );

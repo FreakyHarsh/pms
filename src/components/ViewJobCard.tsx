@@ -43,7 +43,7 @@ function ViewJobCard({
             </Avatar>
           }
           title={
-            <Typography variant='body1' color='primary'>
+            <Typography variant='body1' color='primary' noWrap style={{ maxWidth: '80%' }}>
               {companyName}
             </Typography>
           }
@@ -52,13 +52,15 @@ function ViewJobCard({
         <Divider variant='middle' style={{ backgroundColor: theme.palette.primary.main }} />
         <CardContent>
           <Box style={{ paddingLeft: '1rem' }}>
-            <Typography variant='body2' paragraph>
+            <Typography variant='body2' paragraph noWrap>
               Position: {jobPosition}
             </Typography>
-            <Typography variant='body2' paragraph>
+            <Typography variant='body2' paragraph noWrap>
               Salary: {jobSalary} LPA
             </Typography>
-            <Typography variant='body2'>Location: {jobLocation}</Typography>
+            <Typography variant='body2' noWrap>
+              Location: {jobLocation}
+            </Typography>
           </Box>
         </CardContent>
       </Card>
