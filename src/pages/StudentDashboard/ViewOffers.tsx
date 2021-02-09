@@ -9,6 +9,24 @@ const sampleResponse: ViewOfferCardProps[] = [
     jobSalary: 3.6,
     jobPosition: 'JavaScript Developer',
   },
+  {
+    companyName: 'TCS',
+    requisitionID: '#123123',
+    jobSalary: 3.6,
+    jobPosition: 'JavaScript Developer',
+  },
+  {
+    companyName: 'TCS',
+    requisitionID: '#123123',
+    jobSalary: 3.6,
+    jobPosition: 'JavaScript Developer',
+  },
+  {
+    companyName: 'TCS',
+    requisitionID: '#123123',
+    jobSalary: 3.6,
+    jobPosition: 'JavaScript Developer',
+  },
 ];
 function ViewOffers() {
   return (

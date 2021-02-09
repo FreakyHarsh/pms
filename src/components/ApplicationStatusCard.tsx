@@ -1,21 +1,30 @@
+import classes from '*.module.css';
 import {
-  Card,
-  CardHeader,
   Avatar,
-  Typography,
-  Divider,
-  CardContent,
   Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  createStyles,
+  Divider,
   makeStyles,
   Theme,
-  createStyles,
-  useTheme,
-  Button,
+  Typography,
 } from '@material-ui/core';
 import React from 'react';
-import { ViewOfferCardProps } from '../types/ViewOfferCardProps';
+import { ApplicationStatusCardProps } from '../types/ApplicationStatusCardProps';
+import { useTheme } from '@material-ui/core';
 
-function ViewOfferCard({ companyName, jobPosition, jobSalary }: ViewOfferCardProps) {
+function ApplicationStatusCard({
+  companyName,
+  companyProfilePic,
+  location,
+  salary,
+  status,
+  requisitionID,
+  position,
+}: ApplicationStatusCardProps) {
   const theme = useTheme();
   const classes = useStyles();
   return (
@@ -37,27 +46,38 @@ function ViewOfferCard({ companyName, jobPosition, jobSalary }: ViewOfferCardPro
         <CardContent>
           <Box style={{ paddingLeft: '1rem' }}>
             <Typography variant='body2' paragraph noWrap>
-              Position: {jobPosition}
+              Position: {position}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
-              Salary: {jobSalary} LPA
+              Salary: {salary} LPA
             </Typography>
-            <a href='*'>Connect with company</a>
+            <Typography variant='body2' paragraph noWrap>
+              Location: {location}
+            </Typography>
+            <Typography variant='body2' paragraph noWrap>
+              Status: <span className={classes.approved}>{status}</span>
+            </Typography>
           </Box>
-          {/* <Button color='primary' onClick={() => console.log('gg')}>
-            Connect with company
-          </Button> */}
         </CardContent>
       </Card>
     </div>
   );
 }
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     large: {
       width: theme.spacing(7),
       height: theme.spacing(7),
     },
+    approved: {
+      color: '#5DD86E',
+      fontWeight: 700,
+    },
+    rejected: {
+      color: '#F35050',
+      fontWeight: 700,
+    },
   })
 );
-export default ViewOfferCard;
+export default ApplicationStatusCard;

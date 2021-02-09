@@ -43,7 +43,7 @@ function ViewJobCard({
             </Avatar>
           }
           title={
-            <Typography variant='body1' color='primary' noWrap style={{ maxWidth: '80%' }}>
+            <Typography variant='body1' color='primary'>
               {companyName}
             </Typography>
           }

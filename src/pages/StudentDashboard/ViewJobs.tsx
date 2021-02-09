@@ -39,6 +39,7 @@ const sampleResponse: ViewJobCardProps[] = [
     jobPosition: 'Data Analyst',
   },
 ];
+
 function ViewJobs() {
   return (
     <div>

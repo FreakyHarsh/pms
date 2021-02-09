@@ -24,6 +24,8 @@ import { Redirect, Route, useHistory, Switch } from 'react-router-dom';
 import ViewJobs from './ViewJobs';
 import { toSnakeCase } from '../../utils/toSnakeCase';
 import ViewOffers from './ViewOffers';
+import ApplicationStatus from './ApplicationStatus';
+import UploadResume from './UploadResume';
 
 interface Props {
   window?: () => Window;
@@ -48,36 +50,34 @@ function StudentDashboard(props: Props) {
         color: theme.palette.primary.contrastText,
       }}
     >
-      {/* <List>
+      <List>
         <ListItem button key='dp'>
           <ListItemIcon>
             <Avatar
               alt='Remy Sharp'
               className={classes.large}
-              src={
-                'https://randomuser.me/api/portraits/women/' +
-                Math.floor(Math.random() * 100) +
-                '.jpg'
-              }
+              src='https://randomuser.me/api/portraits/women/91.jpg'
             />
           </ListItemIcon>
-          <Typography variant='h6' noWrap style={{ padding: '1rem' }}>
+          <Typography
+            variant='h6'
+            noWrap
+            style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
+          >
             Jessie Doe
           </Typography>
         </ListItem>
-      </List> */}
-      <Box p={2} display='flex' alignItems='center'>
+      </List>
+      {/* <Box p={2} display='flex' alignItems='center'>
         <Avatar
           alt='Remy Sharp'
           className={classes.large}
-          src={
-            'https://randomuser.me/api/portraits/women/' + Math.floor(Math.random() * 100) + '.jpg'
-          }
+          src='https://randomuser.me/api/portraits/women/91.jpg'
         />
         <Typography variant='h6' noWrap style={{ padding: '1rem', fontFamily: 'Playfair Display' }}>
           Jessie Doe
         </Typography>
-      </Box>
+      </Box> */}
       <Divider />
       <List>
         {['View Jobs', 'View Offers', 'Application Status', 'Upload Resume'].map((text) => (
@@ -164,8 +164,14 @@ function StudentDashboard(props: Props) {
           <Route path='/student-dashboard/view-jobs' exact>
             <Redirect to='/student-dashboard' />
           </Route>
-          <Route path='/student-dashboard/view-offers' exact>
+          <Route path='/student-dashboard/view-offers'>
             <ViewOffers />
+          </Route>
+          <Route path='/student-dashboard/application-status'>
+            <ApplicationStatus />
+          </Route>
+          <Route path='/student-dashboard/upload-resume'>
+            <UploadResume />
           </Route>
         </Switch>
       </main>
