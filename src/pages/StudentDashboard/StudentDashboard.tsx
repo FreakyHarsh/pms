@@ -15,17 +15,16 @@ import {
   ListItemIcon,
   ListItemText,
   Avatar,
-  Box,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
-import ViewJobCard from '../../components/ViewJobCard';
 import { Redirect, Route, useHistory, Switch } from 'react-router-dom';
 import ViewJobs from './ViewJobs';
 import { toSnakeCase } from '../../utils/toSnakeCase';
 import ViewOffers from './ViewOffers';
 import ApplicationStatus from './ApplicationStatus';
 import UploadResume from './UploadResume';
+import StudentProfile from './StudentProfile';
 
 interface Props {
   window?: () => Window;
@@ -51,7 +50,17 @@ function StudentDashboard(props: Props) {
       }}
     >
       <List>
-        <ListItem button key='dp'>
+        <ListItem
+          button
+          key='dp'
+          className={classes.select}
+          onClick={() => {
+            setSelectedTab('Profile');
+            mobileOpen && setMobileOpen(!mobileOpen);
+            history.replace('/student-dashboard/profile-details');
+          }}
+          selected={'Profile' === selectedTab}
+        >
           <ListItemIcon>
             <Avatar
               alt='Remy Sharp'
@@ -68,16 +77,6 @@ function StudentDashboard(props: Props) {
           </Typography>
         </ListItem>
       </List>
-      {/* <Box p={2} display='flex' alignItems='center'>
-        <Avatar
-          alt='Remy Sharp'
-          className={classes.large}
-          src='https://randomuser.me/api/portraits/women/91.jpg'
-        />
-        <Typography variant='h6' noWrap style={{ padding: '1rem', fontFamily: 'Playfair Display' }}>
-          Jessie Doe
-        </Typography>
-      </Box> */}
       <Divider />
       <List>
         {['View Jobs', 'View Offers', 'Application Status', 'Upload Resume'].map((text) => (
@@ -161,7 +160,7 @@ function StudentDashboard(props: Props) {
           <Route path='/student-dashboard' exact>
             <ViewJobs />
           </Route>
-          <Route path='/student-dashboard/view-jobs' exact>
+          <Route path='/student-dashboard/view-jobs'>
             <Redirect to='/student-dashboard' />
           </Route>
           <Route path='/student-dashboard/view-offers'>
@@ -172,6 +171,9 @@ function StudentDashboard(props: Props) {
           </Route>
           <Route path='/student-dashboard/upload-resume'>
             <UploadResume />
+          </Route>
+          <Route path='/student-dashboard/profile-details'>
+            <StudentProfile />
           </Route>
         </Switch>
       </main>
