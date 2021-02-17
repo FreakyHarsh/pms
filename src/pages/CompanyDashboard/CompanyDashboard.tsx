@@ -9,15 +9,15 @@ import {
   makeStyles,
   Theme,
   createStyles,
-} from '@material-ui/core';
-import React, { useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import ApplicationStatus from '../StudentDashboard/ApplicationStatus';
-import StudentProfile from '../StudentDashboard/StudentProfile';
-import UploadResume from '../StudentDashboard/UploadResume';
-import ViewJobs from '../StudentDashboard/ViewJobs';
-import ViewOffers from '../StudentDashboard/ViewOffers';
-import MenuIcon from '@material-ui/icons/Menu';
+} from "@material-ui/core";
+import React, { useState } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import ApplicationStatus from "../StudentDashboard/ApplicationStatus";
+import StudentProfile from "../StudentDashboard/StudentProfile";
+import UploadResume from "../StudentDashboard/UploadResume";
+import ViewJobs from "../StudentDashboard/ViewJobs";
+import ViewOffers from "../StudentDashboard/ViewOffers";
+import MenuIcon from "@material-ui/icons/Menu";
 
 interface Props {
   window?: () => Window;
@@ -28,7 +28,7 @@ function CompanyDashboard(props: Props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('View Jobs');
+  const [selectedTab, setSelectedTab] = useState("View Jobs");
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -61,7 +61,7 @@ function CompanyDashboard(props: Props) {
           <Drawer
             container={container}
             variant='temporary'
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -120,24 +120,24 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
+      display: "flex",
     },
     drawer: {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up("sm")]: {
         width: drawerWidth,
         flexShrink: 0,
       },
     },
     appBar: {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up("sm")]: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
       },
     },
     menuButton: {
       marginRight: theme.spacing(2),
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
+      [theme.breakpoints.up("sm")]: {
+        display: "none",
       },
     },
     drawerPaper: {
@@ -153,7 +153,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: theme.mixins.toolbar,
     select: {
-      '&.MuiListItem-root.Mui-selected': {
+      "&.MuiListItem-root.Mui-selected": {
         backgroundColor: theme.palette.primary.contrastText,
         color: theme.palette.primary.main,
       },

@@ -4,7 +4,22 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
+import { StudentReducer } from './store/reducers/StudentReducer/student.reducer';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
+(window as any).baseURL = process.env.REACT_APP_BASE_URL;
+
+const composeEnhancers =
+  (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+
+// const rootReducer = combineReducers({
+//   nameState: nameReducer,
+//   bmksState: bookmarksReducer,
+// });
+const store = createStore(StudentReducer, composeEnhancers(applyMiddleware(thunk)));
+console.log(store);
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -29,12 +44,14 @@ const theme = createMuiTheme({
 });
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <CssBaseline />
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <CssBaseline />
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
