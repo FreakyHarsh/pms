@@ -12,6 +12,8 @@ interface StudentState {
   currentAddress: string;
   homeAddress: string;
   password: string;
+  avatar: string;
+  resume: string;
 }
 
 const initialState: StudentState = {
@@ -26,6 +28,8 @@ const initialState: StudentState = {
   currentAddress: '',
   homeAddress: '',
   password: '',
+  avatar: '',
+  resume: '',
 }
 
 export const StudentReducer = (state = initialState, action: { type: StudentActionTypes; payload?: any }): StudentState => {
@@ -88,6 +92,18 @@ export const StudentReducer = (state = initialState, action: { type: StudentActi
       return {
         ...state,
         password: action.payload
+      }
+
+    case StudentActionTypes.setAvatar:
+      return {
+        ...state,
+        avatar: action.payload
+      }
+
+    case StudentActionTypes.setResume:
+      return {
+        ...state,
+        resume: action.payload
       }
   }
   return state;

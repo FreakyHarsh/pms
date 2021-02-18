@@ -8,18 +8,19 @@ import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
 import { StudentReducer } from './store/reducers/StudentReducer/student.reducer';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { AuthReducer } from './store/reducers/AuthReducer/auth.reducer';
 
 (window as any).baseURL = process.env.REACT_APP_BASE_URL;
 
 const composeEnhancers =
   (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
-// const rootReducer = combineReducers({
-//   nameState: nameReducer,
-//   bmksState: bookmarksReducer,
-// });
-const store = createStore(StudentReducer, composeEnhancers(applyMiddleware(thunk)));
-console.log(store);
+const rootReducer = combineReducers({
+  studentGlobalState: StudentReducer,
+  authState: AuthReducer,
+});
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 const theme = createMuiTheme({
   palette: {
     primary: {

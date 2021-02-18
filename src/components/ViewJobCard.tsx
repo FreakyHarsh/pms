@@ -12,7 +12,7 @@ import {
   Theme,
 } from '@material-ui/core';
 import React from 'react';
-import { ViewJobCardProps } from '../types/ViewJobCardProps';
+import { ViewJobCardProps } from '../types/StudentTypes/ViewJobCardProps';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

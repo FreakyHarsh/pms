@@ -1,4 +1,4 @@
-import classes from "*.module.css";
+import classes from '*.module.css';
 import {
   Avatar,
   Box,
@@ -11,10 +11,10 @@ import {
   makeStyles,
   Theme,
   Typography,
-} from "@material-ui/core";
-import React from "react";
-import { ApplicationStatusCardProps } from "../types/ApplicationStatusCardProps";
-import { useTheme } from "@material-ui/core";
+} from '@material-ui/core';
+import React from 'react';
+import { ApplicationStatusCardProps } from '../types/StudentTypes/ApplicationStatusCardProps';
+import { useTheme } from '@material-ui/core';
 
 function ApplicationStatusCard({
   companyName,
@@ -32,7 +32,7 @@ function ApplicationStatusCard({
       <Card raised>
         <CardHeader
           avatar={
-            <Avatar aria-label='recipe' className={classes.large} src={""}>
+            <Avatar aria-label='recipe' className={classes.large} src={''}>
               T
             </Avatar>
           }
@@ -44,7 +44,7 @@ function ApplicationStatusCard({
         />
         <Divider variant='middle' style={{ backgroundColor: theme.palette.primary.main }} />
         <CardContent>
-          <Box style={{ paddingLeft: "1rem" }}>
+          <Box style={{ paddingLeft: '1rem' }}>
             <Typography variant='body2' paragraph noWrap>
               Position: {position}
             </Typography>
@@ -71,11 +71,11 @@ const useStyles = makeStyles((theme: Theme) =>
       height: theme.spacing(7),
     },
     approved: {
-      color: "#5DD86E",
+      color: '#5DD86E',
       fontWeight: 700,
     },
     rejected: {
-      color: "#F35050",
+      color: '#F35050',
       fontWeight: 700,
     },
   })

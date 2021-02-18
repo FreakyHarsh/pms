@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import React from 'react';
 import ViewJobCard from '../../components/ViewJobCard';
-import { ViewJobCardProps } from '../../types/ViewJobCardProps';
+import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
 const sampleResponse: ViewJobCardProps[] = [
   {
     companyName: 'TCS',

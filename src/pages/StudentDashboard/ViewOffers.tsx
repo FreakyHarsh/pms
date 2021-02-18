@@ -1,7 +1,7 @@
 import { createStyles, Grid, makeStyles, Theme, useTheme } from '@material-ui/core';
 import React from 'react';
 import ViewOfferCard from '../../components/ViewOfferCard';
-import { ViewOfferCardProps } from '../../types/ViewOfferCardProps';
+import { ViewOfferCardProps } from '../../types/StudentTypes/ViewOfferCardProps';
 const sampleResponse: ViewOfferCardProps[] = [
   {
     companyName: 'TCS',

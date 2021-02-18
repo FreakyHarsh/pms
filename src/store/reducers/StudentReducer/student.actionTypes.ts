@@ -10,4 +10,6 @@ export enum StudentActionTypes {
   setCurrentAddress = 'setCurrentAddress',
   setHomeAddress = 'setHomeAddress',
   setPassword = 'setPassword',
+  setResume = 'setResume',
+  setAvatar = 'setAvatar'
 }

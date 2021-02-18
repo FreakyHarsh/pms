@@ -9,30 +9,96 @@ import {
   makeStyles,
   Theme,
   createStyles,
-} from "@material-ui/core";
-import React, { useState } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import ApplicationStatus from "../StudentDashboard/ApplicationStatus";
-import StudentProfile from "../StudentDashboard/StudentProfile";
-import UploadResume from "../StudentDashboard/UploadResume";
-import ViewJobs from "../StudentDashboard/ViewJobs";
-import ViewOffers from "../StudentDashboard/ViewOffers";
-import MenuIcon from "@material-ui/icons/Menu";
+  Avatar,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core';
+import React, { useState } from 'react';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import ApplicationStatus from '../StudentDashboard/ApplicationStatus';
+import StudentProfile from '../StudentDashboard/StudentProfile';
+import UploadResume from '../StudentDashboard/UploadResume';
+import ViewJobs from '../StudentDashboard/ViewJobs';
+import ViewOffers from '../StudentDashboard/ViewOffers';
+import MenuIcon from '@material-ui/icons/Menu';
+import { toSnakeCase } from '../../utils/toSnakeCase';
+import Requisitions from './Requisitions';
 
 interface Props {
   window?: () => Window;
 }
-const drawer = <div>drawer</div>;
+
 function CompanyDashboard(props: Props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState("View Jobs");
+  const [selectedTab, setSelectedTab] = useState('Requisition');
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
   const container = window !== undefined ? () => window().document.body : undefined;
+
+  const drawer = (
+    <div
+      style={{
+        backgroundColor: theme.palette.primary.main,
+        height: '100%',
+        color: theme.palette.primary.contrastText,
+      }}
+    >
+      <List>
+        <ListItem
+          button
+          key='company-profile'
+          className={classes.select}
+          onClick={() => {
+            setSelectedTab('Profile');
+            mobileOpen && setMobileOpen(!mobileOpen);
+            history.replace('/company-dashboard/profile-details');
+          }}
+          selected={'Profile' === selectedTab}
+        >
+          <ListItemIcon>
+            <Avatar
+              alt='Remy Sharp'
+              className={classes.large}
+              src='https://randomuser.me/api/portraits/men/91.jpg'
+            />
+          </ListItemIcon>
+          <Typography
+            variant='h6'
+            noWrap
+            style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
+          >
+            Amazon
+          </Typography>
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        {['Requisitions', 'Create Requisition', 'Internal Submitals'].map((text) => (
+          <ListItem
+            button
+            key={text}
+            className={classes.select}
+            onClick={() => {
+              setSelectedTab(text);
+              mobileOpen && setMobileOpen(!mobileOpen);
+              history.replace('/company-dashboard/' + toSnakeCase(text));
+            }}
+            selected={text === selectedTab}
+          >
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
 
   return (
     <div className={classes.root}>
@@ -61,7 +127,7 @@ function CompanyDashboard(props: Props) {
           <Drawer
             container={container}
             variant='temporary'
-            anchor={theme.direction === "rtl" ? "right" : "left"}
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -93,22 +159,19 @@ function CompanyDashboard(props: Props) {
           <div className={classes.toolbar} />
         </Hidden>
         <Switch>
-          <Route path='/student-dashboard' exact>
-            <ViewJobs />
+          <Route path='/company-dashboard' exact>
+            <Requisitions />
           </Route>
-          <Route path='/student-dashboard/view-jobs'>
-            <Redirect to='/student-dashboard' />
+          <Route path='/company-dashboard/requisitions'>
+            <Redirect to='/company-dashboard' />
           </Route>
-          <Route path='/student-dashboard/view-offers'>
+          <Route path='/company-dashboard/create-requisition'>
             <ViewOffers />
           </Route>
-          <Route path='/student-dashboard/application-status'>
+          <Route path='/company-dashboard/internal-submitals'>
             <ApplicationStatus />
           </Route>
-          <Route path='/student-dashboard/upload-resume'>
-            <UploadResume />
-          </Route>
-          <Route path='/student-dashboard/profile-details'>
+          <Route path='/company-dashboard/profile-details'>
             <StudentProfile />
           </Route>
         </Switch>
@@ -120,24 +183,24 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
+      display: 'flex',
     },
     drawer: {
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up('sm')]: {
         width: drawerWidth,
         flexShrink: 0,
       },
     },
     appBar: {
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up('sm')]: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
       },
     },
     menuButton: {
       marginRight: theme.spacing(2),
-      [theme.breakpoints.up("sm")]: {
-        display: "none",
+      [theme.breakpoints.up('sm')]: {
+        display: 'none',
       },
     },
     drawerPaper: {
@@ -153,7 +216,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: theme.mixins.toolbar,
     select: {
-      "&.MuiListItem-root.Mui-selected": {
+      '&.MuiListItem-root.Mui-selected': {
         backgroundColor: theme.palette.primary.contrastText,
         color: theme.palette.primary.main,
       },

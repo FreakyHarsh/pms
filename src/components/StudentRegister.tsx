@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import * as actionCreator from '../store/actions/actions.student';
 import { StudentActionTypes } from '../store/reducers/StudentReducer/student.actionTypes';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles } from '@material-ui/core';
@@ -30,27 +29,30 @@ function StudentRegister() {
   const [homeAddress, setHomeAddress] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [uploadResume, setUploadResume] = useState<any>();
+  const [uploadAvatar, setUploadAvatar] = useState<any>();
   //res from server for validation purpose
   const [res, setRes] = useState<any>();
+  const resumeFormData = new FormData();
+  const avatarFormData = new FormData();
+  const formData = new FormData();
+
   const dispatch = useDispatch();
-  const [uploadResumeName, setUploadResumeName] = useState('');
   const handleResumeSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
-    console.log('files:', files);
-    setUploadResumeName(files[0].name);
+    console.log(files);
+    setUploadResume(files[0]);
   };
-  const [uploadAvatarName, setUploadAvatarName] = useState('');
   const handleAvatarSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
-    console.log('files:', files);
-    setUploadAvatarName(files[0].name);
+    setUploadAvatar(files[0]);
   };
 
   const onChangeGender = (event: React.ChangeEvent<{ value: unknown }>) => {
     setGender(event.target.value as string);
   };
   const dispatchToGlobalStore = () => {
-    dispatch(actionCreator.setFirstName(firstName));
+    dispatch({ type: StudentActionTypes.setFirstName, payload: firstName });
     dispatch({ type: StudentActionTypes.setLastName, payload: lastName });
     dispatch({ type: StudentActionTypes.setUinNumber, payload: uinNumber });
     dispatch({ type: StudentActionTypes.setEmail, payload: email });
@@ -64,24 +66,26 @@ function StudentRegister() {
   };
 
   const onStudentRegister = async () => {
+    // resumeFormData.append('resume', uploadResume, uploadResume?.name);
+    // avatarFormData.append('avatar', uploadAvatar, uploadAvatar?.name);
+    formData.append('avatar', uploadAvatar, uploadAvatar?.name);
+    formData.append('uinNumber', uinNumber);
+    formData.append('phoneNumber', phoneNumber);
+    formData.append('gender', gender);
+    formData.append('department', department);
+    formData.append('program', program);
+    formData.append('currentAddress', currentAddress);
+    formData.append('homeAddress', homeAddress);
+    formData.append('password', password);
+    formData.append('confirmPassword', confirmPassword);
+    formData.append('resume', uploadResume, uploadResume?.name);
+    formData.append('email', email);
     const response = await fetch(baseURL + '/students/register', {
       method: 'POST',
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        phoneNumber,
-        email,
-        department,
-        gender,
-        uinNumber,
-        program,
-        currentAddress,
-        homeAddress,
-        password,
-        confirmPassword,
-      }),
+      body: formData,
+      redirect: 'follow',
     })
-      .then((res) => res.json())
+      .then((res) => res.text())
       .then((data) => {
         //TODO: dispatch to global store here
         dispatchToGlobalStore();
@@ -236,7 +240,9 @@ function StudentRegister() {
               <div style={{ paddingRight: '10px' }}>Upload Avatar</div>
             </Box>
           </label>
-          {uploadAvatarName && <div className={classes.selectedFileName}>{uploadAvatarName}</div>}
+          {uploadAvatar?.name && (
+            <div className={classes.selectedFileName}>{uploadAvatar?.name}</div>
+          )}
           <input
             type='file'
             id='avatar'
@@ -258,7 +264,9 @@ function StudentRegister() {
               <div style={{ paddingRight: '10px' }}>Upload Resume</div>
             </Box>
           </label>
-          {uploadResumeName && <div className={classes.selectedFileName}>{uploadResumeName}</div>}
+          {uploadResume?.name && (
+            <div className={classes.selectedFileName}>{uploadResume?.name}</div>
+          )}
           <input type='file' id='resume' hidden onChange={handleResumeSelected} accept='.pdf' />
         </Grid>
         <Grid item xs={12}>

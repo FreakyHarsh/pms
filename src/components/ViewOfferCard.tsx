@@ -13,7 +13,7 @@ import {
   Button,
 } from '@material-ui/core';
 import React from 'react';
-import { ViewOfferCardProps } from '../types/ViewOfferCardProps';
+import { ViewOfferCardProps } from '../types/StudentTypes/ViewOfferCardProps';
 
 function ViewOfferCard({ companyName, jobPosition, jobSalary }: ViewOfferCardProps) {
   const theme = useTheme();

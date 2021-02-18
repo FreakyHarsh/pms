@@ -1,8 +1,8 @@
 import { Grid } from '@material-ui/core';
 import React from 'react';
 import ApplicationStatusCard from '../../components/ApplicationStatusCard';
-import { ViewJobCardProps } from '../../types/ViewJobCardProps';
-import { ApplicationStatusCardProps } from '../../types/ApplicationStatusCardProps';
+import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
+import { ApplicationStatusCardProps } from '../../types/StudentTypes/ApplicationStatusCardProps';
 const sampleResponse: ApplicationStatusCardProps[] = [
   {
     companyName: 'TCS',
