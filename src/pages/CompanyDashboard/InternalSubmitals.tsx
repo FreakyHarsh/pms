@@ -1,9 +1,7 @@
-import { Box, Card, Grid, Typography } from '@material-ui/core';
+import { Grid, Card, Box, Typography, CardActions, Button } from '@material-ui/core';
 import React from 'react';
-import ViewJobCard from '../../components/ViewJobCard';
-import { RequisitionProps } from '../../types/CompanyTypes/RequisitionProps';
-import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
 import { useHistory } from 'react-router-dom';
+import { RequisitionProps } from '../../types/CompanyTypes/RequisitionProps';
 const sampleResponse: RequisitionProps[] = [
   {
     requisitionID: '#123123',
@@ -18,14 +16,15 @@ const sampleResponse: RequisitionProps[] = [
     position: 'JavaScript Developer',
   },
 ];
-function Requisitions() {
+function InternalSubmitals() {
   const history = useHistory();
+
   return (
     <div>
       <Grid container spacing={2}>
         {sampleResponse.map(({ location, salary, position, requisitionID }: RequisitionProps) => (
           <Grid item xs={12} md={6} key={requisitionID + Math.random()}>
-            <Card raised onClick={() => history.replace('/company-dashboard/requisition-detail')}>
+            <Card raised>
               <Box p={2} ml={1}>
                 <Typography variant='body2' paragraph noWrap>
                   Requisition ID: #12312
@@ -40,6 +39,11 @@ function Requisitions() {
                   Location: Mumbai
                 </Typography>
               </Box>
+              <CardActions>
+                <Button size='small' color='primary' style={{ marginLeft: 'auto' }}>
+                  Check Submitals
+                </Button>
+              </CardActions>
             </Card>
           </Grid>
         ))}
@@ -48,4 +52,4 @@ function Requisitions() {
   );
 }
 
-export default Requisitions;
+export default InternalSubmitals;

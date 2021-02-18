@@ -26,6 +26,9 @@ import ViewOffers from '../StudentDashboard/ViewOffers';
 import MenuIcon from '@material-ui/icons/Menu';
 import { toSnakeCase } from '../../utils/toSnakeCase';
 import Requisitions from './Requisitions';
+import CreateRequisition from './CreateRequisition';
+import RequisitionDetail from '../../components/RequisitionDetail';
+import InternalSubmitals from './InternalSubmitals';
 
 interface Props {
   window?: () => Window;
@@ -37,7 +40,7 @@ function CompanyDashboard(props: Props) {
   const theme = useTheme();
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('Requisition');
+  const [selectedTab, setSelectedTab] = useState('Requisitions');
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -166,10 +169,13 @@ function CompanyDashboard(props: Props) {
             <Redirect to='/company-dashboard' />
           </Route>
           <Route path='/company-dashboard/create-requisition'>
-            <ViewOffers />
+            <CreateRequisition />
           </Route>
           <Route path='/company-dashboard/internal-submitals'>
-            <ApplicationStatus />
+            <InternalSubmitals />
+          </Route>
+          <Route path='/company-dashboard/requisition-detail'>
+            <RequisitionDetail />
           </Route>
           <Route path='/company-dashboard/profile-details'>
             <StudentProfile />

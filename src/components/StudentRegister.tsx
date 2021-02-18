@@ -69,6 +69,8 @@ function StudentRegister() {
     // resumeFormData.append('resume', uploadResume, uploadResume?.name);
     // avatarFormData.append('avatar', uploadAvatar, uploadAvatar?.name);
     formData.append('avatar', uploadAvatar, uploadAvatar?.name);
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
     formData.append('uinNumber', uinNumber);
     formData.append('phoneNumber', phoneNumber);
     formData.append('gender', gender);
@@ -83,13 +85,12 @@ function StudentRegister() {
     const response = await fetch(baseURL + '/students/register', {
       method: 'POST',
       body: formData,
-      redirect: 'follow',
     })
       .then((res) => res.text())
       .then((data) => {
         //TODO: dispatch to global store here
         dispatchToGlobalStore();
-        return data;
+        return JSON.parse(data);
       })
       .catch((error) => console.log(error));
     console.log(response);
