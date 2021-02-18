@@ -29,6 +29,8 @@ import Requisitions from './Requisitions';
 import CreateRequisition from './CreateRequisition';
 import RequisitionDetail from '../../components/RequisitionDetail';
 import InternalSubmitals from './InternalSubmitals';
+import InternalSubmitalCard from '../../components/InternalSubmitalCard';
+import InternalSubmitalsList from '../../components/InternalSubmitalsList';
 
 interface Props {
   window?: () => Window;
@@ -171,14 +173,17 @@ function CompanyDashboard(props: Props) {
           <Route path='/company-dashboard/create-requisition'>
             <CreateRequisition />
           </Route>
-          <Route path='/company-dashboard/internal-submitals'>
+          <Route path='/company-dashboard/internal-submitals' exact>
             <InternalSubmitals />
+          </Route>
+          <Route path='/company-dashboard/profile-details'>
+            <StudentProfile />
           </Route>
           <Route path='/company-dashboard/requisition-detail'>
             <RequisitionDetail />
           </Route>
-          <Route path='/company-dashboard/profile-details'>
-            <StudentProfile />
+          <Route path='/company-dashboard/internal-submitals/requisitionId'>
+            <InternalSubmitalsList />
           </Route>
         </Switch>
       </main>

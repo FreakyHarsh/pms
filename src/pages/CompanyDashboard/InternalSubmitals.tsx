@@ -1,6 +1,6 @@
 import { Grid, Card, Box, Typography, CardActions, Button } from '@material-ui/core';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { RequisitionProps } from '../../types/CompanyTypes/RequisitionProps';
 const sampleResponse: RequisitionProps[] = [
   {
@@ -18,7 +18,8 @@ const sampleResponse: RequisitionProps[] = [
 ];
 function InternalSubmitals() {
   const history = useHistory();
-
+  const match = useRouteMatch();
+  console.log(match);
   return (
     <div>
       <Grid container spacing={2}>
@@ -40,7 +41,12 @@ function InternalSubmitals() {
                 </Typography>
               </Box>
               <CardActions>
-                <Button size='small' color='primary' style={{ marginLeft: 'auto' }}>
+                <Button
+                  size='small'
+                  color='primary'
+                  onClick={() => history.replace(match.path + '/requisitionId')}
+                  style={{ marginLeft: 'auto' }}
+                >
                   Check Submitals
                 </Button>
               </CardActions>
