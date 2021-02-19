@@ -52,17 +52,22 @@ function StudentRegister() {
     setGender(event.target.value as string);
   };
   const dispatchToGlobalStore = () => {
-    dispatch({ type: StudentActionTypes.setFirstName, payload: firstName });
-    dispatch({ type: StudentActionTypes.setLastName, payload: lastName });
-    dispatch({ type: StudentActionTypes.setUinNumber, payload: uinNumber });
-    dispatch({ type: StudentActionTypes.setEmail, payload: email });
-    dispatch({ type: StudentActionTypes.setGender, payload: gender });
-    dispatch({ type: StudentActionTypes.setDepartment, payload: department });
-    dispatch({ type: StudentActionTypes.setPhoneNumber, payload: phoneNumber });
-    dispatch({ type: StudentActionTypes.setCurrentAddress, payload: currentAddress });
-    dispatch({ type: StudentActionTypes.setHomeAddress, payload: homeAddress });
-    dispatch({ type: StudentActionTypes.setProgram, payload: program });
-    dispatch({ type: StudentActionTypes.setPassword, payload: password });
+    dispatch({
+      type: StudentActionTypes.setStudent,
+      payload: {
+        firstName,
+        lastName,
+        uinNumber,
+        email,
+        gender,
+        department,
+        phoneNumber,
+        currentAddress,
+        homeAddress,
+        program,
+        password,
+      },
+    });
   };
 
   const onStudentRegister = async () => {
@@ -82,18 +87,20 @@ function StudentRegister() {
     formData.append('confirmPassword', confirmPassword);
     formData.append('resume', uploadResume, uploadResume?.name);
     formData.append('email', email);
+    console.log(formData);
     const response = await fetch(baseURL + '/students/register', {
       method: 'POST',
       body: formData,
     })
       .then((res) => res.text())
       .then((data) => {
-        //TODO: dispatch to global store here
         dispatchToGlobalStore();
+        console.log(data);
+        //TODO: navigate to student Dashboard
+        //TODO: store tokens to auth
         return JSON.parse(data);
       })
       .catch((error) => console.log(error));
-    console.log(response);
     setRes(response);
   };
   return (

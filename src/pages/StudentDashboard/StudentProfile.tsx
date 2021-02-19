@@ -9,6 +9,10 @@ import {
   Theme,
   Divider,
   IconButton,
+  CardContent,
+  Grid,
+  TextField,
+  Button,
 } from '@material-ui/core';
 import React from 'react';
 import EditIcon from '@material-ui/icons/Edit';
@@ -36,34 +40,61 @@ function StudentProfile() {
             </Typography>
           </Box>
           <Divider variant='middle' style={{ backgroundColor: theme.palette.primary.main }} />
-          <Box p={3}>
-            <Box px={2} display='flex' justifyContent='space-between' alignItems='center'>
-              <Typography>Phone number: 9980467133</Typography>
-              <IconButton>
-                <EditIcon style={{ color: theme.palette.primary.main, fontSize: '1.3rem' }} />
-              </IconButton>
-            </Box>
-            <Box px={2} display='flex' justifyContent='space-between' alignItems='center'>
-              <Typography>UIN number: 161S007</Typography>
-              <IconButton>
-                <EditIcon style={{ color: theme.palette.primary.main, fontSize: '1.3rem' }} />
-              </IconButton>
-            </Box>
-            <Box px={2} display='flex' justifyContent='space-between' alignItems='center'>
-              <Typography>Gender: Male</Typography>
-              <IconButton>
-                <EditIcon style={{ color: theme.palette.primary.main, fontSize: '1.3rem' }} />
-              </IconButton>
-            </Box>
-            <Box px={2} display='flex' justifyContent='space-between' alignItems='center'>
-              <Typography style={{ maxWidth: '80%' }} noWrap>
+          <CardContent>
+            <Box px={2}>
+              <Typography paragraph noWrap>
+                Phone number: 9980467133
+              </Typography>
+              <Typography paragraph noWrap>
+                UIN number: 161S007
+              </Typography>
+              <Typography paragraph noWrap>
+                Gender: Male
+              </Typography>
+              <Typography style={{ maxWidth: '80%' }} paragraph noWrap>
                 Email: harsh.boricha2015@gmail.com
               </Typography>
-              <IconButton>
-                <EditIcon style={{ color: theme.palette.primary.main, fontSize: '1.3rem' }} />
-              </IconButton>
+              <Typography paragraph>Department: Computer Science</Typography>
+              <Typography paragraph>Program: B.E</Typography>
+              <Typography paragraph>
+                Current Address: Lorem Epson, Loremlkf
+                lksjfjkslfjfdljfsdlkjflksjdflkjsdlkfsjslkdfjslkd
+              </Typography>
+              <Typography paragraph>
+                Home Address: Lorem Epson, Loremlkf lksjfjkslfjfdljfsdlkjflksjdflkjsdlkfsjslkdfjslkd
+              </Typography>
+              <Grid container spacing={3} style={{ marginBottom: '.5rem' }}>
+                <Grid item xs={4} md={3}>
+                  <TextField label='Sem 1' variant='outlined' size='small' />
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <TextField label='Sem 2' variant='outlined' size='small' />
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <TextField label='Sem 3' variant='outlined' size='small' />
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <TextField label='Sem 4' variant='outlined' size='small' />
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <TextField label='Sem 5' variant='outlined' size='small' />
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <TextField label='Sem 6' variant='outlined' size='small' />
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <TextField label='Sem 7' variant='outlined' size='small' />
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <TextField label='Sem 8' variant='outlined' size='small' />
+                </Grid>
+              </Grid>
+              <Typography paragraph>CGPI: 7.0</Typography>
+              <Button variant='contained' color='secondary'>
+                Update Details
+              </Button>
             </Box>
-          </Box>
+          </CardContent>
         </Card>
       </Box>
     </Box>

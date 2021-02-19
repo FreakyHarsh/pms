@@ -34,76 +34,10 @@ const initialState: StudentState = {
 
 export const StudentReducer = (state = initialState, action: { type: StudentActionTypes; payload?: any }): StudentState => {
   switch (action.type) {
-    case StudentActionTypes.setFirstName:
+    case StudentActionTypes.setStudent:
       return {
         ...state,
-        firstName: action.payload
-      }
-
-    case StudentActionTypes.setLastName:
-      return {
-        ...state,
-        lastName: action.payload
-      }
-
-    case StudentActionTypes.setCurrentAddress:
-      return {
-        ...state,
-        currentAddress: action.payload
-      }
-
-    case StudentActionTypes.setHomeAddress:
-      return {
-        ...state,
-        homeAddress: action.payload
-      }
-
-    case StudentActionTypes.setDepartment:
-      return {
-        ...state,
-        department: action.payload
-      }
-
-    case StudentActionTypes.setEmail:
-      return {
-        ...state,
-        email: action.payload
-      }
-
-    case StudentActionTypes.setUinNumber:
-      return {
-        ...state,
-        uinNumber: action.payload
-      }
-
-    case StudentActionTypes.setGender:
-      return {
-        ...state,
-        gender: action.payload
-      }
-
-    case StudentActionTypes.setPhoneNumber:
-      return {
-        ...state,
-        phoneNumber: action.payload
-      }
-
-    case StudentActionTypes.setPassword:
-      return {
-        ...state,
-        password: action.payload
-      }
-
-    case StudentActionTypes.setAvatar:
-      return {
-        ...state,
-        avatar: action.payload
-      }
-
-    case StudentActionTypes.setResume:
-      return {
-        ...state,
-        resume: action.payload
+        ...action.payload
       }
   }
   return state;

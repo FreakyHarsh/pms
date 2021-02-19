@@ -23,9 +23,9 @@ function InternalSubmitalsList() {
   const history = useHistory();
   return (
     <div>
-      <IconButton onClick={() => history.replace('/company-dashboard/internal-submitals')}>
+      {/* <IconButton onClick={() => history.replace('/company-dashboard/internal-submitals')}>
         <ArrowBackIcon />
-      </IconButton>
+      </IconButton> */}
       <Grid container spacing={2}>
         {sampleResponse.map(
           ({ studentName, uinNumber, cgpi, resume }: InternalSubmitalCardProps) => (

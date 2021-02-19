@@ -55,9 +55,9 @@ function RequisitionDetail() {
   const history = useHistory();
   return (
     <div>
-      <IconButton className={classes.backBtn} onClick={() => history.replace('/company-dashboard')}>
+      {/* <IconButton className={classes.backBtn} onClick={() => history.replace('/company-dashboard')}>
         <ArrowBackIcon />
-      </IconButton>
+      </IconButton> */}
       <Card>
         <Box p={3}>
           <Typography paragraph noWrap>
