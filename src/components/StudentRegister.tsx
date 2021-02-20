@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { StudentActionTypes } from '../store/reducers/StudentReducer/student.actionTypes';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core';
 
 function StudentRegister() {
   const classes = useStyles();
@@ -290,23 +290,23 @@ function StudentRegister() {
     </React.Fragment>
   );
 }
-const useStyles = makeStyles({
-  uploadBtnStyling: {
-    color: '#1D3A8F',
-    backgroundColor: '#EBF0FF',
-    padding: '.6rem',
-    border: '1px solid #6087F6',
-    borderRadius: '1rem',
-    fontSize: '0.8rem',
-  },
-  selectedFileName: {
-    color: '#1D3A8F',
-    backgroundColor: '#EBF0FF',
-    padding: '.6rem',
-    border: '1px solid #6087F6',
-    borderRadius: '1rem',
-    fontSize: '0.8rem',
-    marginTop: '1rem',
-  },
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    uploadBtnStyling: {
+      color: theme.palette.primary.main,
+      padding: '.6rem',
+      border: '1px solid #6087F6',
+      borderRadius: '1rem',
+      fontSize: '0.8rem',
+    },
+    selectedFileName: {
+      color: theme.palette.secondary.main,
+      padding: '.6rem',
+      border: '1px solid ' + theme.palette.secondary.main,
+      borderRadius: '1rem',
+      fontSize: '0.8rem',
+      marginTop: '1rem',
+    },
+  })
+);
 export default StudentRegister;

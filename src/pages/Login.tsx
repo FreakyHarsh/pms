@@ -18,8 +18,12 @@ import TermsAndConditions from '../components/TermsAndConditions';
 import { capitalizeFirstWord } from '../utils/capitalizeFirstWord';
 import { useDispatch } from 'react-redux';
 import { AuthActionTypes } from '../store/reducers/AuthReducer/auth.actionTypes';
+import { getStudentLogin } from '../utils/studentLogin';
+import { useHistory } from 'react-router-dom';
+import { setAuthTokens } from '../store/actions/actions.auth';
 
 function Login() {
+  const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
   const [login, setLogin] = useState('student');
@@ -31,22 +35,14 @@ function Login() {
   };
   const dispatch = useDispatch();
   const onStudentLogin = async () => {
-    console.log('student login works');
-    const response: any = await fetch(baseURL + '/students/login', {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => data)
-      .catch((error) => console.log(error));
+    const response: any = await getStudentLogin(email, password);
     console.log(response);
-    // if (response.access_token) {
-    //   dispatch({type: AuthActionTypes.setToken, payload: response.access_token})
-    //   dispatch({type: AuthActionTypes.setRefreshToken, payload: response.refresh_token})
-    // }
+    if (response.accessToken) {
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+      dispatch(setAuthTokens(response));
+      history.replace('/student-dashboard');
+    }
     response?.status === 400 && setError(response);
     response?.status === 401 && setError(response);
   };

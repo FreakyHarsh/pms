@@ -16,7 +16,7 @@ import {
   ListItemText,
   Avatar,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Redirect, Route, useHistory, Switch } from 'react-router-dom';
 import ViewJobs from './ViewJobs';
@@ -25,6 +25,7 @@ import ViewOffers from './ViewOffers';
 import ApplicationStatus from './ApplicationStatus';
 import UploadResume from './UploadResume';
 import StudentProfile from './StudentProfile';
+import { useSelector } from 'react-redux';
 
 interface Props {
   window?: () => Window;
@@ -39,8 +40,10 @@ function StudentDashboard(props: Props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const token = useSelector((state: any) => state.authState.token);
+  console.log(token);
   const container = window !== undefined ? () => window().document.body : undefined;
-
+  useEffect(() => {}, []);
   const drawer = (
     <div
       style={{
@@ -57,7 +60,7 @@ function StudentDashboard(props: Props) {
           onClick={() => {
             setSelectedTab('Profile');
             mobileOpen && setMobileOpen(!mobileOpen);
-            history.replace('/student-dashboard/profile-details');
+            history.push('/student-dashboard/profile-details');
           }}
           selected={'Profile' === selectedTab}
         >
@@ -79,21 +82,29 @@ function StudentDashboard(props: Props) {
       </List>
       <Divider />
       <List>
-        {['View Jobs', 'View Offers', 'Application Status', 'Upload Resume'].map((text) => (
-          <ListItem
-            button
-            key={text}
-            className={classes.select}
-            onClick={() => {
-              setSelectedTab(text);
-              mobileOpen && setMobileOpen(!mobileOpen);
-              history.replace('/student-dashboard/' + toSnakeCase(text));
-            }}
-            selected={text === selectedTab}
-          >
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        {['View Jobs', 'View Offers', 'Application Status', 'Upload Resume', 'Logout'].map(
+          (text) => (
+            <ListItem
+              button
+              key={text}
+              className={classes.select}
+              onClick={() => {
+                if (text === 'Logout') {
+                  localStorage.removeItem('accessToken');
+                  localStorage.removeItem('refreshToken');
+                  history.replace('/login');
+                  return;
+                }
+                setSelectedTab(text);
+                mobileOpen && setMobileOpen(!mobileOpen);
+                history.push('/student-dashboard/' + toSnakeCase(text));
+              }}
+              selected={text === selectedTab}
+            >
+              <ListItemText primary={text} />
+            </ListItem>
+          )
+        )}
       </List>
     </div>
   );
@@ -158,10 +169,10 @@ function StudentDashboard(props: Props) {
         </Hidden>
         <Switch>
           <Route path='/student-dashboard' exact>
-            <ViewJobs />
+            <Redirect to='/student-dashboard/view-jobs' />
           </Route>
           <Route path='/student-dashboard/view-jobs'>
-            <Redirect to='/student-dashboard' />
+            <ViewJobs />
           </Route>
           <Route path='/student-dashboard/view-offers'>
             <ViewOffers />

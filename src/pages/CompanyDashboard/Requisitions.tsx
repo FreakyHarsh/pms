@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Typography } from '@material-ui/core';
+import { Box, Card, Grid, Typography, CardActions, Button } from '@material-ui/core';
 import React from 'react';
 import ViewJobCard from '../../components/ViewJobCard';
 import { RequisitionProps } from '../../types/CompanyTypes/RequisitionProps';
@@ -40,6 +40,16 @@ function Requisitions() {
                   Location: Mumbai
                 </Typography>
               </Box>
+              <CardActions>
+                <Button
+                  variant='contained'
+                  size='small'
+                  color='primary'
+                  style={{ marginLeft: 'auto' }}
+                >
+                  Apply
+                </Button>
+              </CardActions>
             </Card>
           </Grid>
         ))}

@@ -4,12 +4,14 @@ interface AuthState {
   token: string;
   refreshToken: string;
   user: any;
+  authRedirect: string;
 }
 
 const initialState: AuthState = {
   token: '',
   refreshToken: '',
-  user: null
+  user: null,
+  authRedirect: '/login'
 }
 
 export const AuthReducer = (state = initialState, action: { type: AuthActionTypes; payload?: any }) => {
