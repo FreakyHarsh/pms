@@ -21,6 +21,7 @@ import { AuthActionTypes } from '../store/reducers/AuthReducer/auth.actionTypes'
 import { getStudentLogin } from '../utils/studentLogin';
 import { useHistory } from 'react-router-dom';
 import { setAuthTokens } from '../store/actions/actions.auth';
+import { setStudent } from '../store/actions/actions.student';
 
 function Login() {
   const history = useHistory();
@@ -41,6 +42,7 @@ function Login() {
       localStorage.setItem('accessToken', response.accessToken);
       localStorage.setItem('refreshToken', response.refreshToken);
       dispatch(setAuthTokens(response));
+      dispatch(setStudent(response.accessToken));
       history.replace('/student-dashboard');
     }
     response?.status === 400 && setError(response);

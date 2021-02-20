@@ -1,6 +1,6 @@
 import { StudentActionTypes } from './student.actionTypes';
 
-interface StudentState {
+export interface StudentState {
   firstName: string;
   lastName: string;
   uinNumber: string;
@@ -34,7 +34,7 @@ const initialState: StudentState = {
 
 export const StudentReducer = (state = initialState, action: { type: StudentActionTypes; payload?: any }): StudentState => {
   switch (action.type) {
-    case StudentActionTypes.setStudent:
+    case StudentActionTypes.SET_STUDENT:
       return {
         ...state,
         ...action.payload

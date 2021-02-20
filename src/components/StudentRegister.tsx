@@ -9,11 +9,12 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { StudentActionTypes } from '../store/reducers/StudentReducer/student.actionTypes';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
+import { onRegister } from '../store/actions/actions.auth';
 
 function StudentRegister() {
   const classes = useStyles();
@@ -29,19 +30,21 @@ function StudentRegister() {
   const [homeAddress, setHomeAddress] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [uploadResume, setUploadResume] = useState<any>();
+  const [uploadresume, setUploadresume] = useState<any>();
   const [uploadAvatar, setUploadAvatar] = useState<any>();
-  //res from server for validation purpose
-  const [res, setRes] = useState<any>();
-  const resumeFormData = new FormData();
-  const avatarFormData = new FormData();
+  //error from server for validation purpose
+  const [error, setError] = useState<any>();
   const formData = new FormData();
 
   const dispatch = useDispatch();
-  const handleResumeSelected = (e: any) => {
+  const authState = useSelector((state: any) => state.authState);
+  useEffect(() => {
+    console.log(authState.error);
+    setError({ ...authState.error });
+  }, [authState.error]);
+  const handleresumeSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
-    console.log(files);
-    setUploadResume(files[0]);
+    setUploadresume(files[0]);
   };
   const handleAvatarSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
@@ -51,28 +54,8 @@ function StudentRegister() {
   const onChangeGender = (event: React.ChangeEvent<{ value: unknown }>) => {
     setGender(event.target.value as string);
   };
-  const dispatchToGlobalStore = () => {
-    dispatch({
-      type: StudentActionTypes.setStudent,
-      payload: {
-        firstName,
-        lastName,
-        uinNumber,
-        email,
-        gender,
-        department,
-        phoneNumber,
-        currentAddress,
-        homeAddress,
-        program,
-        password,
-      },
-    });
-  };
 
-  const onStudentRegister = async () => {
-    // resumeFormData.append('resume', uploadResume, uploadResume?.name);
-    // avatarFormData.append('avatar', uploadAvatar, uploadAvatar?.name);
+  const onStudentRegister = () => {
     formData.append('avatar', uploadAvatar, uploadAvatar?.name);
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
@@ -85,23 +68,9 @@ function StudentRegister() {
     formData.append('homeAddress', homeAddress);
     formData.append('password', password);
     formData.append('confirmPassword', confirmPassword);
-    formData.append('resume', uploadResume, uploadResume?.name);
+    formData.append('resume', uploadresume, uploadresume?.name);
     formData.append('email', email);
-    console.log(formData);
-    const response = await fetch(baseURL + '/students/register', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((res) => res.text())
-      .then((data) => {
-        dispatchToGlobalStore();
-        console.log(data);
-        //TODO: navigate to student Dashboard
-        //TODO: store tokens to auth
-        return JSON.parse(data);
-      })
-      .catch((error) => console.log(error));
-    setRes(response);
+    dispatch(onRegister(formData));
   };
   return (
     <React.Fragment>
@@ -109,8 +78,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='First Name'
-            error={res?.key === 'firstName'}
-            helperText={res?.key === 'firstName' && res?.message}
+            error={error?.key === 'fistName'}
+            helperText={error?.key === 'fistName' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -120,8 +89,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='Last Name'
-            error={res?.key === 'lastName'}
-            helperText={res?.key === 'lastName' && res?.message}
+            error={error?.key === 'lastName'}
+            helperText={error?.key === 'lastName' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -131,8 +100,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='UIN Number'
-            error={res?.key === 'uinNumber'}
-            helperText={res?.key === 'uinNumber' && res?.message}
+            error={error?.key === 'uinNumber'}
+            helperText={error?.key === 'uinNumber' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -142,8 +111,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='Phone Number'
-            error={res?.key === 'phoneNumber'}
-            helperText={res?.key === 'phoneNumber' && res?.message}
+            error={error?.key === 'phoneNumber'}
+            helperText={error?.key === 'phoneNumber' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -163,8 +132,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='Email'
-            error={res?.key === 'email'}
-            helperText={res?.key === 'email' && res?.message}
+            error={error?.key === 'email'}
+            helperText={error?.key === 'email' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -174,8 +143,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='Department'
-            error={res?.key === 'department'}
-            helperText={res?.key === 'department' && res?.message}
+            error={error?.key === 'department'}
+            helperText={error?.key === 'department' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -185,8 +154,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='Program'
-            error={res?.key === 'program'}
-            helperText={res?.key === 'program' && res?.message}
+            error={error?.key === 'program'}
+            helperText={error?.key === 'program' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -196,8 +165,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='Current Address'
-            error={res?.key === 'currentAddress'}
-            helperText={res?.key === 'currentAddress' && res?.message}
+            error={error?.key === 'currentAddress'}
+            helperText={error?.key === 'currentAddress' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -207,8 +176,8 @@ function StudentRegister() {
         <Grid item xs={6}>
           <TextField
             label='Home Address'
-            error={res?.key === 'homeAddress'}
-            helperText={res?.key === 'homeAddress' && res?.message}
+            error={error?.key === 'homeAddress'}
+            helperText={error?.key === 'homeAddress' && error?.message}
             variant='outlined'
             fullWidth
             size='small'
@@ -269,13 +238,13 @@ function StudentRegister() {
               alignItems='center'
             >
               <CloudUploadIcon style={{ fontSize: '1rem', marginRight: '5px' }} />
-              <div style={{ paddingRight: '10px' }}>Upload Resume</div>
+              <div style={{ paddingRight: '10px' }}>Upload resume</div>
             </Box>
           </label>
-          {uploadResume?.name && (
-            <div className={classes.selectedFileName}>{uploadResume?.name}</div>
+          {uploadresume?.name && (
+            <div className={classes.selectedFileName}>{uploadresume?.name}</div>
           )}
-          <input type='file' id='resume' hidden onChange={handleResumeSelected} accept='.pdf' />
+          <input type='file' id='resume' hidden onChange={handleresumeSelected} accept='.pdf' />
         </Grid>
         <Grid item xs={12}>
           <Box textAlign='end'>

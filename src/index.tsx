@@ -15,8 +15,8 @@ import { AuthReducer } from './store/reducers/AuthReducer/auth.reducer';
 const composeEnhancers =
   (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
-const rootReducer = combineReducers({
-  studentGlobalState: StudentReducer,
+export const rootReducer = combineReducers({
+  studentState: StudentReducer,
   authState: AuthReducer,
 });
 

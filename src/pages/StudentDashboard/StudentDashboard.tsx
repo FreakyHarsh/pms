@@ -25,7 +25,7 @@ import ViewOffers from './ViewOffers';
 import ApplicationStatus from './ApplicationStatus';
 import UploadResume from './UploadResume';
 import StudentProfile from './StudentProfile';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Props {
   window?: () => Window;
@@ -35,15 +35,30 @@ function StudentDashboard(props: Props) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState('View Jobs');
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const token = useSelector((state: any) => state.authState.token);
-  console.log(token);
+  const authState = useSelector((state: any) => state.authState);
+  const studentState = useSelector((state: any) => state.studentState);
   const container = window !== undefined ? () => window().document.body : undefined;
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // const getStudentData = async () => {
+    //   const data = await fetch(baseURL + '/students/me', {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //     .then((res) => res.json())
+    //     .then((data) => data)
+    //     .catch((error) => console.error(error));
+    //   console.log(data);
+    // };
+    // getStudentData();
+  }, [authState.token]);
   const drawer = (
     <div
       style={{

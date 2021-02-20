@@ -1,3 +1,3 @@
 export enum StudentActionTypes {
-  setStudent = 'setStudent'
+  SET_STUDENT = 'SET_STUDENT'
 }

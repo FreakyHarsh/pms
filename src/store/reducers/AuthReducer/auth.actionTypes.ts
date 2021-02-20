@@ -1,6 +1,8 @@
 
 export enum AuthActionTypes {
-  setToken = 'setToken',
-  setRefreshToken = 'setRefreshToken',
-  setUser = 'setUser'
+  SET_TOKEN = 'SET_TOKEN',
+  SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN',
+  SET_ISLOGIN = 'SET_ISLOGIN',
+  SET_ROLE = 'SET_ROLE',
+  SET_ERROR = 'SET_ERROR',
 }
