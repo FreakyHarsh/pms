@@ -22,10 +22,10 @@ function Register() {
   theme = responsiveFontSizes(theme);
   const classes = useStyles();
 
-  const [register, setRegister] = React.useState('student');
+  const [registerType, setRegisterType] = React.useState('student');
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRegister((event.target as HTMLInputElement).value);
+    setRegisterType((event.target as HTMLInputElement).value);
   };
 
   return (
@@ -58,7 +58,7 @@ function Register() {
               <RadioGroup
                 aria-label='quiz'
                 name='quiz'
-                value={register}
+                value={registerType}
                 onChange={handleRadioChange}
                 style={{ display: 'block', color: '#fff' }}
               >
@@ -76,7 +76,9 @@ function Register() {
               </RadioGroup>
             </Box>
 
-            <Box mt={4}>{register === 'student' ? <StudentRegister /> : <CompanyRegister />}</Box>
+            <Box mt={4}>
+              {registerType === 'student' ? <StudentRegister /> : <CompanyRegister />}
+            </Box>
           </Box>
         </Box>
       </Grid>

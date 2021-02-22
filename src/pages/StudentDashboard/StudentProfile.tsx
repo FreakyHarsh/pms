@@ -16,10 +16,13 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import EditIcon from '@material-ui/icons/Edit';
+import { StudentState } from '../../store/reducers/StudentReducer/student.reducer';
+import { useSelector } from 'react-redux';
 
 function StudentProfile() {
   const classes = useStyles();
   const theme = useTheme();
+  const studentState: StudentState = useSelector((state: any) => state.studentState);
 
   return (
     <Box display='flex' justifyContent='center'>
@@ -27,42 +30,37 @@ function StudentProfile() {
         <Card>
           <Box display='flex' p={2}>
             <Avatar
-              alt='Remy Sharp'
+              alt={studentState.firstName}
               className={classes.large}
-              src='https://randomuser.me/api/portraits/women/91.jpg'
+              src={baseURL + studentState.avatar}
             />
             <Typography
               variant='h6'
               noWrap
               style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
             >
-              Jessie Doe
+              {studentState.firstName + ' ' + studentState.lastName}
             </Typography>
           </Box>
           <Divider variant='middle' style={{ backgroundColor: theme.palette.primary.main }} />
           <CardContent>
             <Box px={2}>
               <Typography paragraph noWrap>
-                Phone number: 9980467133
+                Phone number: {studentState.phoneNumber}
               </Typography>
               <Typography paragraph noWrap>
-                UIN number: 161S007
+                UIN number: {studentState.uinNumber}
               </Typography>
               <Typography paragraph noWrap>
-                Gender: Male
+                Gender: {studentState.gender}
               </Typography>
               <Typography style={{ maxWidth: '80%' }} paragraph noWrap>
-                Email: harsh.boricha2015@gmail.com
+                Email: {studentState.email}
               </Typography>
-              <Typography paragraph>Department: Computer Science</Typography>
-              <Typography paragraph>Program: B.E</Typography>
-              <Typography paragraph>
-                Current Address: Lorem Epson, Loremlkf
-                lksjfjkslfjfdljfsdlkjflksjdflkjsdlkfsjslkdfjslkd
-              </Typography>
-              <Typography paragraph>
-                Home Address: Lorem Epson, Loremlkf lksjfjkslfjfdljfsdlkjflksjdflkjsdlkfsjslkdfjslkd
-              </Typography>
+              <Typography paragraph>Department: {studentState.department}</Typography>
+              <Typography paragraph>Program: {studentState.program}</Typography>
+              <Typography paragraph>Current Address: {studentState.currentAddress}</Typography>
+              <Typography paragraph>Home Address: {studentState.homeAddress}</Typography>
               <Grid container spacing={3} style={{ marginBottom: '.5rem' }}>
                 <Grid item xs={4} md={3}>
                   <TextField label='Sem 1' variant='outlined' size='small' />

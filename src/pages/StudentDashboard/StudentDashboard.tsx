@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Redirect, Route, useHistory, Switch } from 'react-router-dom';
+import { Redirect, Route, useHistory, Switch, useRouteMatch } from 'react-router-dom';
 import ViewJobs from './ViewJobs';
 import { toSnakeCase } from '../../utils/toSnakeCase';
 import ViewOffers from './ViewOffers';
@@ -26,15 +26,15 @@ import ApplicationStatus from './ApplicationStatus';
 import UploadResume from './UploadResume';
 import StudentProfile from './StudentProfile';
 import { useDispatch, useSelector } from 'react-redux';
+import { AuthActionTypes } from '../../store/reducers/AuthReducer/auth.actionTypes';
+import { onLogout } from '../../store/actions/actions.auth';
+import { StudentState } from '../../store/reducers/StudentReducer/student.reducer';
 
-interface Props {
-  window?: () => Window;
-}
-function StudentDashboard(props: Props) {
-  const { window } = props;
+function StudentDashboard() {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState('View Jobs');
@@ -42,23 +42,7 @@ function StudentDashboard(props: Props) {
     setMobileOpen(!mobileOpen);
   };
   const authState = useSelector((state: any) => state.authState);
-  const studentState = useSelector((state: any) => state.studentState);
-  const container = window !== undefined ? () => window().document.body : undefined;
-  useEffect(() => {
-    // const getStudentData = async () => {
-    //   const data = await fetch(baseURL + '/students/me', {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => data)
-    //     .catch((error) => console.error(error));
-    //   console.log(data);
-    // };
-    // getStudentData();
-  }, [authState.token]);
+  const studentState: StudentState = useSelector((state: any) => state.studentState);
   const drawer = (
     <div
       style={{
@@ -81,9 +65,9 @@ function StudentDashboard(props: Props) {
         >
           <ListItemIcon>
             <Avatar
-              alt='Remy Sharp'
+              alt={studentState.firstName.toUpperCase()}
               className={classes.large}
-              src='https://randomuser.me/api/portraits/women/91.jpg'
+              src={baseURL + studentState.avatar}
             />
           </ListItemIcon>
           <Typography
@@ -91,7 +75,7 @@ function StudentDashboard(props: Props) {
             noWrap
             style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
           >
-            Jessie Doe
+            {studentState.firstName + ' ' + studentState.lastName}
           </Typography>
         </ListItem>
       </List>
@@ -105,14 +89,13 @@ function StudentDashboard(props: Props) {
               className={classes.select}
               onClick={() => {
                 if (text === 'Logout') {
-                  localStorage.removeItem('accessToken');
-                  localStorage.removeItem('refreshToken');
-                  history.replace('/login');
+                  dispatch(onLogout());
+                  history.push('/login');
                   return;
                 }
                 setSelectedTab(text);
                 mobileOpen && setMobileOpen(!mobileOpen);
-                history.push('/student-dashboard/' + toSnakeCase(text));
+                history.push(match.url + '/' + toSnakeCase(text));
               }}
               selected={text === selectedTab}
             >
@@ -146,10 +129,8 @@ function StudentDashboard(props: Props) {
       </AppBar>
 
       <nav className={classes.drawer}>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation='css'>
           <Drawer
-            container={container}
             variant='temporary'
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
@@ -182,26 +163,30 @@ function StudentDashboard(props: Props) {
         <Hidden smUp>
           <div className={classes.toolbar} />
         </Hidden>
-        <Switch>
-          <Route path='/student-dashboard' exact>
-            <Redirect to='/student-dashboard/view-jobs' />
-          </Route>
-          <Route path='/student-dashboard/view-jobs'>
-            <ViewJobs />
-          </Route>
-          <Route path='/student-dashboard/view-offers'>
-            <ViewOffers />
-          </Route>
-          <Route path='/student-dashboard/application-status'>
-            <ApplicationStatus />
-          </Route>
-          <Route path='/student-dashboard/upload-resume'>
-            <UploadResume />
-          </Route>
-          <Route path='/student-dashboard/profile-details'>
-            <StudentProfile />
-          </Route>
-        </Switch>
+        {authState.isLogin ? (
+          <Switch>
+            <Route path='/student-dashboard' exact>
+              <Redirect to='/student-dashboard/view-jobs' />
+            </Route>
+            <Route path='/student-dashboard/view-jobs'>
+              <ViewJobs />
+            </Route>
+            <Route path='/student-dashboard/view-offers'>
+              <ViewOffers />
+            </Route>
+            <Route path='/student-dashboard/application-status'>
+              <ApplicationStatus />
+            </Route>
+            <Route path='/student-dashboard/upload-resume'>
+              <UploadResume />
+            </Route>
+            <Route path='/student-dashboard/profile-details'>
+              <StudentProfile />
+            </Route>
+          </Switch>
+        ) : (
+          'Please login aagain'
+        )}
       </main>
     </div>
   );

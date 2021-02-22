@@ -64,7 +64,7 @@ function CompanyDashboard(props: Props) {
           onClick={() => {
             setSelectedTab('Profile');
             mobileOpen && setMobileOpen(!mobileOpen);
-            history.replace('/company-dashboard/profile-details');
+            history.push('/company-dashboard/profile-details');
           }}
           selected={'Profile' === selectedTab}
         >
@@ -94,7 +94,7 @@ function CompanyDashboard(props: Props) {
             onClick={() => {
               setSelectedTab(text);
               mobileOpen && setMobileOpen(!mobileOpen);
-              history.replace('/company-dashboard/' + toSnakeCase(text));
+              history.push('/company-dashboard/' + toSnakeCase(text));
             }}
             selected={text === selectedTab}
           >

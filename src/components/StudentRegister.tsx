@@ -32,16 +32,17 @@ function StudentRegister() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [uploadresume, setUploadresume] = useState<any>();
   const [uploadAvatar, setUploadAvatar] = useState<any>();
-  //error from server for validation purpose
   const [error, setError] = useState<any>();
   const formData = new FormData();
 
   const dispatch = useDispatch();
   const authState = useSelector((state: any) => state.authState);
+
   useEffect(() => {
     console.log(authState.error);
     setError({ ...authState.error });
   }, [authState.error]);
+
   const handleresumeSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
     setUploadresume(files[0]);

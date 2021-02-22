@@ -1,7 +1,9 @@
 import { Box, Button, Grid, TextField, Typography } from '@material-ui/core';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 function CompanyRegister() {
+  const dispatch = useDispatch();
   return (
     <React.Fragment>
       <Grid container spacing={4}>

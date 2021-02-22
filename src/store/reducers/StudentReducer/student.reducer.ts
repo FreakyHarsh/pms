@@ -1,6 +1,7 @@
 import { StudentActionTypes } from './student.actionTypes';
 
 export interface StudentState {
+  id: string;
   firstName: string;
   lastName: string;
   uinNumber: string;
@@ -17,6 +18,7 @@ export interface StudentState {
 }
 
 const initialState: StudentState = {
+  id: '',
   firstName: '',
   lastName: '',
   uinNumber: '',
@@ -39,6 +41,8 @@ export const StudentReducer = (state = initialState, action: { type: StudentActi
         ...state,
         ...action.payload
       }
+    case StudentActionTypes.RESET_STUDENT:
+      return { ...state, ...initialState, id: '' };
   }
   return state;
 }

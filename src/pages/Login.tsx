@@ -17,33 +17,44 @@ import React, { useEffect, useState } from 'react';
 import TermsAndConditions from '../components/TermsAndConditions';
 import { capitalizeFirstWord } from '../utils/capitalizeFirstWord';
 import { useDispatch } from 'react-redux';
-import { AuthActionTypes } from '../store/reducers/AuthReducer/auth.actionTypes';
 import { getStudentLogin } from '../utils/studentLogin';
 import { useHistory } from 'react-router-dom';
-import { setAuthTokens } from '../store/actions/actions.auth';
+import { onLogin } from '../store/actions/actions.auth';
 import { setStudent } from '../store/actions/actions.student';
 
 function Login() {
   const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
-  const [login, setLogin] = useState('student');
+  const [loginType, setLoginType] = useState('student');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<{ key: string; message: string; status: number }>();
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLogin((event.target as HTMLInputElement).value);
+    setLoginType((event.target as HTMLInputElement).value);
   };
   const dispatch = useDispatch();
   const onStudentLogin = async () => {
     const response: any = await getStudentLogin(email, password);
     console.log(response);
     if (response.accessToken) {
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
-      dispatch(setAuthTokens(response));
+      dispatch(onLogin(response));
       dispatch(setStudent(response.accessToken));
-      history.replace('/student-dashboard');
+      history.push('/student-dashboard');
+    }
+    response?.status === 400 && setError(response);
+    response?.status === 401 && setError(response);
+  };
+  const onCompanyLogin = async () => {
+    const response: any = await fetch(baseURL + '/companies/login')
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((error) => console.error(error));
+    console.log(response);
+    if (response.accessToken) {
+      dispatch(onLogin(response));
+      dispatch(setStudent(response.accessToken));
+      history.push('/student-dashboard');
     }
     response?.status === 400 && setError(response);
     response?.status === 401 && setError(response);
@@ -72,7 +83,7 @@ function Login() {
                 <RadioGroup
                   aria-label='quiz'
                   name='quiz'
-                  value={login}
+                  value={loginType}
                   onChange={handleRadioChange}
                   style={{ display: 'block', color: '#fff' }}
                 >
@@ -95,7 +106,7 @@ function Login() {
                 <Grid container spacing={4}>
                   <Grid item xs={12} md={6}>
                     <TextField
-                      label={capitalizeFirstWord(login) + ' mail'}
+                      label={capitalizeFirstWord(loginType) + ' email'}
                       variant='outlined'
                       size='small'
                       fullWidth
@@ -118,7 +129,11 @@ function Login() {
                   <Grid item xs={12}>
                     <Typography>{error?.status === 401 && error?.message}</Typography>
                     <Box textAlign='end'>
-                      <Button color='secondary' variant='contained' onClick={onStudentLogin}>
+                      <Button
+                        color='secondary'
+                        variant='contained'
+                        onClick={loginType === 'student' ? onStudentLogin : onCompanyLogin}
+                      >
                         <Typography variant='button'>Submit</Typography>
                       </Button>
                     </Box>
