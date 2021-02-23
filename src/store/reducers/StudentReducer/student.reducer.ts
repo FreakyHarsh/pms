@@ -1,7 +1,7 @@
 import { StudentActionTypes } from './student.actionTypes';
 
 export interface StudentState {
-  id: string;
+  id: string
   firstName: string;
   lastName: string;
   uinNumber: string;

@@ -12,7 +12,6 @@ export const authStart = () => {
       dispatch({ type: AuthActionTypes.SET_REFRESH_TOKEN, payload: refreshToken });
       dispatch({ type: AuthActionTypes.SET_ROLE, payload: roll });
       dispatch({ type: AuthActionTypes.SET_ISLOGIN, payload: true });
-
     }
     else {
       getNewTokens();
@@ -39,15 +38,14 @@ export const getNewTokens = () => {
 }
 
 
-export const onRegister = (formData: FormData) => {
+export const onRegister = (formData: FormData, registerFor: string) => {
   return async (dispatch: any) => {
-    const response = await fetch(baseURL + '/students/register', {
+    const response = await fetch(baseURL + '/' + registerFor + '/register', {
       method: 'POST',
       body: formData,
     })
       .then((res) => res.text())
       .then((data) => {
-        console.log(data)
         return JSON.parse(data);
       })
       .catch((error) => console.log(error));

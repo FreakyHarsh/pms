@@ -15,6 +15,8 @@ import { StudentActionTypes } from '../store/reducers/StudentReducer/student.act
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import { onRegister } from '../store/actions/actions.auth';
+import { useHistory } from 'react-router-dom';
+import { setStudent } from '../store/actions/actions.student';
 
 function StudentRegister() {
   const classes = useStyles();
@@ -34,6 +36,7 @@ function StudentRegister() {
   const [uploadAvatar, setUploadAvatar] = useState<any>();
   const [error, setError] = useState<any>();
   const formData = new FormData();
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const authState = useSelector((state: any) => state.authState);
@@ -41,12 +44,15 @@ function StudentRegister() {
   useEffect(() => {
     console.log(authState.error);
     setError({ ...authState.error });
-  }, [authState.error]);
+    authState.isLogin && history.push('/student-dashboard');
+    dispatch(setStudent(authState.token));
+  }, [authState.error, authState.isLogin]);
 
   const handleresumeSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
     setUploadresume(files[0]);
   };
+
   const handleAvatarSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
     setUploadAvatar(files[0]);
@@ -71,7 +77,7 @@ function StudentRegister() {
     formData.append('confirmPassword', confirmPassword);
     formData.append('resume', uploadresume, uploadresume?.name);
     formData.append('email', email);
-    dispatch(onRegister(formData));
+    dispatch(onRegister(formData, 'students'));
   };
   return (
     <React.Fragment>
