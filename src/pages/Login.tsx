@@ -21,6 +21,7 @@ import { getStudentLogin } from '../utils/studentLogin';
 import { useHistory } from 'react-router-dom';
 import { onLogin } from '../store/actions/actions.auth';
 import { setStudent } from '../store/actions/actions.student';
+import { setCompany } from '../store/actions/actions.company';
 
 function Login() {
   const history = useHistory();
@@ -46,15 +47,22 @@ function Login() {
     response?.status === 401 && setError(response);
   };
   const onCompanyLogin = async () => {
-    const response: any = await fetch(baseURL + '/companies/login')
+    console.log('gg');
+    const response: any = await fetch(baseURL + '/companies/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
       .then((res) => res.json())
       .then((data) => data)
       .catch((error) => console.error(error));
     console.log(response);
     if (response.accessToken) {
       dispatch(onLogin(response));
-      dispatch(setStudent(response.accessToken));
-      history.push('/student-dashboard');
+      dispatch(setCompany(response.accessToken));
+      history.push('/company-dashboard');
     }
     response?.status === 400 && setError(response);
     response?.status === 401 && setError(response);

@@ -8,10 +8,13 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { setCompany } from '../store/actions/actions.company';
+import { onRegister } from '../store/actions/actions.auth';
+import { RootState } from '../index';
+import { useHistory } from 'react-router-dom';
 
 function CompanyRegister() {
   const [companyName, setCompanyName] = useState('');
@@ -24,25 +27,36 @@ function CompanyRegister() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [uploadAvatar, setUploadAvatar] = useState<any>();
+  const [error, setError] = useState('');
+  const authState = useSelector((state: RootState) => state.authState);
+  const state = useSelector((state: RootState) => state.studentState);
   const formData = new FormData();
+  const history = useHistory();
   const classes = useStyles();
   const handleAvatarSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
     setUploadAvatar(files[0]);
   };
+  useEffect(() => {
+    console.log(authState.error);
+    setError({ ...authState.error });
+    authState.isLogin && history.push('/company-dashboard');
+    authState.token && dispatch(setCompany(authState.token));
+  }, [authState.error, authState.isLogin]);
 
   const dispatch = useDispatch();
   const onCompanyRegister = () => {
     formData.append('avatar', uploadAvatar, uploadAvatar?.name);
     formData.append('gstNumber', gstNumber);
-    formData.append('companyName', companyName);
-    formData.append('websiteUrl', websiteUrl);
-    formData.append('registrationNo', registrationNo);
+    formData.append('name', companyName);
+    formData.append('webSiteURL', websiteUrl);
+    formData.append('registrationNumber', registrationNo);
     formData.append('phoneNumber', phoneNumber);
-    formData.append('companyAddress', companyAddress);
+    formData.append('address', companyAddress);
     formData.append('password', password);
     formData.append('confirmPassword', confirmPassword);
     formData.append('email', email);
+    dispatch(onRegister(formData, 'companies'));
   };
   return (
     <React.Fragment>

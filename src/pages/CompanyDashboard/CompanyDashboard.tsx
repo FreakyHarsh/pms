@@ -18,19 +18,17 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import ApplicationStatus from '../StudentDashboard/ApplicationStatus';
-import StudentProfile from '../StudentDashboard/StudentProfile';
-import UploadResume from '../StudentDashboard/UploadResume';
-import ViewJobs from '../StudentDashboard/ViewJobs';
-import ViewOffers from '../StudentDashboard/ViewOffers';
 import MenuIcon from '@material-ui/icons/Menu';
 import { toSnakeCase } from '../../utils/toSnakeCase';
 import Requisitions from './Requisitions';
 import CreateRequisition from './CreateRequisition';
 import RequisitionDetail from '../../components/RequisitionDetail';
 import InternalSubmitals from './InternalSubmitals';
-import InternalSubmitalCard from '../../components/InternalSubmitalCard';
 import InternalSubmitalsList from '../../components/InternalSubmitalsList';
+import { RootState } from '../../index';
+import { useDispatch, useSelector } from 'react-redux';
+import CompanyProfile from './CompanyProfile';
+import { onLogout } from '../../store/actions/actions.auth';
 
 interface Props {
   window?: () => Window;
@@ -43,6 +41,10 @@ function CompanyDashboard(props: Props) {
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Requisitions');
+
+  const companyState = useSelector((state: RootState) => state.companyState);
+  const dispatch = useDispatch();
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -70,9 +72,9 @@ function CompanyDashboard(props: Props) {
         >
           <ListItemIcon>
             <Avatar
-              alt='Remy Sharp'
+              alt={companyState.name}
               className={classes.large}
-              src='https://randomuser.me/api/portraits/men/91.jpg'
+              src={baseURL + companyState.avatar}
             />
           </ListItemIcon>
           <Typography
@@ -80,18 +82,23 @@ function CompanyDashboard(props: Props) {
             noWrap
             style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
           >
-            Amazon
+            {companyState.name}
           </Typography>
         </ListItem>
       </List>
       <Divider />
       <List>
-        {['Requisitions', 'Create Requisition', 'Internal Submitals'].map((text) => (
+        {['Requisitions', 'Create Requisition', 'Internal Submitals', 'Logout'].map((text) => (
           <ListItem
             button
             key={text}
             className={classes.select}
             onClick={() => {
+              if (text === 'Logout') {
+                dispatch(onLogout());
+                history.push('/login');
+                return;
+              }
               setSelectedTab(text);
               mobileOpen && setMobileOpen(!mobileOpen);
               history.push('/company-dashboard/' + toSnakeCase(text));
@@ -120,7 +127,7 @@ function CompanyDashboard(props: Props) {
               <MenuIcon />
             </IconButton>
             <Typography variant='h6' noWrap>
-              Company Dashboard
+              {companyState.name} Dashboard
             </Typography>
           </Toolbar>
         </Hidden>
@@ -177,7 +184,7 @@ function CompanyDashboard(props: Props) {
             <InternalSubmitals />
           </Route>
           <Route path='/company-dashboard/profile-details'>
-            <StudentProfile />
+            <CompanyProfile />
           </Route>
           <Route path='/company-dashboard/requisition-detail'>
             <RequisitionDetail />

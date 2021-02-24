@@ -9,6 +9,7 @@ import { StudentReducer } from './store/reducers/StudentReducer/student.reducer'
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { AuthReducer } from './store/reducers/AuthReducer/auth.reducer';
+import { CompanyReducer } from './store/reducers/CompanyReducer/company.reducer';
 
 (window as any).baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -18,7 +19,9 @@ const composeEnhancers =
 export const rootReducer = combineReducers({
   studentState: StudentReducer,
   authState: AuthReducer,
+  companyState: CompanyReducer,
 });
+export type RootState = ReturnType<typeof rootReducer>;
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 const theme = createMuiTheme({

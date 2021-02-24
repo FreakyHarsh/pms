@@ -20,7 +20,6 @@ export const authStart = () => {
 }
 
 export const setAuthTokens = (response: any) => {
-
   localStorage.setItem('accessToken', response.accessToken);
   localStorage.setItem('refreshToken', response.refreshToken);
   localStorage.setItem('role', response.roll)
@@ -37,7 +36,6 @@ export const getNewTokens = () => {
   console.log('run the logic of getNewTokens token function');
 }
 
-
 export const onRegister = (formData: FormData, registerFor: string) => {
   return async (dispatch: any) => {
     const response = await fetch(baseURL + '/' + registerFor + '/register', {
@@ -49,6 +47,7 @@ export const onRegister = (formData: FormData, registerFor: string) => {
         return JSON.parse(data);
       })
       .catch((error) => console.log(error));
+    console.log(response);
     if (response?.status === 400) {
       return dispatch({ type: AuthActionTypes.SET_ERROR, payload: response })
     }

@@ -1,6 +1,6 @@
 import { AuthActionTypes } from "./auth.actionTypes";
 
-interface AuthState {
+export interface AuthState {
   token: string;
   refreshToken: string;
   isLogin: boolean;

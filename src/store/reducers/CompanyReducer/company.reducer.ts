@@ -3,10 +3,10 @@ export interface CompanyState {
   id: string;
   name: string;
   email: string;
-  registrationNo: string;
+  registrationNumber: string;
   gstNumber: string;
-  websiteUrl: string;
-  companyAddress: string;
+  webSiteURL: string;
+  address: string;
   phoneNumber: string;
   password: string;
   avatar: string;
@@ -16,10 +16,10 @@ const initialState: CompanyState = {
   id: '',
   name: '',
   email: '',
-  registrationNo: '',
+  registrationNumber: '',
   gstNumber: '',
-  websiteUrl: '',
-  companyAddress: '',
+  webSiteURL: '',
+  address: '',
   phoneNumber: '',
   password: '',
   avatar: '',

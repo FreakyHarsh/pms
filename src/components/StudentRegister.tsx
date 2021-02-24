@@ -45,7 +45,7 @@ function StudentRegister() {
     console.log(authState.error);
     setError({ ...authState.error });
     authState.isLogin && history.push('/student-dashboard');
-    dispatch(setStudent(authState.token));
+    authState.token && dispatch(setStudent(authState.token));
   }, [authState.error, authState.isLogin]);
 
   const handleresumeSelected = (e: any) => {

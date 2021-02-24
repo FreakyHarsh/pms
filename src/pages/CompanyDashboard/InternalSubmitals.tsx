@@ -44,7 +44,7 @@ function InternalSubmitals() {
                 <Button
                   size='small'
                   color='primary'
-                  onClick={() => history.replace(match.path + '/requisitionId')}
+                  onClick={() => history.push(match.path + '/requisitionId')}
                   style={{ marginLeft: 'auto' }}
                 >
                   Check Submitals
