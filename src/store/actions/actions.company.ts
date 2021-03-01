@@ -15,3 +15,9 @@ export const setCompany = (token: string) => {
     return dispatch({ type: CompanyActionTypes.SET_COMPANY, payload: company });
   }
 }
+
+export const createRequisition = () => {
+  return async (dispatch: any, getState: any) => {
+    console.log(getState().companyState);
+  }
+}

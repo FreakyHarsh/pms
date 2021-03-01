@@ -35,7 +35,23 @@ function Login() {
     setLoginType((event.target as HTMLInputElement).value);
   };
   const dispatch = useDispatch();
+
   const onStudentLogin = async () => {
+    if (email === 'admin' && password === 'admin') {
+      const response = await fetch(baseURL + '/admin/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          username: email,
+          password: password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch((error) => console.error(error));
+      console.log(response);
+      dispatch(onLogin(response));
+      return;
+    }
     const response: any = await getStudentLogin(email, password);
     console.log(response);
     if (response.accessToken) {
@@ -46,6 +62,7 @@ function Login() {
     response?.status === 400 && setError(response);
     response?.status === 401 && setError(response);
   };
+
   const onCompanyLogin = async () => {
     console.log('gg');
     const response: any = await fetch(baseURL + '/companies/login', {

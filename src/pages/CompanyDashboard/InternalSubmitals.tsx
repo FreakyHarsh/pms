@@ -2,7 +2,7 @@ import { Grid, Card, Box, Typography, CardActions, Button } from '@material-ui/c
 import React from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { RequisitionProps } from '../../types/CompanyTypes/RequisitionProps';
-const sampleResponse: RequisitionProps[] = [
+const sampleResponse: any[] = [
   {
     requisitionID: '#123123',
     location: 'Mumbai',
@@ -23,8 +23,8 @@ function InternalSubmitals() {
   return (
     <div>
       <Grid container spacing={2}>
-        {sampleResponse.map(({ location, salary, position, requisitionID }: RequisitionProps) => (
-          <Grid item xs={12} md={6} key={requisitionID + Math.random()}>
+        {sampleResponse.map(({ location, ctc, position, id }: RequisitionProps) => (
+          <Grid item xs={12} md={6} key={id}>
             <Card raised>
               <Box p={2} ml={1}>
                 <Typography variant='body2' paragraph noWrap>

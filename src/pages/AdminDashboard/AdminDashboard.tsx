@@ -20,29 +20,22 @@ import React, { useState } from 'react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import { toSnakeCase } from '../../utils/toSnakeCase';
-import Requisitions from './Requisitions';
-import CreateRequisition from './CreateRequisition';
-import RequisitionDetail from '../../components/RequisitionDetail';
-import InternalSubmitals from './InternalSubmitals';
-import InternalSubmitalsList from '../../components/InternalSubmitalsList';
-import { RootState } from '../../index';
 import { useDispatch, useSelector } from 'react-redux';
-import CompanyProfile from './CompanyProfile';
 import { onLogout } from '../../store/actions/actions.auth';
+import Applications from './Applications';
 
 interface Props {
   window?: () => Window;
 }
 
-function CompanyDashboard(props: Props) {
+function AdminDashboard(props: Props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('Requisitions');
+  const [selectedTab, setSelectedTab] = useState('Applications');
 
-  const companyState = useSelector((state: RootState) => state.companyState);
   const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
@@ -66,15 +59,14 @@ function CompanyDashboard(props: Props) {
           onClick={() => {
             setSelectedTab('Profile');
             mobileOpen && setMobileOpen(!mobileOpen);
-            history.push('/company-dashboard/profile-details');
           }}
           selected={'Profile' === selectedTab}
         >
           <ListItemIcon>
             <Avatar
-              alt={companyState.name}
+              alt='Admin'
               className={classes.large}
-              src={baseURL + companyState.avatar}
+              src='https://cdn5.f-cdn.com/contestentries/1733723/43055135/5e49ec7ad607a_thumb900.jpg'
             />
           </ListItemIcon>
           <Typography
@@ -82,13 +74,13 @@ function CompanyDashboard(props: Props) {
             noWrap
             style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
           >
-            {companyState.name}
+            Admin
           </Typography>
         </ListItem>
       </List>
       <Divider />
       <List>
-        {['Requisitions', 'Create Requisition', 'Internal Submitals', 'Logout'].map((text) => (
+        {['Applications', 'Approved', 'Rejected', 'Logout'].map((text) => (
           <ListItem
             button
             key={text}
@@ -101,7 +93,7 @@ function CompanyDashboard(props: Props) {
               }
               setSelectedTab(text);
               mobileOpen && setMobileOpen(!mobileOpen);
-              history.push('/company-dashboard/' + toSnakeCase(text));
+              history.push('/admin-dashboard/' + toSnakeCase(text));
             }}
             selected={text === selectedTab}
           >
@@ -127,7 +119,7 @@ function CompanyDashboard(props: Props) {
               <MenuIcon />
             </IconButton>
             <Typography variant='h6' noWrap>
-              {companyState.name} Dashboard
+              Admin Dashboard
             </Typography>
           </Toolbar>
         </Hidden>
@@ -171,29 +163,15 @@ function CompanyDashboard(props: Props) {
           <div className={classes.toolbar} />
         </Hidden>
         <Switch>
-          <Route path='/company-dashboard' exact>
-            <Requisitions />
+          <Route path='/admin-dashboard' exact>
+            <Applications />
           </Route>
-          <Route path='/company-dashboard/requisitions'>
-            <Redirect to='/company-dashboard' />
+          <Route path='/admin-dashboard/applications' exact>
+            <Redirect to='/admin-dashboard' />
           </Route>
-          <Route path='/company-dashboard/create-requisition' exact>
-            <CreateRequisition />
-          </Route>
-          <Route path='/company-dashboard/create-requisition/:id'>
-            <CreateRequisition />
-          </Route>
-          <Route path='/company-dashboard/internal-submitals' exact>
-            <InternalSubmitals />
-          </Route>
-          <Route path='/company-dashboard/profile-details'>
-            <CompanyProfile />
-          </Route>
-          <Route path='/company-dashboard/requisition-detail/:id'>
-            <RequisitionDetail />
-          </Route>
-          <Route path='/company-dashboard/internal-submitals/requisitionId'>
-            <InternalSubmitalsList />
+          <Route path='/admin-dashboard/approved'>aoorve</Route>
+          <Route path='/admin-dashboard/rejected' exact>
+            sdfs
           </Route>
         </Switch>
       </main>
@@ -245,4 +223,4 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default CompanyDashboard;
+export default AdminDashboard;
