@@ -23,6 +23,8 @@ import { toSnakeCase } from '../../utils/toSnakeCase';
 import { useDispatch, useSelector } from 'react-redux';
 import { onLogout } from '../../store/actions/actions.auth';
 import Applications from './Applications';
+import Approved from './Approved';
+import Rejected from './Rejected';
 
 interface Props {
   window?: () => Window;
@@ -169,9 +171,11 @@ function AdminDashboard(props: Props) {
           <Route path='/admin-dashboard/applications' exact>
             <Redirect to='/admin-dashboard' />
           </Route>
-          <Route path='/admin-dashboard/approved'>aoorve</Route>
+          <Route path='/admin-dashboard/approved'>
+            <Approved />
+          </Route>
           <Route path='/admin-dashboard/rejected' exact>
-            sdfs
+            <Rejected />
           </Route>
         </Switch>
       </main>

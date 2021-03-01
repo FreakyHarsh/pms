@@ -44,7 +44,7 @@ function StudentRegister() {
   useEffect(() => {
     console.log(authState.error);
     setError({ ...authState.error });
-    authState.isLogin && history.push('/student-dashboard');
+    authState.isLogin && history.push('/login');
     authState.token && dispatch(setStudent(authState.token));
   }, [authState.error, authState.isLogin]);
 

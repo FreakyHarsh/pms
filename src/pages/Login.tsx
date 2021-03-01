@@ -50,6 +50,7 @@ function Login() {
         .catch((error) => console.error(error));
       console.log(response);
       dispatch(onLogin(response));
+      history.push('/admin-dashboard');
       return;
     }
     const response: any = await getStudentLogin(email, password);
