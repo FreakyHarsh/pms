@@ -1,11 +1,13 @@
 import { Box, IconButton, makeStyles, Typography, useTheme } from '@material-ui/core';
-import React, { useState } from 'react';
-import CloseIcon from '@material-ui/icons/Close';
 import { Add } from '@material-ui/icons';
+import CloseIcon from '@material-ui/icons/Close';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from '../..';
 import { StudentActionTypes } from '../../store/reducers/StudentReducer/student.actionTypes';
+
 function UploadResume() {
   const theme = useTheme();
   const [uploadNewResume, setUploadNewResume] = useState<any>();

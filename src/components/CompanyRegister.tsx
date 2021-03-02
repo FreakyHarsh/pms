@@ -8,13 +8,14 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import { setCompany } from '../store/actions/actions.company';
-import { onRegister } from '../store/actions/actions.auth';
-import { RootState } from '../index';
 import { useHistory } from 'react-router-dom';
+
+import { RootState } from '..';
+import { onRegister } from '../store/actions/actions.auth';
+import { setCompany } from '../store/actions/actions.company';
 
 function CompanyRegister() {
   const [companyName, setCompanyName] = useState('');

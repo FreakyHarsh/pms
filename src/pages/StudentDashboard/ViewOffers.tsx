@@ -1,9 +1,8 @@
-import { createStyles, Grid, makeStyles, Theme, useTheme } from '@material-ui/core';
+import { createStyles, Grid, makeStyles, Theme } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../..';
 import ViewOfferCard from '../../components/ViewOfferCard';
-import { ViewOfferCardProps } from '../../types/StudentTypes/ViewOfferCardProps';
 
 function ViewOffers() {
   const authState = useSelector((state: RootState) => state.authState);
@@ -46,12 +45,4 @@ function ViewOffers() {
     </div>
   );
 }
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    large: {
-      width: theme.spacing(7),
-      height: theme.spacing(7),
-    },
-  })
-);
 export default ViewOffers;

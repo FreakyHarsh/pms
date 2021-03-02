@@ -1,35 +1,35 @@
 import {
   AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  makeStyles,
-  Theme,
+  Avatar,
   createStyles,
-  useTheme,
   Divider,
   Drawer,
   Hidden,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Avatar,
+  makeStyles,
+  Theme,
+  Toolbar,
+  Typography,
+  useTheme,
 } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Redirect, Route, useHistory, Switch, useRouteMatch } from 'react-router-dom';
-import ViewJobs from './ViewJobs';
-import { toSnakeCase } from '../../utils/toSnakeCase';
-import ViewOffers from './ViewOffers';
-import ApplicationStatus from './ApplicationStatus';
-import UploadResume from './UploadResume';
-import StudentProfile from './StudentProfile';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthActionTypes } from '../../store/reducers/AuthReducer/auth.actionTypes';
+import { Redirect, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
+
 import { onLogout } from '../../store/actions/actions.auth';
-import { StudentState } from '../../store/reducers/StudentReducer/student.reducer';
 import { setStudent } from '../../store/actions/actions.student';
+import { StudentState } from '../../store/reducers/StudentReducer/student.reducer';
+import { toSnakeCase } from '../../utils/toSnakeCase';
+import ApplicationStatus from './ApplicationStatus';
+import StudentProfile from './StudentProfile';
+import UploadResume from './UploadResume';
+import ViewJobs from './ViewJobs';
+import ViewOffers from './ViewOffers';
 
 function StudentDashboard() {
   const classes = useStyles();

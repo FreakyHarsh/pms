@@ -1,10 +1,9 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import ApplicationStatusCard from '../../components/ApplicationStatusCard';
-import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
-import { ApplicationStatusCardProps } from '../../types/StudentTypes/ApplicationStatusCardProps';
 import { useSelector } from 'react-redux';
 import { RootState } from '../..';
+import ApplicationStatusCard from '../../components/ApplicationStatusCard';
+import { ApplicationStatusCardProps } from '../../types/StudentTypes/ApplicationStatusCardProps';
 const sampleResponse: ApplicationStatusCardProps[] = [
   {
     companyName: 'TCS',

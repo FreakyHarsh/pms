@@ -11,13 +11,16 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../..';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 function Rejected() {
+  const history = useHistory();
   const [students, setStudents] = useState<any>();
+  const [reload, setReload] = useState();
   const authState = useSelector((state: RootState) => state.authState);
-
-  const onReject = async (id: string) => {
-    const reject = await fetch(baseURL + '/admin/toggle', {
+  const match = useRouteMatch();
+  const onApprove = async (id: string) => {
+    const res = await fetch(baseURL + '/admin/toggle', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${authState.token}`,
@@ -29,19 +32,34 @@ function Rejected() {
       .then((res) => res.json())
       .then((data) => data)
       .catch((error) => console.error(error));
-    console.log(reject);
+    console.log(res);
+    setReload(res);
+  };
+
+  const onDelete = async (id: string) => {
+    const res = await fetch(baseURL + '/students/' + id, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${authState.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((error) => console.log(error));
+    console.log(res);
+    setReload(res);
   };
   useEffect(() => {
-    const getApproved = async () => {
+    const getRejected = async () => {
       const post = await fetch(baseURL + '/students/unapproved')
         .then((res) => res.json())
         .then((data) => data)
         .catch((error) => console.error(error));
-      console.log(post);
       setStudents(post);
     };
-    getApproved();
-  }, []);
+    getRejected();
+  }, [reload]);
+
   return (
     <div>
       <Grid container spacing={4}>
@@ -60,8 +78,11 @@ function Rejected() {
                 <Typography>Email: {student.email}</Typography>
               </CardContent>
               <CardActions style={{ justifyContent: 'flex-end' }}>
-                <Button size='small' color='primary' onClick={() => onReject(student.id)}>
-                  Reject
+                <Button size='small' color='primary' onClick={() => onApprove(student.id)}>
+                  Approve
+                </Button>
+                <Button size='small' style={{ color: 'red' }} onClick={() => onDelete(student.id)}>
+                  Delete
                 </Button>
               </CardActions>
             </Card>

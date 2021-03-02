@@ -1,8 +1,6 @@
 import { Box, Card, Grid, Typography, CardActions, Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import ViewJobCard from '../../components/ViewJobCard';
 import { RequisitionProps } from '../../types/CompanyTypes/RequisitionProps';
-import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../../index';
 import { useSelector } from 'react-redux';
@@ -10,7 +8,6 @@ import { formatToCurrency } from '../../utils/formatToCurrency';
 
 function Requisitions() {
   const history = useHistory();
-  const companyState = useSelector((state: RootState) => state.companyState);
   const authState = useSelector((state: RootState) => state.authState);
   const [jobs, setJobs] = useState<RequisitionProps[]>();
   useEffect(() => {

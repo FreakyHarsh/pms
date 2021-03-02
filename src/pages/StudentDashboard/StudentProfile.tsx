@@ -1,26 +1,23 @@
 import {
   Avatar,
   Box,
-  Card,
-  makeStyles,
-  useTheme,
-  Typography,
-  createStyles,
-  Theme,
-  Divider,
-  IconButton,
-  CardContent,
-  Grid,
-  TextField,
   Button,
+  Card,
+  CardContent,
+  createStyles,
+  Divider,
+  Grid,
+  makeStyles,
+  TextField,
+  Theme,
+  Typography,
+  useTheme,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import EditIcon from '@material-ui/icons/Edit';
-import { StudentState } from '../../store/reducers/StudentReducer/student.reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../..';
 import { StudentActionTypes } from '../../store/reducers/StudentReducer/student.actionTypes';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { StudentState } from '../../store/reducers/StudentReducer/student.reducer';
 
 function StudentProfile() {
   const classes = useStyles();
@@ -69,6 +66,7 @@ function StudentProfile() {
     console.log(updatedStudent);
     dispatch({ type: StudentActionTypes.SET_STUDENT, payload: updatedStudent });
   };
+
   const onUpload = async () => {
     formData.append('avatar', uploadAvatar, uploadAvatar?.name);
     const updatedStudentAvatar = await fetch(baseURL + '/students/avatar', {
@@ -84,6 +82,7 @@ function StudentProfile() {
     console.log(updatedStudentAvatar);
     dispatch({ type: StudentActionTypes.SET_STUDENT, payload: updatedStudentAvatar });
   };
+
   useEffect(() => {
     let count = 1;
     let total = sem1 !== undefined ? sem1 : 0;

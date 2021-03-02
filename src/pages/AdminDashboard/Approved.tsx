@@ -14,10 +14,11 @@ import { RootState } from '../..';
 
 function Approved() {
   const [students, setStudents] = useState<any>();
+  const [reload, setReload] = useState();
   const authState = useSelector((state: RootState) => state.authState);
 
   const onReject = async (id: string) => {
-    const reject = await fetch(baseURL + '/admin/toggle', {
+    const res = await fetch(baseURL + '/admin/toggle', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${authState.token}`,
@@ -29,7 +30,7 @@ function Approved() {
       .then((res) => res.json())
       .then((data) => data)
       .catch((error) => console.error(error));
-    console.log(reject);
+    setReload(res);
   };
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function Approved() {
       setStudents(post);
     };
     getApproved();
-  }, []);
+  }, [reload]);
 
   return (
     <div>

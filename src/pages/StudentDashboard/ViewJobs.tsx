@@ -1,7 +1,6 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import ViewJobCard from '../../components/ViewJobCard';
-import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
 import { JobDetailProp } from '../../types/Jobs/JobDetailProps';
 
 function ViewJobs() {

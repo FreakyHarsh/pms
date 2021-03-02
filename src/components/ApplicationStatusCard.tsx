@@ -1,8 +1,6 @@
-import classes from '*.module.css';
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -24,7 +22,6 @@ function ApplicationStatusCard({
   location,
   salary,
   status,
-  requisitionID,
   position,
 }: ApplicationStatusCardProps) {
   const theme = useTheme();
