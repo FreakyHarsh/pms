@@ -16,6 +16,8 @@ import { RequisitionProps } from '../types/CompanyTypes/RequisitionProps';
 import { Company } from '../types/CompanyTypes/Company';
 import { getRequisitionDetail } from '../utils/getRequisitionDetail';
 import { JobDetailProp } from '../types/Jobs/JobDetailProps';
+import { RootState } from '../index';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,8 +62,25 @@ function RequisitionDetail() {
   const history = useHistory();
   const params = useParams<{ id: string }>();
   const [job, setJob] = useState<JobDetailProp>();
-  const onDeleteJob = () => {
-    alert('delete job');
+  const authState = useSelector((state: RootState) => state.authState);
+
+  const onDeleteJob = async (id: any) => {
+    const answer: boolean = window.confirm('Do you want to delete this job?');
+    if (answer) {
+      const post = await fetch(baseURL + '/jobs/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${authState.token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          history.push('/company-dashboard/requisitions');
+          return data;
+        })
+        .catch((error) => console.error(error));
+    }
+    return;
   };
   const onEditJob = () => {
     history.push('/company-dashboard/create-requisition/' + params.id);
@@ -107,7 +126,7 @@ function RequisitionDetail() {
             <IconButton className={classes.editBtn} onClick={onEditJob}>
               <EditIcon />
             </IconButton>
-            <IconButton className={classes.deleteBtn} onClick={onDeleteJob}>
+            <IconButton className={classes.deleteBtn} onClick={() => onDeleteJob(job?.id)}>
               <DeleteIcon />
             </IconButton>
           </Box>

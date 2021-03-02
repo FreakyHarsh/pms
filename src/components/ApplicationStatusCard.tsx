@@ -27,14 +27,27 @@ function ApplicationStatusCard({
 }: ApplicationStatusCardProps) {
   const theme = useTheme();
   const classes = useStyles();
+  const statusStyle = (status: string) => {
+    switch (status) {
+      case 'approved':
+        return classes.approved;
+      case 'rejected':
+        return classes.rejected;
+      default:
+        return classes.pending;
+    }
+  };
   return (
     <div>
       <Card raised>
         <CardHeader
           avatar={
-            <Avatar aria-label='recipe' className={classes.large} src={''}>
-              T
-            </Avatar>
+            <Avatar
+              aria-label='recipe'
+              className={classes.large}
+              src={companyProfilePic}
+              alt={companyName}
+            />
           }
           title={
             <Typography variant='h5' color='primary'>
@@ -49,13 +62,13 @@ function ApplicationStatusCard({
               Position: {position}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
-              Salary: {salary} LPA
+              Salary: ₹ {salary}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
               Location: {location}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
-              Status: <span className={classes.approved}>{status}</span>
+              Status: <span className={statusStyle(status)}>{status}</span>
             </Typography>
           </Box>
         </CardContent>
@@ -76,6 +89,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     rejected: {
       color: '#F35050',
+      fontWeight: 700,
+    },
+    pending: {
+      color: 'grey',
       fontWeight: 700,
     },
   })

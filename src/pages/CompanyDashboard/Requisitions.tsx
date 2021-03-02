@@ -40,7 +40,7 @@ function Requisitions() {
                   Position: {position}
                 </Typography>
                 <Typography variant='body2' paragraph noWrap>
-                  Salary: {ctc}
+                  Salary: ₹ {ctc}
                 </Typography>
                 <Typography variant='body2' noWrap>
                   Location: {location}

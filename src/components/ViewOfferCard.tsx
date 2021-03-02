@@ -10,12 +10,17 @@ import {
   Theme,
   createStyles,
   useTheme,
-  Button,
 } from '@material-ui/core';
 import React from 'react';
 import { ViewOfferCardProps } from '../types/StudentTypes/ViewOfferCardProps';
 
-function ViewOfferCard({ companyName, jobPosition, jobSalary }: ViewOfferCardProps) {
+function ViewOfferCard({
+  companyName,
+  jobPosition,
+  jobSalary,
+  companyWebsite,
+  companyProfilePic,
+}: ViewOfferCardProps) {
   const theme = useTheme();
   const classes = useStyles();
   return (
@@ -23,9 +28,12 @@ function ViewOfferCard({ companyName, jobPosition, jobSalary }: ViewOfferCardPro
       <Card raised>
         <CardHeader
           avatar={
-            <Avatar aria-label='recipe' className={classes.large} src={''}>
-              T
-            </Avatar>
+            <Avatar
+              aria-label='recipe'
+              className={classes.large}
+              src={baseURL + companyProfilePic}
+              alt={companyName}
+            />
           }
           title={
             <Typography variant='h5' color='primary'>
@@ -40,13 +48,12 @@ function ViewOfferCard({ companyName, jobPosition, jobSalary }: ViewOfferCardPro
               Position: {jobPosition}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
-              Salary: {jobSalary} LPA
+              Salary: ₹ {jobSalary}
             </Typography>
-            <a href='*'>Connect with company</a>
+            <a href={companyWebsite} target='_blank'>
+              Connect with company
+            </a>
           </Box>
-          {/* <Button color='primary' onClick={() => console.log('gg')}>
-            Connect with company
-          </Button> */}
         </CardContent>
       </Card>
     </div>

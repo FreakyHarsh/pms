@@ -24,9 +24,7 @@ function CreateRequisition() {
   const [position, setPosition] = useState('');
   const [noOfPositions, setNoOfPositions] = useState<number>();
   const [salary, setSalary] = useState<number>();
-  const [jobType, setJobType] = useState<
-    'Full Time' | 'Contract' | 'Internship' | 'PartTime' | 'Other' | null | string
-  >(null);
+  const [jobType, setJobType] = useState<string>('');
   const [location, setLocation] = useState('');
   const [endDate, setEndDate] = useState(formatYMD(new Date()));
   const [description, setDescription] = useState('');
@@ -35,7 +33,7 @@ function CreateRequisition() {
   const companyState = useSelector((state: RootState) => state.companyState);
   const authState = useSelector((state: RootState) => state.authState);
   useEffect(() => {
-    const getData = async () => {
+    const populate = async () => {
       const jobDetail: JobDetailProp = await getRequisitionDetail(params.id);
       setPosition(jobDetail.position);
       setNoOfPositions(jobDetail.openings);
@@ -45,7 +43,7 @@ function CreateRequisition() {
       setEndDate(jobDetail.lastDayOfSummission?.slice(0, 10));
       setDescription(jobDetail.description);
     };
-    getData();
+    populate();
   }, []);
   const onUpdateRequisition = async () => {
     const post = await fetch(baseURL + '/jobs/' + params.id, {
@@ -69,6 +67,7 @@ function CreateRequisition() {
       .then((data) => data)
       .catch((error) => console.error(error));
     console.log(post);
+    history.push('/company-dashboard');
   };
   const onCreateRequisition = async () => {
     const post = await fetch(baseURL + '/jobs', {
@@ -172,7 +171,6 @@ function CreateRequisition() {
                 type='date'
                 variant='outlined'
                 size='small'
-                value={endDate}
                 fullWidth
                 InputLabelProps={{
                   shrink: true,

@@ -3,15 +3,40 @@ import React, { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { Add } from '@material-ui/icons';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../..';
+import { StudentActionTypes } from '../../store/reducers/StudentReducer/student.actionTypes';
 function UploadResume() {
   const theme = useTheme();
-  const [uploadedFileName, setUploadedFileName] = useState('');
+  const [uploadNewResume, setUploadNewResume] = useState<any>();
+  const [msg, setMsg] = useState('');
+  const authState = useSelector((state: RootState) => state.authState);
   const handleFileSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
     console.log('files:', files);
-    setUploadedFileName(files[0].name);
+    setUploadNewResume(files[0]);
   };
   const classes = useStyles();
+  const formData = new FormData();
+  const dispatch = useDispatch();
+  const onUpload = async () => {
+    formData.append('resume', uploadNewResume, uploadNewResume?.name);
+
+    const updatedStudent = await fetch(baseURL + '/students/resume', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${authState.token}`,
+      },
+      body: formData,
+    })
+      .then((res) => res.text())
+      .then((data) => JSON.parse(data))
+      .catch((error) => console.error(error));
+    console.log(updatedStudent);
+    setMsg('Resume Uploaded Successfully');
+    setUploadNewResume('');
+    dispatch({ type: StudentActionTypes.SET_STUDENT, payload: updatedStudent });
+  };
   return (
     <div>
       <Box
@@ -43,17 +68,17 @@ function UploadResume() {
           </Box>
         </label>
         <input type='file' id='add-attachment' hidden onChange={handleFileSelected} />
-        {uploadedFileName && (
+        {uploadNewResume && (
           <span className={classes.fileStyling}>
             <IconButton
               style={{ padding: 0, marginRight: '4px' }}
               onClick={() => {
-                setUploadedFileName('');
+                setUploadNewResume('');
               }}
             >
               <CloseIcon style={{ fontSize: '1rem', color: '#6087F6' }} />
             </IconButton>
-            {uploadedFileName}
+            {uploadNewResume?.name}
           </span>
         )}
         <IconButton
@@ -64,12 +89,18 @@ function UploadResume() {
             alignItems: 'center',
           }}
           className={classes.fileStyling}
+          onClick={onUpload}
         >
           <CloudUploadIcon style={{ color: '#6087F6', fontSize: '2rem' }} />
           <Typography variant='button' style={{ marginLeft: '10px' }}>
             UPLOAD
           </Typography>
         </IconButton>
+      </Box>
+      <Box p={3} textAlign='center'>
+        <Typography variant='caption' style={{ color: 'green' }}>
+          {msg}
+        </Typography>
       </Box>
     </div>
   );

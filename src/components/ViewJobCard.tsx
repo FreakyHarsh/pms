@@ -19,6 +19,9 @@ import React, { useState } from 'react';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { ViewJobCardProps } from '../types/StudentTypes/ViewJobCardProps';
+import { longDate } from '../utils/longDate';
+import { RootState } from '../index';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,12 +39,30 @@ function ViewJobCard({
   jobLocation,
   jobPosition,
   jobSalary,
+  jobDescription,
+  jobLastDayOfSummission,
 }: ViewJobCardProps) {
   const theme = useTheme();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const authState = useSelector((state: RootState) => state.authState);
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+  const onApply = async () => {
+    const post = await fetch(baseURL + '/applications', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${authState.token}`,
+      },
+      body: JSON.stringify({
+        jobId: requisitionID,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((error) => console.error(error));
+    console.log(post);
   };
   return (
     <Box mb={2}>
@@ -57,7 +78,7 @@ function ViewJobCard({
               {companyName}
             </Typography>
           }
-          subheader='September 14, 2016'
+          subheader={longDate(jobLastDayOfSummission)}
         />
         <Divider variant='middle' style={{ backgroundColor: theme.palette.primary.main }} />
         <CardContent style={{ paddingBottom: 0 }}>
@@ -66,7 +87,7 @@ function ViewJobCard({
               Position: {jobPosition}
             </Typography>
             <Typography variant='body1' paragraph noWrap>
-              Salary: {jobSalary} LPA
+              Salary: ₹ {jobSalary}
             </Typography>
             <Typography variant='body1' noWrap>
               Location: {jobLocation}
@@ -85,13 +106,11 @@ function ViewJobCard({
             </Typography>
             <Box p={1}>
               <Typography variant='body2' paragraph>
-                Job Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum commodi placeat
-                facere esse optio nisi dolorem culpa corporis, minus nobis magni! Perspiciatis
-                numquam veniam consectetur consequatur culpa atque? Impedit, reprehenderit.
+                {jobDescription}
               </Typography>
             </Box>
             <Box textAlign='end'>
-              <Button variant='contained' size='small' color='primary'>
+              <Button variant='contained' size='small' color='primary' onClick={onApply}>
                 Apply
               </Button>
             </Box>

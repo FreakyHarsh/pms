@@ -186,6 +186,9 @@ function CompanyDashboard(props: Props) {
           <Route path='/company-dashboard/internal-submitals' exact>
             <InternalSubmitals />
           </Route>
+          <Route path='/company-dashboard/internal-submitals/:id'>
+            <InternalSubmitalsList />
+          </Route>
           <Route path='/company-dashboard/profile-details'>
             <CompanyProfile />
           </Route>

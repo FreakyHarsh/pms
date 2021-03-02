@@ -1,8 +1,10 @@
 import { Grid } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ApplicationStatusCard from '../../components/ApplicationStatusCard';
 import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
 import { ApplicationStatusCardProps } from '../../types/StudentTypes/ApplicationStatusCardProps';
+import { useSelector } from 'react-redux';
+import { RootState } from '../..';
 const sampleResponse: ApplicationStatusCardProps[] = [
   {
     companyName: 'TCS',
@@ -30,31 +32,40 @@ const sampleResponse: ApplicationStatusCardProps[] = [
   },
 ];
 function ApplicationStatus() {
+  const authState = useSelector((state: RootState) => state.authState);
+  const [applications, setApplications] = useState<any>();
+  useEffect(() => {
+    const getApplications = async () => {
+      const post = await fetch(baseURL + '/students/me/applications', {
+        headers: {
+          Authorization: `Bearer ${authState.token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch((error) => console.error(error));
+      setApplications(post);
+      console.log(post);
+    };
+
+    getApplications();
+  }, []);
   return (
     <div>
       <Grid container spacing={2}>
-        {sampleResponse.map(
-          ({
-            companyName,
-            companyProfilePic,
-            location,
-            position,
-            salary,
-            status,
-            requisitionID,
-          }: ApplicationStatusCardProps) => (
-            <Grid item xs={12} md={6} key={requisitionID + Math.random()}>
-              <ApplicationStatusCard
-                companyName={companyName}
-                requisitionID={requisitionID}
-                location={location}
-                salary={salary}
-                position={position}
-                status={status}
-              />
-            </Grid>
-          )
-        )}
+        {applications?.map((application: any) => (
+          <Grid item xs={12} md={6} key={application.job.id}>
+            <ApplicationStatusCard
+              companyName={application.company.name}
+              requisitionID={application.job.id}
+              location={application.job.location}
+              salary={application.job.ctc}
+              position={application.job.position}
+              status={application.status}
+              companyProfilePic={baseURL + application.company.avatar}
+            />
+          </Grid>
+        ))}
       </Grid>
     </div>
   );

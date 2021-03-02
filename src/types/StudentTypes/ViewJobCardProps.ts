@@ -4,5 +4,7 @@ export interface ViewJobCardProps {
   companyProfilePic?: string;
   jobPosition: string;
   jobSalary: number;
+  jobDescription: string;
   jobLocation: string;
+  jobLastDayOfSummission: string;
 }

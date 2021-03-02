@@ -1,65 +1,45 @@
 import { Grid } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ViewJobCard from '../../components/ViewJobCard';
 import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
-const sampleResponse: ViewJobCardProps[] = [
-  {
-    companyName: 'TCS',
-    requisitionID: '#123123',
-    jobLocation: 'Mumbai',
-    jobSalary: 3.6,
-    jobPosition: 'JavaScript Developer',
-  },
-  {
-    companyName: 'LTI',
-    requisitionID: '#322323',
-    jobLocation: 'Chennai',
-    jobSalary: 3.4,
-    jobPosition: 'Data Analyst',
-  },
-  {
-    companyName: 'CodeKage Private Ltd',
-    requisitionID: '#12313',
-    jobLocation: 'Remote',
-    jobSalary: 10,
-    jobPosition: 'Full-stack Developer',
-  },
-  {
-    companyName: 'A Company with Really Long Name private limited cooperation',
-    requisitionID: '#322323',
-    jobLocation: 'Chennai',
-    jobSalary: 3.4,
-    jobPosition: 'Data Analyst',
-  },
-  {
-    companyName: 'LTI',
-    requisitionID: '#322323',
-    jobLocation: 'Chennai',
-    jobSalary: 3.4,
-    jobPosition: 'Data Analyst',
-  },
-];
+import { JobDetailProp } from '../../types/Jobs/JobDetailProps';
 
 function ViewJobs() {
+  const [jobs, setJobs] = useState<JobDetailProp[]>();
+  useEffect(() => {
+    const getJobs = async () => {
+      const data = await fetch(baseURL + '/jobs')
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch((error) => console.error(error));
+      console.log(data);
+      setJobs(data);
+    };
+    getJobs();
+  }, []);
   return (
     <div>
       <Grid container spacing={2}>
-        {sampleResponse.map(
+        {jobs?.map(
           ({
-            companyName,
-            companyProfilePic,
-            jobLocation,
-            jobPosition,
-            jobSalary,
-            requisitionID,
-          }: ViewJobCardProps) => (
-            <Grid item xs={12} md={6} key={requisitionID + Math.random()}>
+            id,
+            ctc,
+            location,
+            company,
+            position,
+            description,
+            lastDayOfSummission,
+          }: JobDetailProp) => (
+            <Grid item xs={12} md={6} key={id}>
               <ViewJobCard
-                companyName={companyName}
-                requisitionID={requisitionID}
-                jobLocation={jobLocation}
-                jobSalary={jobSalary}
-                jobPosition={jobPosition}
+                companyName={company.name}
+                companyProfilePic={baseURL + company.avatar}
+                requisitionID={id}
+                jobLocation={location}
+                jobSalary={ctc}
+                jobPosition={position}
+                jobDescription={description}
+                jobLastDayOfSummission={lastDayOfSummission}
               />
             </Grid>
           )

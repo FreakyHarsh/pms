@@ -81,7 +81,7 @@ function StudentDashboard() {
       </List>
       <Divider />
       <List>
-        {['View Jobs', 'View Offers', 'Application Status', 'Upload Resume', 'Logout'].map(
+        {['View Jobs', 'View Offers', 'Application Status', 'Update Resume', 'Logout'].map(
           (text) => (
             <ListItem
               button
@@ -177,7 +177,7 @@ function StudentDashboard() {
             <Route path='/student-dashboard/application-status'>
               <ApplicationStatus />
             </Route>
-            <Route path='/student-dashboard/upload-resume'>
+            <Route path='/student-dashboard/update-resume'>
               <UploadResume />
             </Route>
             <Route path='/student-dashboard/profile-details'>

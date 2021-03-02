@@ -4,4 +4,5 @@ export interface ViewOfferCardProps {
   companyProfilePic?: string;
   jobPosition: string;
   jobSalary: number;
+  companyWebsite?: string;
 }
