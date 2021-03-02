@@ -22,6 +22,7 @@ import { ViewJobCardProps } from '../types/StudentTypes/ViewJobCardProps';
 import { longDate } from '../utils/longDate';
 import { RootState } from '../index';
 import { useSelector } from 'react-redux';
+import { formatToCurrency } from '../utils/formatToCurrency';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -87,7 +88,7 @@ function ViewJobCard({
               Position: {jobPosition}
             </Typography>
             <Typography variant='body1' paragraph noWrap>
-              Salary: ₹ {jobSalary}
+              Salary: ₹ {formatToCurrency(jobSalary)}
             </Typography>
             <Typography variant='body1' noWrap>
               Location: {jobLocation}

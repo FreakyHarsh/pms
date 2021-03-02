@@ -28,7 +28,7 @@ function ViewOffers() {
     <div>
       <Grid container spacing={2}>
         {applications?.map((application: any) => {
-          if (application.status === 'pending')
+          if (application.status === 'approved')
             return (
               <Grid item xs={12} md={6} key={application.job.id}>
                 <ViewOfferCard

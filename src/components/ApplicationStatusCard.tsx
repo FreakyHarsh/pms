@@ -15,6 +15,8 @@ import {
 import React from 'react';
 import { ApplicationStatusCardProps } from '../types/StudentTypes/ApplicationStatusCardProps';
 import { useTheme } from '@material-ui/core';
+import { formatToCurrency } from '../utils/formatToCurrency';
+import { capitalizeFirstWord } from '../utils/capitalizeFirstWord';
 
 function ApplicationStatusCard({
   companyName,
@@ -62,13 +64,13 @@ function ApplicationStatusCard({
               Position: {position}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
-              Salary: ₹ {salary}
+              Salary: ₹ {formatToCurrency(salary)}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
               Location: {location}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
-              Status: <span className={statusStyle(status)}>{status}</span>
+              Status: <span className={statusStyle(status)}>{capitalizeFirstWord(status)}</span>
             </Typography>
           </Box>
         </CardContent>

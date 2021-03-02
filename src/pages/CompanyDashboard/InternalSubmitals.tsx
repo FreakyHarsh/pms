@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { RequisitionProps } from '../../types/CompanyTypes/RequisitionProps';
 import { JobDetailProp } from '../../types/Jobs/JobDetailProps';
+import { formatToCurrency } from '../../utils/formatToCurrency';
 
 function InternalSubmitals() {
   const history = useHistory();
@@ -33,7 +34,7 @@ function InternalSubmitals() {
                   Position: {position}
                 </Typography>
                 <Typography variant='body2' paragraph noWrap>
-                  Salary: ₹ {ctc}
+                  Salary: ₹ {formatToCurrency(ctc)}
                 </Typography>
                 <Typography variant='body2' noWrap>
                   Location: {location}

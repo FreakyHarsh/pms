@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { ViewOfferCardProps } from '../types/StudentTypes/ViewOfferCardProps';
+import { formatToCurrency } from '../utils/formatToCurrency';
 
 function ViewOfferCard({
   companyName,
@@ -48,7 +49,7 @@ function ViewOfferCard({
               Position: {jobPosition}
             </Typography>
             <Typography variant='body2' paragraph noWrap>
-              Salary: ₹ {jobSalary}
+              Salary: ₹ {formatToCurrency(jobSalary)}
             </Typography>
             <a href={companyWebsite} target='_blank'>
               Connect with company

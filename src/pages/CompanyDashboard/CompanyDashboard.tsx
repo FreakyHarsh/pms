@@ -16,7 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import { toSnakeCase } from '../../utils/toSnakeCase';
@@ -29,6 +29,7 @@ import { RootState } from '../../index';
 import { useDispatch, useSelector } from 'react-redux';
 import CompanyProfile from './CompanyProfile';
 import { onLogout } from '../../store/actions/actions.auth';
+import { setCompany } from '../../store/actions/actions.company';
 
 interface Props {
   window?: () => Window;
@@ -43,13 +44,19 @@ function CompanyDashboard(props: Props) {
   const [selectedTab, setSelectedTab] = useState('Requisitions');
 
   const companyState = useSelector((state: RootState) => state.companyState);
+  const authState = useSelector((state: RootState) => state.authState);
   const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const container = window !== undefined ? () => window().document.body : undefined;
 
+  const container = window !== undefined ? () => window().document.body : undefined;
+  useEffect(() => {
+    if (companyState.id === '') {
+      dispatch(setCompany(authState.token));
+    }
+  }, [authState.token]);
   const drawer = (
     <div
       style={{

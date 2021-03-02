@@ -20,11 +20,13 @@ import { StudentState } from '../../store/reducers/StudentReducer/student.reduce
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../..';
 import { StudentActionTypes } from '../../store/reducers/StudentReducer/student.actionTypes';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 function StudentProfile() {
   const classes = useStyles();
   const theme = useTheme();
   const studentState: StudentState = useSelector((state: RootState) => state.studentState);
+
   const authState = useSelector((state: RootState) => state.authState);
   const dispatch = useDispatch();
   const [sem1, setSem1] = useState<number | undefined>(studentState.sem1);
@@ -36,6 +38,12 @@ function StudentProfile() {
   const [sem7, setSem7] = useState<number | undefined>(studentState.sem7);
   const [sem8, setSem8] = useState<number | undefined>(studentState.sem8);
   const [cgpi, setCgpi] = useState<number | undefined>(studentState.sem2);
+  const [uploadAvatar, setUploadAvatar] = useState<any>();
+  const handleAvatarSelected = (e: any) => {
+    const files: any[] = Array.from(e.target.files);
+    setUploadAvatar(files[0]);
+  };
+  const formData = new FormData();
 
   const onUpdate = async () => {
     const updatedStudent = await fetch(baseURL + '/students', {
@@ -60,6 +68,21 @@ function StudentProfile() {
       .catch((error) => console.error(error));
     console.log(updatedStudent);
     dispatch({ type: StudentActionTypes.SET_STUDENT, payload: updatedStudent });
+  };
+  const onUpload = async () => {
+    formData.append('avatar', uploadAvatar, uploadAvatar?.name);
+    const updatedStudentAvatar = await fetch(baseURL + '/students/avatar', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${authState.token}`,
+      },
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((error) => console.error(error));
+    console.log(updatedStudentAvatar);
+    dispatch({ type: StudentActionTypes.SET_STUDENT, payload: updatedStudentAvatar });
   };
   useEffect(() => {
     let count = 1;
@@ -131,6 +154,40 @@ function StudentProfile() {
               <Typography paragraph>Program: {studentState.program}</Typography>
               <Typography paragraph>Current Address: {studentState.currentAddress}</Typography>
               <Typography paragraph>Home Address: {studentState.homeAddress}</Typography>
+              <Divider
+                variant='fullWidth'
+                style={{ backgroundColor: theme.palette.primary.main, marginBottom: '1.3rem' }}
+              />
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={9}>
+                  <label htmlFor='avatar' style={{ display: 'inline-block' }}>
+                    <Box display='flex' mr={2} width='auto' alignItems='center'>
+                      <Typography variant='caption' style={{ paddingRight: '10px' }}>
+                        Upload Profile
+                      </Typography>
+                    </Box>
+                  </label>
+                  <input
+                    type='file'
+                    id='avatar'
+                    onChange={handleAvatarSelected}
+                    accept='.jpeg,.png,.jpg'
+                  />
+                </Grid>
+                <Grid item xs={12} md={3}>
+                  <Button size='small' variant='contained' color='secondary' onClick={onUpload}>
+                    Upload
+                  </Button>
+                </Grid>
+              </Grid>
+              <Divider
+                variant='fullWidth'
+                style={{
+                  backgroundColor: theme.palette.primary.main,
+                  marginTop: '1rem',
+                  marginBottom: '1.5rem',
+                }}
+              />
               <Grid container spacing={3} style={{ marginBottom: '.5rem' }}>
                 <Grid item xs={4} md={3}>
                   <TextField
@@ -268,7 +325,7 @@ function StudentProfile() {
                 </a>
               </Box>
               <Button variant='contained' color='secondary' onClick={onUpdate}>
-                Update Details
+                Update CGPA
               </Button>
             </Box>
           </CardContent>

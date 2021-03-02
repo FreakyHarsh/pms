@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AuthActionTypes } from '../../store/reducers/AuthReducer/auth.actionTypes';
 import { onLogout } from '../../store/actions/actions.auth';
 import { StudentState } from '../../store/reducers/StudentReducer/student.reducer';
+import { setStudent } from '../../store/actions/actions.student';
 
 function StudentDashboard() {
   const classes = useStyles();
@@ -43,6 +44,11 @@ function StudentDashboard() {
   };
   const authState = useSelector((state: any) => state.authState);
   const studentState: StudentState = useSelector((state: any) => state.studentState);
+  useEffect(() => {
+    if (studentState.id === '') {
+      dispatch(setStudent(authState.token));
+    }
+  }, [authState.token]);
   const drawer = (
     <div
       style={{

@@ -6,6 +6,7 @@ import { ViewJobCardProps } from '../../types/StudentTypes/ViewJobCardProps';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../../index';
 import { useSelector } from 'react-redux';
+import { formatToCurrency } from '../../utils/formatToCurrency';
 
 function Requisitions() {
   const history = useHistory();
@@ -40,7 +41,7 @@ function Requisitions() {
                   Position: {position}
                 </Typography>
                 <Typography variant='body2' paragraph noWrap>
-                  Salary: ₹ {ctc}
+                  Salary: ₹ {formatToCurrency(ctc)}
                 </Typography>
                 <Typography variant='body2' noWrap>
                   Location: {location}

@@ -46,28 +46,30 @@ function Approved() {
 
   return (
     <div>
-      {students?.map((student: any) => (
-        <Grid item xs={12} md={6} key={student.id}>
-          <Card>
-            <CardHeader
-              avatar={<Avatar alt={student.firstName} src={student.avatar} />}
-              title={student.firstName + ' ' + student.lastName}
-              subheader={'UIN: ' + student.uinNumber}
-            />
-            <CardContent>
-              <Typography>Department: {student.department}</Typography>
-              <Typography>Program: {student.program}</Typography>
-              <Typography>Gender: {student.gender}</Typography>
-              <Typography>Email: {student.email}</Typography>
-            </CardContent>
-            <CardActions style={{ justifyContent: 'flex-end' }}>
-              <Button size='small' color='primary' onClick={() => onReject(student.id)}>
-                Reject
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-      ))}
+      <Grid container spacing={4}>
+        {students?.map((student: any) => (
+          <Grid item xs={12} md={6} key={student.id}>
+            <Card>
+              <CardHeader
+                avatar={<Avatar alt={student.firstName} src={student.avatar} />}
+                title={student.firstName + ' ' + student.lastName}
+                subheader={'UIN: ' + student.uinNumber}
+              />
+              <CardContent>
+                <Typography>Department: {student.department}</Typography>
+                <Typography>Program: {student.program}</Typography>
+                <Typography>Gender: {student.gender}</Typography>
+                <Typography>Email: {student.email}</Typography>
+              </CardContent>
+              <CardActions style={{ justifyContent: 'flex-end' }}>
+                <Button size='small' color='primary' onClick={() => onReject(student.id)}>
+                  Reject
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 }
