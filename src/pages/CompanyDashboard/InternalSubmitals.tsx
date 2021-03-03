@@ -4,14 +4,22 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import { RequisitionProps } from '../../types/CompanyTypes/RequisitionProps';
 import { JobDetailProp } from '../../types/Jobs/JobDetailProps';
 import { formatToCurrency } from '../../utils/formatToCurrency';
+import { RootState } from '../../index';
+import { useSelector } from 'react-redux';
 
 function InternalSubmitals() {
   const history = useHistory();
   const match = useRouteMatch();
   const [jobs, setJobs] = useState<JobDetailProp[]>();
+  const authState = useSelector((state: RootState) => state.authState);
+
   useEffect(() => {
     const getJobs = async () => {
-      const data = await fetch(baseURL + '/jobs')
+      const data = await fetch(baseURL + '/companies/me/jobs', {
+        headers: {
+          Authorization: `Bearer ${authState.token}`,
+        },
+      })
         .then((res) => res.json())
         .then((data) => data)
         .catch((error) => console.error(error));

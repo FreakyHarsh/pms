@@ -22,8 +22,8 @@ function Requisitions() {
         .catch((error) => console.error(error));
       setJobs([...jobs]);
     };
-    getJobs();
-  }, []);
+    if (authState.token) getJobs();
+  }, [authState.token]);
   return (
     <div>
       <Grid container spacing={2}>

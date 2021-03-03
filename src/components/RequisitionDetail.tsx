@@ -1,23 +1,21 @@
 import {
   Box,
   Card,
-  Typography,
-  makeStyles,
-  Theme,
   createStyles,
   IconButton,
+  makeStyles,
+  Theme,
+  Typography,
 } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { useHistory, useParams } from 'react-router-dom';
-import { RequisitionProps } from '../types/CompanyTypes/RequisitionProps';
-import { Company } from '../types/CompanyTypes/Company';
-import { getRequisitionDetail } from '../utils/getRequisitionDetail';
-import { JobDetailProp } from '../types/Jobs/JobDetailProps';
-import { RootState } from '../index';
+import EditIcon from '@material-ui/icons/Edit';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+
+import { RootState } from '..';
+import { JobDetailProp } from '../types/Jobs/JobDetailProps';
+import { getRequisitionDetail } from '../utils/getRequisitionDetail';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,6 +51,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     backBtn: {
       marginBottom: '5px',
+    },
+    cardWidth: {
+      padding: theme.spacing(1),
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: '80%',
+      },
     },
   })
 );
@@ -94,44 +101,49 @@ function RequisitionDetail() {
   }, []);
   return (
     <div>
-      <Card>
-        <Box p={3}>
-          <Typography paragraph noWrap>
-            <span className={classes.title}>REQUISITION ID: </span>
-            <span className={classes.reqId}>#{job?.id}</span>
-          </Typography>
-          <Typography paragraph noWrap>
-            <span className={classes.title}>POSITION: </span>
-            {job?.position}
-          </Typography>
-          <Typography paragraph noWrap>
-            <span className={classes.title}>SALARY: </span>
-            {job?.ctc}
-          </Typography>
-          <Typography paragraph noWrap>
-            <span className={classes.title}>LOCATION: </span> {job?.location}
-          </Typography>
-          <Typography paragraph>
-            <span className={classes.title}>NO OF POSITIONS: </span>
-            {job?.openings}
-          </Typography>
-          <Typography paragraph>
-            <span className={classes.title}>LAST DATE TO APPLY: </span> {job?.lastDayOfSummission}
-          </Typography>
-          <Typography paragraph>
-            <span className={classes.title}>JOB DESCRIPTION: </span>
-          </Typography>
-          <Typography paragraph>{job?.description}</Typography>
-          <Box textAlign='end'>
-            <IconButton className={classes.editBtn} onClick={onEditJob}>
-              <EditIcon />
-            </IconButton>
-            <IconButton className={classes.deleteBtn} onClick={() => onDeleteJob(job?.id)}>
-              <DeleteIcon />
-            </IconButton>
-          </Box>
+      <Box display='flex' justifyContent='center'>
+        <Box p={2} className={classes.cardWidth}>
+          <Card>
+            <Box p={3}>
+              <Typography paragraph noWrap>
+                <span className={classes.title}>REQUISITION ID: </span>
+                <span className={classes.reqId}>#{job?.id}</span>
+              </Typography>
+              <Typography paragraph noWrap>
+                <span className={classes.title}>POSITION: </span>
+                {job?.position}
+              </Typography>
+              <Typography paragraph noWrap>
+                <span className={classes.title}>SALARY: </span>
+                {job?.ctc}
+              </Typography>
+              <Typography paragraph noWrap>
+                <span className={classes.title}>LOCATION: </span> {job?.location}
+              </Typography>
+              <Typography paragraph>
+                <span className={classes.title}>NO OF POSITIONS: </span>
+                {job?.openings}
+              </Typography>
+              <Typography paragraph>
+                <span className={classes.title}>LAST DATE TO APPLY: </span>{' '}
+                {job?.lastDayOfSummission}
+              </Typography>
+              <Typography paragraph>
+                <span className={classes.title}>JOB DESCRIPTION: </span>
+              </Typography>
+              <Typography paragraph>{job?.description}</Typography>
+              <Box textAlign='end'>
+                <IconButton className={classes.editBtn} onClick={onEditJob}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton className={classes.deleteBtn} onClick={() => onDeleteJob(job?.id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            </Box>
+          </Card>
         </Box>
-      </Card>
+      </Box>
     </div>
   );
 }

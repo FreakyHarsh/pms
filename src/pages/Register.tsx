@@ -13,6 +13,7 @@ import {
   useTheme,
 } from '@material-ui/core';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CompanyRegister from '../components/CompanyRegister';
 import StudentRegister from '../components/StudentRegister';
 import TermsAndConditions from '../components/TermsAndConditions';
@@ -51,6 +52,9 @@ function Register() {
               style={{ fontFamily: 'Playfair Display' }}
             >
               Register
+              <span style={{ fontSize: '.9rem', marginLeft: '1rem' }}>
+                or <Link to='/login'>login</Link>
+              </span>
             </Typography>
           </Box>
           <Box component='section'>
