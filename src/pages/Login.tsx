@@ -12,22 +12,30 @@ import {
   useTheme,
   Button,
   TextField,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  FormHelperText,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import TermsAndConditions from '../components/TermsAndConditions';
 import { capitalizeFirstWord } from '../utils/capitalizeFirstWord';
 import { useDispatch } from 'react-redux';
 import { getStudentLogin } from '../utils/studentLogin';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { onLogin } from '../store/actions/actions.auth';
 import { setStudent } from '../store/actions/actions.student';
 import { setCompany } from '../store/actions/actions.company';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 function Login() {
   const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
   const [loginType, setLoginType] = useState('student');
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<{ key: string; message: string; status: number }>();
@@ -101,7 +109,10 @@ function Login() {
           <Box p={4}>
             <Box mb={1} style={{ fontFamily: 'Playfair Display' }}>
               <Typography variant='h4' className={classes.headerTextAlign}>
-                Login
+                Login{' '}
+                <span style={{ fontSize: '.9rem', marginLeft: '1rem' }}>
+                  or <Link to='/'>register</Link>
+                </span>
               </Typography>
             </Box>
             <Box component='section'>
@@ -142,15 +153,40 @@ function Login() {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <TextField
-                      label='Password'
+                    <FormControl
                       variant='outlined'
                       size='small'
                       fullWidth
-                      onChange={(e) => setPassword(e.target.value)}
                       error={error?.key === 'password'}
-                      helperText={error?.key === 'password' && error?.message}
-                    />
+                    >
+                      <InputLabel htmlFor='password'>Password</InputLabel>
+                      <OutlinedInput
+                        id='password'
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        // helperText={error?.key === 'email' ? error?.message : ''}
+                        endAdornment={
+                          <InputAdornment position='end'>
+                            <IconButton
+                              aria-label='toggle password visibility'
+                              onClick={() => setShowPassword(!showPassword)}
+                              edge='end'
+                            >
+                              {showPassword ? (
+                                <Visibility fontSize='small' />
+                              ) : (
+                                <VisibilityOff fontSize='small' />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        labelWidth={70}
+                      />
+                      {error?.key === 'password' && (
+                        <FormHelperText id='password-error'>{error.message}</FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>{error?.status === 401 && error?.message}</Typography>

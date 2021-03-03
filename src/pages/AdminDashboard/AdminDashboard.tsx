@@ -25,6 +25,7 @@ import { onLogout } from '../../store/actions/actions.auth';
 import Applications from './Applications';
 import Approved from './Approved';
 import Rejected from './Rejected';
+import Graph from './Graph';
 
 interface Props {
   window?: () => Window;
@@ -82,7 +83,7 @@ function AdminDashboard(props: Props) {
       </List>
       <Divider />
       <List>
-        {['Applications', 'Approved', 'Rejected', 'Logout'].map((text) => (
+        {['Applications', 'Approved', 'Rejected', 'Placements', 'Logout'].map((text) => (
           <ListItem
             button
             key={text}
@@ -176,6 +177,9 @@ function AdminDashboard(props: Props) {
           </Route>
           <Route path='/admin-dashboard/rejected' exact>
             <Rejected />
+          </Route>
+          <Route path='/admin-dashboard/Placements' exact>
+            <Graph />
           </Route>
         </Switch>
       </main>

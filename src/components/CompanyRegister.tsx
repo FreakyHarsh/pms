@@ -168,10 +168,32 @@ function CompanyRegister() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Grid>
-
+        <Grid item xs={12}>
+          <Typography variant='caption' color='error'>
+            * Please enter all the fields
+          </Typography>
+        </Grid>
         <Grid item xs={12}>
           <Box textAlign='end'>
-            <Button color='secondary' variant='contained' onClick={onCompanyRegister}>
+            <Button
+              color='secondary'
+              variant='contained'
+              onClick={onCompanyRegister}
+              disabled={
+                !(
+                  companyName &&
+                  email &&
+                  registrationNo &&
+                  gstNumber &&
+                  websiteUrl &&
+                  phoneNumber &&
+                  companyAddress &&
+                  uploadAvatar?.name &&
+                  password &&
+                  confirmPassword
+                )
+              }
+            >
               <Typography variant='button'>Submit</Typography>
             </Button>
           </Box>

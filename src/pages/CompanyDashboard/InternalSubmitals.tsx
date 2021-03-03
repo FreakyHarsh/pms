@@ -55,7 +55,7 @@ function InternalSubmitals() {
                   onClick={() => history.push(match.path + '/' + id)}
                   style={{ marginLeft: 'auto' }}
                 >
-                  Check Submitals
+                  Check Submital
                 </Button>
               </CardActions>
             </Card>

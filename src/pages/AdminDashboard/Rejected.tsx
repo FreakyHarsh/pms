@@ -67,7 +67,7 @@ function Rejected() {
           <Grid item xs={12} md={6} key={student.id}>
             <Card>
               <CardHeader
-                avatar={<Avatar alt={student.firstName} src={student.avatar} />}
+                avatar={<Avatar alt={student.firstName} src={baseURL + student.avatar} />}
                 title={student.firstName + ' ' + student.lastName}
                 subheader={'UIN: ' + student.uinNumber}
               />

@@ -15,6 +15,7 @@ import { authStart } from '../../store/actions/actions.auth';
 
 function Applications() {
   const [students, setStudents] = useState<any>();
+  const [reload, setReload] = useState();
   const authState = useSelector((state: RootState) => state.authState);
   const dispatch = useDispatch();
 
@@ -31,7 +32,7 @@ function Applications() {
       .then((res) => res.json())
       .then((data) => data)
       .catch((error) => console.error(error));
-    console.log(response);
+    setReload(response);
     if (response.status === 401) {
       dispatch(authStart());
     }
@@ -46,7 +47,7 @@ function Applications() {
       setStudents(post);
     };
     getApplications();
-  }, []);
+  }, [reload]);
   return (
     <div>
       <Grid container spacing={4}>
@@ -57,7 +58,7 @@ function Applications() {
                 {console.log(student)}
                 <Card>
                   <CardHeader
-                    avatar={<Avatar alt={student.firstName} src={student.avatar} />}
+                    avatar={<Avatar alt={student.firstName} src={baseURL + student.avatar} />}
                     title={student.firstName + ' ' + student.lastName}
                     subheader={'UIN: ' + student.uinNumber}
                   />

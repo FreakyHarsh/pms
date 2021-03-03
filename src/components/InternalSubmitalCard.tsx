@@ -32,10 +32,10 @@ function InternalSubmitalCard({
           </a>
         </CardContent>
         <CardActions style={{ justifyContent: 'flex-end' }}>
-          <Button color='secondary' size='small' onClick={onApproved}>
+          <Button style={{ color: '#5DD86E' }} size='small' onClick={onApproved}>
             Accept
           </Button>
-          <Button color='primary' size='small' onClick={onRejected}>
+          <Button style={{ color: '#F35050' }} size='small' onClick={onRejected}>
             Reject
           </Button>
         </CardActions>

@@ -107,7 +107,7 @@ function RequisitionDetail() {
             <Box p={3}>
               <Typography paragraph noWrap>
                 <span className={classes.title}>REQUISITION ID: </span>
-                <span className={classes.reqId}>#{job?.id}</span>
+                <span>#{job?.id}</span>
               </Typography>
               <Typography paragraph noWrap>
                 <span className={classes.title}>POSITION: </span>

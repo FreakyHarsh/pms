@@ -12,6 +12,7 @@ function InternalSubmitalsList() {
   const history = useHistory();
   const params = useParams<{ id: string }>();
   const [jobs, setJobs] = useState<any[]>();
+  const [reload, setReload] = useState();
   const authState = useSelector((state: RootState) => state.authState);
   useEffect(() => {
     const getJobs = async () => {
@@ -23,7 +24,8 @@ function InternalSubmitalsList() {
       setJobs(data);
     };
     getJobs();
-  }, []);
+  }, [reload]);
+
   const onChangeStatus = async (id: string, status: string) => {
     const updateStatus = await fetch(baseURL + '/applications/' + id, {
       method: 'PUT',
@@ -38,6 +40,7 @@ function InternalSubmitalsList() {
       .then((data) => data)
       .catch((error) => console.error(error));
     console.log(updateStatus);
+    setReload(updateStatus);
   };
   return (
     <div>

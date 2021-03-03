@@ -8,6 +8,9 @@ import {
   Box,
   Button,
   Typography,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +20,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import { onRegister } from '../store/actions/actions.auth';
 import { useHistory } from 'react-router-dom';
 import { setStudent } from '../store/actions/actions.student';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 function StudentRegister() {
   const classes = useStyles();
@@ -35,6 +39,8 @@ function StudentRegister() {
   const [uploadresume, setUploadresume] = useState<any>();
   const [uploadAvatar, setUploadAvatar] = useState<any>();
   const [error, setError] = useState<any>();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const formData = new FormData();
   const history = useHistory();
 
@@ -192,24 +198,60 @@ function StudentRegister() {
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            label='Password'
-            variant='outlined'
-            fullWidth
-            size='small'
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-          />
+          <FormControl variant='outlined' size='small' fullWidth>
+            <InputLabel htmlFor='password'>Password</InputLabel>
+            <OutlinedInput
+              id='password'
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    aria-label='toggle password visibility'
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge='end'
+                  >
+                    {showPassword ? (
+                      <Visibility fontSize='small' />
+                    ) : (
+                      <VisibilityOff fontSize='small' />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={70}
+            />
+          </FormControl>
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            label='Confirm Pwd'
-            variant='outlined'
-            fullWidth
-            size='small'
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setConfirmPassword(e.target.value)
-            }
-          />
+          <FormControl variant='outlined' size='small' fullWidth>
+            <InputLabel htmlFor='password'>Confirm Password</InputLabel>
+            <OutlinedInput
+              id='password'
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={confirmPassword}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setConfirmPassword(e.target.value)
+              }
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    aria-label='toggle password visibility'
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    edge='end'
+                  >
+                    {showConfirmPassword ? (
+                      <Visibility fontSize='small' />
+                    ) : (
+                      <VisibilityOff fontSize='small' />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={130}
+            />
+          </FormControl>
         </Grid>
         <Grid item xs={6}>
           <label htmlFor='avatar' style={{ display: 'inline-block' }}>
@@ -254,8 +296,34 @@ function StudentRegister() {
           <input type='file' id='resume' hidden onChange={handleresumeSelected} accept='.pdf' />
         </Grid>
         <Grid item xs={12}>
+          <Typography variant='caption' color='error'>
+            * Please enter all the fields
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
           <Box textAlign='end'>
-            <Button color='secondary' variant='contained'>
+            <Button
+              color='secondary'
+              variant='contained'
+              disabled={
+                !(
+                  firstName &&
+                  lastName &&
+                  uploadresume?.name &&
+                  uploadAvatar?.name &&
+                  phoneNumber &&
+                  uinNumber &&
+                  gender &&
+                  email &&
+                  department &&
+                  program &&
+                  currentAddress &&
+                  homeAddress &&
+                  password &&
+                  confirmPassword
+                )
+              }
+            >
               <Typography variant='button' onClick={onStudentRegister}>
                 Submit
               </Typography>
