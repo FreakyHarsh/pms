@@ -15,17 +15,17 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core';
-import React, { useState } from 'react';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import MenuIcon from '@material-ui/icons/Menu';
-import { toSnakeCase } from '../../utils/toSnakeCase';
-import { useDispatch, useSelector } from 'react-redux';
-import { onLogout } from '../../store/actions/actions.auth';
-import Applications from './Applications';
-import Approved from './Approved';
-import Rejected from './Rejected';
-import Graph from './Graph';
+} from "@material-ui/core";
+import React, { useState } from "react";
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import MenuIcon from "@material-ui/icons/Menu";
+import { toSnakeCase } from "../../utils/toSnakeCase";
+import { useDispatch, useSelector } from "react-redux";
+import { onLogout } from "../../store/actions/actions.auth";
+import Applications from "./Applications";
+import Approved from "./Approved";
+import Rejected from "./Rejected";
+import Graph from "./Graph";
 
 interface Props {
   window?: () => Window;
@@ -37,7 +37,7 @@ function AdminDashboard(props: Props) {
   const theme = useTheme();
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('Applications');
+  const [selectedTab, setSelectedTab] = useState("Applications");
 
   const dispatch = useDispatch();
 
@@ -50,7 +50,7 @@ function AdminDashboard(props: Props) {
     <div
       style={{
         backgroundColor: theme.palette.primary.main,
-        height: '100%',
+        height: "100%",
         color: theme.palette.primary.contrastText,
       }}
     >
@@ -60,10 +60,10 @@ function AdminDashboard(props: Props) {
           key='company-profile'
           className={classes.select}
           onClick={() => {
-            setSelectedTab('Profile');
+            setSelectedTab("Profile");
             mobileOpen && setMobileOpen(!mobileOpen);
           }}
-          selected={'Profile' === selectedTab}
+          selected={"Profile" === selectedTab}
         >
           <ListItemIcon>
             <Avatar
@@ -75,7 +75,7 @@ function AdminDashboard(props: Props) {
           <Typography
             variant='h6'
             noWrap
-            style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
+            style={{ padding: "1rem", fontFamily: "Playfair Display" }}
           >
             Admin
           </Typography>
@@ -83,20 +83,20 @@ function AdminDashboard(props: Props) {
       </List>
       <Divider />
       <List>
-        {['Applications', 'Approved', 'Rejected', 'Placements', 'Logout'].map((text) => (
+        {["Applications", "Approved", "Rejected", "Placements", "Logout"].map((text) => (
           <ListItem
             button
             key={text}
             className={classes.select}
             onClick={() => {
-              if (text === 'Logout') {
+              if (text === "Logout") {
                 dispatch(onLogout());
-                history.push('/login');
+                history.push("/login");
                 return;
               }
               setSelectedTab(text);
               mobileOpen && setMobileOpen(!mobileOpen);
-              history.push('/admin-dashboard/' + toSnakeCase(text));
+              history.push("/admin-dashboard/" + toSnakeCase(text));
             }}
             selected={text === selectedTab}
           >
@@ -134,7 +134,7 @@ function AdminDashboard(props: Props) {
           <Drawer
             container={container}
             variant='temporary'
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -190,24 +190,24 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
+      display: "flex",
     },
     drawer: {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up("sm")]: {
         width: drawerWidth,
         flexShrink: 0,
       },
     },
     appBar: {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up("sm")]: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
       },
     },
     menuButton: {
       marginRight: theme.spacing(2),
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
+      [theme.breakpoints.up("sm")]: {
+        display: "none",
       },
     },
     drawerPaper: {
@@ -223,7 +223,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: theme.mixins.toolbar,
     select: {
-      '&.MuiListItem-root.Mui-selected': {
+      "&.MuiListItem-root.Mui-selected": {
         backgroundColor: theme.palette.primary.contrastText,
         color: theme.palette.primary.main,
       },
