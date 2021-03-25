@@ -1,41 +1,16 @@
-import { Grid } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../..';
-import ApplicationStatusCard from '../../components/ApplicationStatusCard';
-import { ApplicationStatusCardProps } from '../../types/StudentTypes/ApplicationStatusCardProps';
-const sampleResponse: ApplicationStatusCardProps[] = [
-  {
-    companyName: 'TCS',
-    requisitionID: '#123123',
-    location: 'Mumbai',
-    salary: 3.6,
-    position: 'JavaScript Developer',
-    status: 'Approved by TPO',
-  },
-  {
-    companyName: 'TCS',
-    requisitionID: '#123123',
-    location: 'Mumbai',
-    salary: 3.6,
-    position: 'JavaScript Developer',
-    status: 'Approved by TPO',
-  },
-  {
-    companyName: 'TCS',
-    requisitionID: '#123123',
-    location: 'Mumbai',
-    salary: 3.6,
-    position: 'JavaScript Developer',
-    status: 'Approved by TPO',
-  },
-];
+import { Grid } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+import { RootState } from "../..";
+import ApplicationStatusCard from "../../components/ApplicationStatusCard";
+
 function ApplicationStatus() {
   const authState = useSelector((state: RootState) => state.authState);
   const [applications, setApplications] = useState<any>();
   useEffect(() => {
     const getApplications = async () => {
-      const post = await fetch(baseURL + '/students/me/applications', {
+      const post = await fetch(baseURL + "/students/me/applications", {
         headers: {
           Authorization: `Bearer ${authState.token}`,
         },

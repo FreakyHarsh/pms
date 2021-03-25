@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import StudentDashboard from './pages/StudentDashboard/StudentDashboard';
-import CompanyDashboard from './pages/CompanyDashboard/CompanyDashboard';
-import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
-import { useDispatch } from 'react-redux';
-import { authStart } from './store/actions/actions.auth';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
+import CompanyDashboard from "./pages/CompanyDashboard/CompanyDashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import StudentDashboard from "./pages/StudentDashboard/StudentDashboard";
+import { authStart } from "./store/actions/actions.auth";
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(authStart());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div>

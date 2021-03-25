@@ -12,13 +12,13 @@ import {
   Theme,
   Typography,
   useTheme,
-} from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { RootState } from '../..';
-import { StudentActionTypes } from '../../store/reducers/StudentReducer/student.actionTypes';
-import { StudentState } from '../../store/reducers/StudentReducer/student.reducer';
+import { RootState } from "../..";
+import { StudentActionTypes } from "../../store/reducers/StudentReducer/student.actionTypes";
+import { StudentState } from "../../store/reducers/StudentReducer/student.reducer";
 
 function StudentProfile() {
   const classes = useStyles();
@@ -44,8 +44,8 @@ function StudentProfile() {
   const formData = new FormData();
 
   const onUpdate = async () => {
-    const updatedStudent = await fetch(baseURL + '/students', {
-      method: 'PUT',
+    const updatedStudent = await fetch(baseURL + "/students", {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${authState.token}`,
       },
@@ -69,9 +69,9 @@ function StudentProfile() {
   };
 
   const onUpload = async () => {
-    formData.append('avatar', uploadAvatar, uploadAvatar?.name);
-    const updatedStudentAvatar = await fetch(baseURL + '/students/avatar', {
-      method: 'POST',
+    formData.append("avatar", uploadAvatar, uploadAvatar?.name);
+    const updatedStudentAvatar = await fetch(baseURL + "/students/avatar", {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${authState.token}`,
       },
@@ -130,9 +130,9 @@ function StudentProfile() {
             <Typography
               variant='h6'
               noWrap
-              style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
+              style={{ padding: "1rem", fontFamily: "Playfair Display" }}
             >
-              {studentState.firstName + ' ' + studentState.lastName}
+              {studentState.firstName + " " + studentState.lastName}
             </Typography>
           </Box>
           <Divider variant='middle' style={{ backgroundColor: theme.palette.primary.main }} />
@@ -147,7 +147,7 @@ function StudentProfile() {
               <Typography paragraph noWrap>
                 Gender: {studentState.gender}
               </Typography>
-              <Typography style={{ maxWidth: '80%' }} paragraph noWrap>
+              <Typography style={{ maxWidth: "80%" }} paragraph noWrap>
                 Email: {studentState.email}
               </Typography>
               <Typography paragraph>Department: {studentState.department}</Typography>
@@ -156,14 +156,14 @@ function StudentProfile() {
               <Typography paragraph>Home Address: {studentState.homeAddress}</Typography>
               <Divider
                 variant='fullWidth'
-                style={{ backgroundColor: theme.palette.primary.main, marginBottom: '1.3rem' }}
+                style={{ backgroundColor: theme.palette.primary.main, marginBottom: "1.3rem" }}
               />
               <Grid container spacing={3}>
                 <Grid item xs={12} md={9}>
-                  <label htmlFor='avatar' style={{ display: 'inline-block' }}>
+                  <label htmlFor='avatar' style={{ display: "inline-block" }}>
                     <Box display='flex' mr={2} width='auto' alignItems='center'>
-                      <Typography variant='caption' style={{ paddingRight: '10px' }}>
-                        Upload Profile
+                      <Typography variant='caption' style={{ paddingRight: "10px" }}>
+                        Update Avatar
                       </Typography>
                     </Box>
                   </label>
@@ -184,11 +184,11 @@ function StudentProfile() {
                 variant='fullWidth'
                 style={{
                   backgroundColor: theme.palette.primary.main,
-                  marginTop: '1rem',
-                  marginBottom: '1.5rem',
+                  marginTop: "1rem",
+                  marginBottom: "1.5rem",
                 }}
               />
-              <Grid container spacing={3} style={{ marginBottom: '.5rem' }}>
+              <Grid container spacing={3} style={{ marginBottom: ".5rem" }}>
                 <Grid item xs={4} md={3}>
                   <TextField
                     label='Sem 1'
@@ -343,11 +343,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     cardWidth: {
       padding: theme.spacing(1),
-      [theme.breakpoints.down('sm')]: {
-        width: '100%',
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
       },
-      [theme.breakpoints.up('md')]: {
-        width: '80%',
+      [theme.breakpoints.up("md")]: {
+        width: "80%",
       },
     },
   })

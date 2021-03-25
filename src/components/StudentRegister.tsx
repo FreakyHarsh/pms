@@ -1,26 +1,29 @@
 import {
-  Grid,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Box,
   Button,
-  Typography,
+  CircularProgress,
+  createStyles,
+  FormControl,
+  Grid,
   IconButton,
   InputAdornment,
+  InputLabel,
+  makeStyles,
+  MenuItem,
   OutlinedInput,
+  Select,
+  TextField,
+  Theme,
+  Typography,
 } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StudentActionTypes } from "../store/reducers/StudentReducer/student.actionTypes";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import { makeStyles, Theme, createStyles } from "@material-ui/core";
-import { onRegister } from "../store/actions/actions.auth";
 import { useHistory } from "react-router-dom";
+
+import { onRegister } from "../store/actions/actions.auth";
 import { setStudent } from "../store/actions/actions.student";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 function StudentRegister() {
   const classes = useStyles();
@@ -41,6 +44,7 @@ function StudentRegister() {
   const [error, setError] = useState<any>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const formData = new FormData();
   const history = useHistory();
 
@@ -305,6 +309,7 @@ function StudentRegister() {
             <Button
               color='secondary'
               variant='contained'
+              onClick={onStudentRegister}
               disabled={
                 !(
                   firstName &&
@@ -324,9 +329,11 @@ function StudentRegister() {
                 )
               }
             >
-              <Typography variant='button' onClick={onStudentRegister}>
-                Submit
-              </Typography>
+              {loading ? (
+                <CircularProgress size={20} style={{ color: "white" }} />
+              ) : (
+                <Typography variant='button'>Submit</Typography>
+              )}
             </Button>
           </Box>
         </Grid>

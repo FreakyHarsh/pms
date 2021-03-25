@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   createStyles,
   Grid,
   makeStyles,
@@ -27,8 +28,9 @@ function CompanyRegister() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [uploadAvatar, setUploadAvatar] = useState<any>();
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>();
   const authState = useSelector((state: RootState) => state.authState);
   const state = useSelector((state: RootState) => state.studentState);
   const formData = new FormData();
@@ -47,6 +49,7 @@ function CompanyRegister() {
 
   const dispatch = useDispatch();
   const onCompanyRegister = () => {
+    setLoading(true);
     formData.append("avatar", uploadAvatar, uploadAvatar?.name);
     formData.append("gstNumber", gstNumber);
     formData.append("name", companyName);
@@ -58,6 +61,7 @@ function CompanyRegister() {
     formData.append("confirmPassword", confirmPassword);
     formData.append("email", email);
     dispatch(onRegister(formData, "companies"));
+    setLoading(false);
   };
   return (
     <React.Fragment>
@@ -194,7 +198,11 @@ function CompanyRegister() {
                 )
               }
             >
-              <Typography variant='button'>Submit</Typography>
+              {loading ? (
+                <CircularProgress size={20} style={{ color: "white" }} />
+              ) : (
+                <Typography variant='button'>Submit</Typography>
+              )}
             </Button>
           </Box>
         </Grid>

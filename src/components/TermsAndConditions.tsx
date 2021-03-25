@@ -1,11 +1,11 @@
-import { Box, Typography } from '@material-ui/core';
-import React from 'react';
+import { Box, Typography } from "@material-ui/core";
+import React from "react";
 
 function TermsAndConditions() {
   return (
-    <div style={{ color: 'white' }}>
+    <div style={{ color: "white" }}>
       <Box mb={2}>
-        <Typography variant='h4' style={{ fontFamily: 'Playfair Display' }}>
+        <Typography variant='h4' style={{ fontFamily: "Playfair Display" }}>
           Terms and Conditions
         </Typography>
       </Box>

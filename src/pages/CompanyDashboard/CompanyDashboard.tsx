@@ -1,35 +1,36 @@
 import {
-  useTheme,
   AppBar,
-  Hidden,
-  Toolbar,
-  IconButton,
-  Typography,
-  Drawer,
-  makeStyles,
-  Theme,
-  createStyles,
   Avatar,
+  createStyles,
   Divider,
+  Drawer,
+  Hidden,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import MenuIcon from '@material-ui/icons/Menu';
-import { toSnakeCase } from '../../utils/toSnakeCase';
-import Requisitions from './Requisitions';
-import CreateRequisition from './CreateRequisition';
-import RequisitionDetail from '../../components/RequisitionDetail';
-import InternalSubmitals from './InternalSubmitals';
-import InternalSubmitalsList from '../../components/InternalSubmitalsList';
-import { RootState } from '../../index';
-import { useDispatch, useSelector } from 'react-redux';
-import CompanyProfile from './CompanyProfile';
-import { onLogout } from '../../store/actions/actions.auth';
-import { setCompany } from '../../store/actions/actions.company';
+  makeStyles,
+  Theme,
+  Toolbar,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+
+import { RootState } from "../..";
+import InternalSubmitalsList from "../../components/InternalSubmitalsList";
+import RequisitionDetail from "../../components/RequisitionDetail";
+import { onLogout } from "../../store/actions/actions.auth";
+import { setCompany } from "../../store/actions/actions.company";
+import { toSnakeCase } from "../../utils/toSnakeCase";
+import CompanyProfile from "./CompanyProfile";
+import CreateRequisition from "./CreateRequisition";
+import InternalSubmitals from "./InternalSubmitals";
+import Requisitions from "./Requisitions";
 
 interface Props {
   window?: () => Window;
@@ -41,7 +42,7 @@ function CompanyDashboard(props: Props) {
   const theme = useTheme();
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('Requisitions');
+  const [selectedTab, setSelectedTab] = useState("Requisitions");
 
   const companyState = useSelector((state: RootState) => state.companyState);
   const authState = useSelector((state: RootState) => state.authState);
@@ -53,7 +54,7 @@ function CompanyDashboard(props: Props) {
 
   const container = window !== undefined ? () => window().document.body : undefined;
   useEffect(() => {
-    if (companyState.id === '') {
+    if (companyState.id === "") {
       dispatch(setCompany(authState.token));
     }
   }, [authState.token]);
@@ -61,7 +62,7 @@ function CompanyDashboard(props: Props) {
     <div
       style={{
         backgroundColor: theme.palette.primary.main,
-        height: '100%',
+        height: "100%",
         color: theme.palette.primary.contrastText,
       }}
     >
@@ -71,11 +72,11 @@ function CompanyDashboard(props: Props) {
           key='company-profile'
           className={classes.select}
           onClick={() => {
-            setSelectedTab('Profile');
+            setSelectedTab("Profile");
             mobileOpen && setMobileOpen(!mobileOpen);
-            history.push('/company-dashboard/profile-details');
+            history.push("/company-dashboard/profile-details");
           }}
-          selected={'Profile' === selectedTab}
+          selected={"Profile" === selectedTab}
         >
           <ListItemIcon>
             <Avatar
@@ -87,7 +88,7 @@ function CompanyDashboard(props: Props) {
           <Typography
             variant='h6'
             noWrap
-            style={{ padding: '1rem', fontFamily: 'Playfair Display' }}
+            style={{ padding: "1rem", fontFamily: "Playfair Display" }}
           >
             {companyState.name}
           </Typography>
@@ -95,20 +96,20 @@ function CompanyDashboard(props: Props) {
       </List>
       <Divider />
       <List>
-        {['Requisitions', 'Create Requisition', 'Internal Submitals', 'Logout'].map((text) => (
+        {["Requisitions", "Create Requisition", "Internal Submitals", "Logout"].map((text) => (
           <ListItem
             button
             key={text}
             className={classes.select}
             onClick={() => {
-              if (text === 'Logout') {
+              if (text === "Logout") {
                 dispatch(onLogout());
-                history.push('/login');
+                history.push("/login");
                 return;
               }
               setSelectedTab(text);
               mobileOpen && setMobileOpen(!mobileOpen);
-              history.push('/company-dashboard/' + toSnakeCase(text));
+              history.push("/company-dashboard/" + toSnakeCase(text));
             }}
             selected={text === selectedTab}
           >
@@ -146,7 +147,7 @@ function CompanyDashboard(props: Props) {
           <Drawer
             container={container}
             variant='temporary'
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -214,24 +215,24 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
+      display: "flex",
     },
     drawer: {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up("sm")]: {
         width: drawerWidth,
         flexShrink: 0,
       },
     },
     appBar: {
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up("sm")]: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
       },
     },
     menuButton: {
       marginRight: theme.spacing(2),
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
+      [theme.breakpoints.up("sm")]: {
+        display: "none",
       },
     },
     drawerPaper: {
@@ -247,7 +248,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: theme.mixins.toolbar,
     select: {
-      '&.MuiListItem-root.Mui-selected': {
+      "&.MuiListItem-root.Mui-selected": {
         backgroundColor: theme.palette.primary.contrastText,
         color: theme.palette.primary.main,
       },

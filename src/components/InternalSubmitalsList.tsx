@@ -1,12 +1,10 @@
-import { Grid, IconButton } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { InternalSubmitalCardProps } from '../types/CompanyTypes/InternalSubmitalCardProps';
-import InternalSubmitalCard from './InternalSubmitalCard';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { useHistory, useRouteMatch, useParams } from 'react-router-dom';
-import { JobDetailProp } from '../types/Jobs/JobDetailProps';
-import { useSelector } from 'react-redux';
-import { RootState } from '..';
+import { Grid } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+
+import { RootState } from "..";
+import InternalSubmitalCard from "./InternalSubmitalCard";
 
 function InternalSubmitalsList() {
   const history = useHistory();
@@ -16,7 +14,7 @@ function InternalSubmitalsList() {
   const authState = useSelector((state: RootState) => state.authState);
   useEffect(() => {
     const getJobs = async () => {
-      const data = await fetch(baseURL + '/jobs/' + params.id + '/applications')
+      const data = await fetch(baseURL + "/jobs/" + params.id + "/applications")
         .then((res) => res.json())
         .then((data) => data)
         .catch((error) => console.error(error));
@@ -27,8 +25,8 @@ function InternalSubmitalsList() {
   }, [reload]);
 
   const onChangeStatus = async (id: string, status: string) => {
-    const updateStatus = await fetch(baseURL + '/applications/' + id, {
-      method: 'PUT',
+    const updateStatus = await fetch(baseURL + "/applications/" + id, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${authState.token}`,
       },
@@ -97,16 +95,16 @@ function InternalSubmitalsList() {
             }
             let cgpi = total / count;
             return (
-              status === 'pending' && (
+              status === "pending" && (
                 <Grid item xs={12} md={6} key={uinNumber}>
                   <InternalSubmitalCard
-                    studentName={firstName + ' ' + lastName}
+                    studentName={firstName + " " + lastName}
                     uinNumber={uinNumber}
                     cgpi={cgpi.toString()}
                     resume={baseURL + resume}
                     studentId={studentId}
-                    onApproved={() => onChangeStatus(id, 'approved')}
-                    onRejected={() => onChangeStatus(id, 'rejected')}
+                    onApproved={() => onChangeStatus(id, "approved")}
+                    onRejected={() => onChangeStatus(id, "rejected")}
                   />
                 </Grid>
               )

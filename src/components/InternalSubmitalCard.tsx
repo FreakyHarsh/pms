@@ -1,6 +1,7 @@
-import { Card, CardContent, Typography, Button, CardActions } from '@material-ui/core';
-import React from 'react';
-import { InternalSubmitalCardProps } from '../types/CompanyTypes/InternalSubmitalCardProps';
+import { Button, Card, CardActions, CardContent, Typography } from "@material-ui/core";
+import React from "react";
+
+import { InternalSubmitalCardProps } from "../types/CompanyTypes/InternalSubmitalCardProps";
 
 function InternalSubmitalCard({
   studentName,
@@ -31,11 +32,11 @@ function InternalSubmitalCard({
             View Resume
           </a>
         </CardContent>
-        <CardActions style={{ justifyContent: 'flex-end' }}>
-          <Button style={{ color: '#5DD86E' }} size='small' onClick={onApproved}>
+        <CardActions style={{ justifyContent: "flex-end" }}>
+          <Button style={{ color: "#5DD86E" }} size='small' onClick={onApproved}>
             Accept
           </Button>
-          <Button style={{ color: '#F35050' }} size='small' onClick={onRejected}>
+          <Button style={{ color: "#F35050" }} size='small' onClick={onRejected}>
             Reject
           </Button>
         </CardActions>

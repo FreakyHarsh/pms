@@ -1,28 +1,28 @@
 import {
-  Card,
-  CardHeader,
   Avatar,
-  Typography,
-  Divider,
-  CardContent,
   Box,
-  useTheme,
-  makeStyles,
-  createStyles,
-  Theme,
-  CardActions,
   Button,
-  IconButton,
+  Card,
+  CardContent,
+  CardHeader,
   Collapse,
-} from '@material-ui/core';
-import React, { useState } from 'react';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { ViewJobCardProps } from '../types/StudentTypes/ViewJobCardProps';
-import { longDate } from '../utils/longDate';
-import { RootState } from '../index';
-import { useSelector } from 'react-redux';
-import { formatToCurrency } from '../utils/formatToCurrency';
+  createStyles,
+  Divider,
+  IconButton,
+  makeStyles,
+  Theme,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+
+import { RootState } from "..";
+import { ViewJobCardProps } from "../types/StudentTypes/ViewJobCardProps";
+import { formatToCurrency } from "../utils/formatToCurrency";
+import { longDate } from "../utils/longDate";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,8 +51,8 @@ function ViewJobCard({
     setExpanded(!expanded);
   };
   const onApply = async () => {
-    const post = await fetch(baseURL + '/applications', {
-      method: 'POST',
+    const post = await fetch(baseURL + "/applications", {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${authState.token}`,
       },
@@ -83,7 +83,7 @@ function ViewJobCard({
         />
         <Divider variant='middle' style={{ backgroundColor: theme.palette.primary.main }} />
         <CardContent style={{ paddingBottom: 0 }}>
-          <Box style={{ paddingLeft: '1rem' }}>
+          <Box style={{ paddingLeft: "1rem" }}>
             <Typography variant='body1' paragraph noWrap>
               Position: {jobPosition}
             </Typography>
@@ -106,9 +106,9 @@ function ViewJobCard({
               Job Description
             </Typography>
             <Box p={1}>
-              <Typography variant='body2' paragraph>
+              <pre style={{ whiteSpace: "pre-line", fontSize: ".9rem", fontFamily: "Roboto" }}>
                 {jobDescription}
-              </Typography>
+              </pre>
             </Box>
             <Box textAlign='end'>
               <Button variant='contained' size='small' color='primary' onClick={onApply}>

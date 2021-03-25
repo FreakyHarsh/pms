@@ -2,32 +2,36 @@ import {
   Box,
   Button,
   Card,
+  createStyles,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
+  makeStyles,
   MenuItem,
   OutlinedInput,
   Select,
   TextField,
-} from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { formatYMD } from '../../utils/formatYMD';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../index';
-import { useParams, useHistory } from 'react-router-dom';
-import { getRequisitionDetail } from '../../utils/getRequisitionDetail';
-import { JobDetailProp } from '../../types/Jobs/JobDetailProps';
+  Theme,
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { formatYMD } from "../../utils/formatYMD";
+import { useSelector } from "react-redux";
+import { RootState } from "../../index";
+import { useParams, useHistory } from "react-router-dom";
+import { getRequisitionDetail } from "../../utils/getRequisitionDetail";
+import { JobDetailProp } from "../../types/Jobs/JobDetailProps";
 
 function CreateRequisition() {
   const history = useHistory();
-  const [position, setPosition] = useState('');
+  const classes = useStyles();
+  const [position, setPosition] = useState("");
   const [noOfPositions, setNoOfPositions] = useState<number>();
   const [salary, setSalary] = useState<number>();
-  const [jobType, setJobType] = useState<string>('');
-  const [location, setLocation] = useState('');
+  const [jobType, setJobType] = useState<string>("");
+  const [location, setLocation] = useState("");
   const [endDate, setEndDate] = useState(formatYMD(new Date()));
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
 
   const params = useParams<{ id: string }>();
   const companyState = useSelector((state: RootState) => state.companyState);
@@ -46,38 +50,38 @@ function CreateRequisition() {
     populate();
   }, []);
   const onUpdateRequisition = async () => {
-    const post = await fetch(baseURL + '/jobs/' + params.id, {
-      method: 'PUT',
+    const post = await fetch(baseURL + "/jobs/" + params.id, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${authState.token}`,
       },
       body: JSON.stringify({
         companyId: companyState.id,
-        title: 'hello',
+        title: "hello",
         position: position,
         type: jobType,
         openings: noOfPositions,
         ctc: salary,
         location: location,
         lastDayOfSummission: new Date(endDate).getTime(),
-        description: description,
+        description: `<pre>${description}</pre>`,
       }),
     })
       .then((res) => res.json())
       .then((data) => data)
       .catch((error) => console.error(error));
     console.log(post);
-    history.push('/company-dashboard');
+    history.push("/company-dashboard");
   };
   const onCreateRequisition = async () => {
-    const post = await fetch(baseURL + '/jobs', {
-      method: 'POST',
+    const post = await fetch(baseURL + "/jobs", {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${authState.token}`,
       },
       body: JSON.stringify({
         companyId: companyState.id,
-        title: 'hello',
+        title: "hello",
         position: position,
         type: jobType,
         openings: noOfPositions,
@@ -91,15 +95,15 @@ function CreateRequisition() {
       .then((data) => data)
       .catch((error) => console.error(error));
     console.log(post);
-    history.push('/company-dashboard');
+    history.push("/company-dashboard");
   };
   const onJobTypeSelect = (e: any) => {
     setJobType(e.target.value);
   };
 
   return (
-    <div>
-      <Card>
+    <Box display='flex' justifyContent='center'>
+      <Card className={classes.cardWidth}>
         <Box p={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
@@ -134,11 +138,11 @@ function CreateRequisition() {
                   onChange={onJobTypeSelect}
                   label='Job Type'
                 >
-                  <MenuItem value={'Full Time'}>Full Time</MenuItem>
-                  <MenuItem value={'Part Time'}>Part Time</MenuItem>
-                  <MenuItem value={'Internship'}>Internship</MenuItem>
-                  <MenuItem value={'Contract'}>Contract</MenuItem>
-                  <MenuItem value={'Other'}>Other</MenuItem>
+                  <MenuItem value={"Full Time"}>Full Time</MenuItem>
+                  <MenuItem value={"Part Time"}>Part Time</MenuItem>
+                  <MenuItem value={"Internship"}>Internship</MenuItem>
+                  <MenuItem value={"Contract"}>Contract</MenuItem>
+                  <MenuItem value={"Other"}>Other</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -198,15 +202,30 @@ function CreateRequisition() {
                   variant='contained'
                   onClick={params.id ? onUpdateRequisition : onCreateRequisition}
                 >
-                  {params.id ? 'Update' : 'Create'}
+                  {params.id ? "Update" : "Create"}
                 </Button>
               </Box>
             </Grid>
           </Grid>
         </Box>
       </Card>
-    </div>
+    </Box>
   );
 }
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    cardWidth: {
+      padding: theme.spacing(1),
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
+      },
+      [theme.breakpoints.up("md")]: {
+        width: "90%",
+        height: "100%",
+      },
+    },
+  })
+);
 
 export default CreateRequisition;
