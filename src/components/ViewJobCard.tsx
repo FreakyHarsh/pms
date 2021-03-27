@@ -42,6 +42,7 @@ function ViewJobCard({
   jobSalary,
   jobDescription,
   jobLastDayOfSummission,
+  onRefreshList,
 }: ViewJobCardProps) {
   const theme = useTheme();
   const classes = useStyles();
@@ -63,6 +64,7 @@ function ViewJobCard({
       .then((res) => res.json())
       .then((data) => data)
       .catch((error) => console.error(error));
+    onRefreshList();
     console.log(post);
   };
   return (

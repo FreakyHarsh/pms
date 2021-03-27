@@ -23,6 +23,8 @@ export interface StudentState {
   sem6?: number;
   sem7?: number;
   sem8?: number;
+  hsc?: number;
+  ssc?: number;
 }
 
 const initialState: StudentState = {

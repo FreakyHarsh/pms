@@ -7,4 +7,6 @@ export interface ViewJobCardProps {
   jobDescription: string;
   jobLocation: string;
   jobLastDayOfSummission: string;
+  onRefreshList: any;
+
 }

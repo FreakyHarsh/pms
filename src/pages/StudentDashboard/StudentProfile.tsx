@@ -36,6 +36,8 @@ function StudentProfile() {
   const [sem7, setSem7] = useState<number | undefined>(studentState.sem7);
   const [sem8, setSem8] = useState<number | undefined>(studentState.sem8);
   const [cgpi, setCgpi] = useState<number | undefined>(studentState.sem2);
+  const [hsc, setHsc] = useState(studentState.hsc);
+  const [ssc, setSsc] = useState(studentState.ssc);
   const [uploadAvatar, setUploadAvatar] = useState<any>();
   const handleAvatarSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
@@ -117,6 +119,26 @@ function StudentProfile() {
     }
     setCgpi(total / count);
   }, [sem1, sem2, sem3, sem4, sem5, sem6, sem7, sem8]);
+
+  const addHighSchoolScores = async () => {
+    const updatedStudent = await fetch(baseURL + "/students", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${authState.token}`,
+      },
+      body: JSON.stringify({
+        id: studentState.id,
+        hsc: hsc,
+        ssc: ssc,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((error) => console.error(error));
+    console.log(updatedStudent);
+    dispatch({ type: StudentActionTypes.SET_STUDENT, payload: updatedStudent });
+  };
+
   return (
     <Box display='flex' justifyContent='center'>
       <Box p={2} className={classes.cardWidth}>
@@ -157,6 +179,32 @@ function StudentProfile() {
               <Divider
                 variant='fullWidth'
                 style={{ backgroundColor: theme.palette.primary.main, marginBottom: "1.3rem" }}
+              />
+              <Box display='flex' justifyContent='space-between'>
+                <TextField
+                  label='HSC'
+                  size='small'
+                  variant='outlined'
+                  onChange={(e: any) => setHsc(e.target.value)}
+                />
+                <TextField
+                  label='SSC'
+                  size='small'
+                  variant='outlined'
+                  onChange={(e: any) => setSsc(e.target.value)}
+                />
+                <Button
+                  size='small'
+                  variant='contained'
+                  color='secondary'
+                  onClick={addHighSchoolScores}
+                >
+                  Submit
+                </Button>
+              </Box>
+              <Divider
+                variant='fullWidth'
+                style={{ backgroundColor: theme.palette.primary.main, margin: "1.3rem 0" }}
               />
               <Grid container spacing={3}>
                 <Grid item xs={12} md={9}>
