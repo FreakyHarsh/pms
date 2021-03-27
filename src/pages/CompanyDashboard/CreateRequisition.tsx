@@ -32,6 +32,7 @@ function CreateRequisition() {
   const [location, setLocation] = useState("");
   const [endDate, setEndDate] = useState(formatYMD(new Date()));
   const [description, setDescription] = useState("");
+  const [minCgpa, setMinCgpa] = useState(6);
 
   const params = useParams<{ id: string }>();
   const companyState = useSelector((state: RootState) => state.companyState);
@@ -180,6 +181,17 @@ function CreateRequisition() {
                   shrink: true,
                 }}
                 onChange={(e) => setEndDate(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label='Minimum CGPA required'
+                type='number'
+                variant='outlined'
+                defaultValue={6}
+                size='small'
+                fullWidth
+                onChange={(e: any) => setMinCgpa(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>

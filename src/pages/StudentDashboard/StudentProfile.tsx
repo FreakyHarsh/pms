@@ -180,7 +180,7 @@ function StudentProfile() {
                 variant='fullWidth'
                 style={{ backgroundColor: theme.palette.primary.main, marginBottom: "1.3rem" }}
               />
-              <Box display='flex' justifyContent='space-between'>
+              <Box display='flex' justifyContent='space-between' alignItems='center'>
                 <TextField
                   label='HSC'
                   size='small'
