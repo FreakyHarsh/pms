@@ -8,5 +8,6 @@ export interface ViewJobCardProps {
   jobLocation: string;
   jobLastDayOfSummission: string;
   onRefreshList: any;
-
+  isApplicable: boolean;
+  minCGPArequired: number;
 }

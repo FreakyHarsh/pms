@@ -36,8 +36,8 @@ function StudentProfile() {
   const [sem7, setSem7] = useState<number | undefined>(studentState.sem7);
   const [sem8, setSem8] = useState<number | undefined>(studentState.sem8);
   const [cgpi, setCgpi] = useState<number | undefined>(studentState.sem2);
-  const [hsc, setHsc] = useState(studentState.hsc);
-  const [ssc, setSsc] = useState(studentState.ssc);
+  const [hsc, setHsc] = useState<any>(studentState.hsc);
+  const [ssc, setSsc] = useState<any>(studentState.ssc);
   const [uploadAvatar, setUploadAvatar] = useState<any>();
   const handleAvatarSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
@@ -61,6 +61,7 @@ function StudentProfile() {
         sem6,
         sem7,
         sem8,
+        cgpa: cgpi,
       }),
     })
       .then((res) => res.json())
@@ -121,15 +122,17 @@ function StudentProfile() {
   }, [sem1, sem2, sem3, sem4, sem5, sem6, sem7, sem8]);
 
   const addHighSchoolScores = async () => {
+    console.log(hsc, ssc);
     const updatedStudent = await fetch(baseURL + "/students", {
       method: "PUT",
       headers: {
+        "Content-type": "application/json",
         Authorization: `Bearer ${authState.token}`,
       },
       body: JSON.stringify({
         id: studentState.id,
-        hsc: hsc,
-        ssc: ssc,
+        hsc: parseFloat(hsc),
+        ssc: parseFloat(ssc),
       }),
     })
       .then((res) => res.json())
@@ -367,7 +370,7 @@ function StudentProfile() {
                 </Grid>
               </Grid>
               <Box p={2} display='flex' justifyContent='space-between' alignItems='center'>
-                <Typography>CGPI: {cgpi?.toFixed(2)}</Typography>
+                <Typography>CGPA: {cgpi?.toFixed(2)}</Typography>
                 <a href={baseURL + studentState.resume} target='_blank'>
                   View Resume
                 </a>

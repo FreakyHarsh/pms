@@ -15,6 +15,7 @@ function ViewJobs() {
   const [refresh, setRefresh] = useState(false);
 
   const authState = useSelector((state: RootState) => state.authState);
+  const studentState = useSelector((state: RootState) => state.studentState);
 
   useEffect(() => {
     const getAllJobs = async () => {
@@ -70,21 +71,28 @@ function ViewJobs() {
             position,
             description,
             lastDayOfSummission,
+            minCGPA,
           }: JobDetailProp) => {
             if (company.name.toLowerCase().includes(search.toLowerCase())) {
               return (
                 <Grid item xs={12} md={6} key={id}>
-                  <ViewJobCard
-                    companyName={company.name}
-                    companyProfilePic={baseURL + company.avatar}
-                    requisitionID={id}
-                    jobLocation={location}
-                    jobSalary={ctc}
-                    jobPosition={position}
-                    jobDescription={description}
-                    jobLastDayOfSummission={lastDayOfSummission}
-                    onRefreshList={() => setRefresh(!refresh)}
-                  />
+                  {studentState.cgpa ? (
+                    <ViewJobCard
+                      companyName={company.name}
+                      companyProfilePic={baseURL + company.avatar}
+                      requisitionID={id}
+                      jobLocation={location}
+                      jobSalary={ctc}
+                      jobPosition={position}
+                      jobDescription={description}
+                      jobLastDayOfSummission={lastDayOfSummission}
+                      onRefreshList={() => setRefresh(!refresh)}
+                      isApplicable={studentState?.cgpa > minCGPA}
+                      minCGPArequired={minCGPA}
+                    />
+                  ) : (
+                    <div>To view Jobs, Edit you CGPA in profile tab.</div>
+                  )}
                 </Grid>
               );
             }

@@ -25,6 +25,7 @@ export interface StudentState {
   sem8?: number;
   hsc?: number;
   ssc?: number;
+  cgpa?: number;
 }
 
 const initialState: StudentState = {

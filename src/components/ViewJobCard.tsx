@@ -43,6 +43,8 @@ function ViewJobCard({
   jobDescription,
   jobLastDayOfSummission,
   onRefreshList,
+  isApplicable,
+  minCGPArequired,
 }: ViewJobCardProps) {
   const theme = useTheme();
   const classes = useStyles();
@@ -112,8 +114,26 @@ function ViewJobCard({
                 {jobDescription}
               </pre>
             </Box>
-            <Box textAlign='end'>
-              <Button variant='contained' size='small' color='primary' onClick={onApply}>
+            <Box
+              textAlign='end'
+              display='flex'
+              justifyContent='space-between'
+              alignItems='center'
+              gridGap='1rem'
+            >
+              {!isApplicable && (
+                <div style={{ color: "red" }}>
+                  * You cannot apply because min CGPA required: {minCGPArequired}
+                </div>
+              )}
+              <Button
+                variant='contained'
+                size='small'
+                color='primary'
+                disabled={!isApplicable}
+                onClick={onApply}
+                style={{ marginLeft: "auto" }}
+              >
                 Apply
               </Button>
             </Box>

@@ -15,12 +15,13 @@ import {
   Theme,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { formatYMD } from "../../utils/formatYMD";
 import { useSelector } from "react-redux";
-import { RootState } from "../../index";
-import { useParams, useHistory } from "react-router-dom";
-import { getRequisitionDetail } from "../../utils/getRequisitionDetail";
+import { useHistory, useParams } from "react-router-dom";
+
+import { RootState } from "../..";
 import { JobDetailProp } from "../../types/Jobs/JobDetailProps";
+import { formatYMD } from "../../utils/formatYMD";
+import { getRequisitionDetail } from "../../utils/getRequisitionDetail";
 
 function CreateRequisition() {
   const history = useHistory();
@@ -37,6 +38,7 @@ function CreateRequisition() {
   const params = useParams<{ id: string }>();
   const companyState = useSelector((state: RootState) => state.companyState);
   const authState = useSelector((state: RootState) => state.authState);
+
   useEffect(() => {
     const populate = async () => {
       const jobDetail: JobDetailProp = await getRequisitionDetail(params.id);
@@ -47,9 +49,11 @@ function CreateRequisition() {
       setLocation(jobDetail.location);
       setEndDate(jobDetail.lastDayOfSummission?.slice(0, 10));
       setDescription(jobDetail.description);
+      setMinCgpa(jobDetail.minCGPA);
     };
     populate();
   }, []);
+
   const onUpdateRequisition = async () => {
     const post = await fetch(baseURL + "/jobs/" + params.id, {
       method: "PUT",
@@ -65,7 +69,8 @@ function CreateRequisition() {
         ctc: salary,
         location: location,
         lastDayOfSummission: new Date(endDate).getTime(),
-        description: `<pre>${description}</pre>`,
+        description: description,
+        minCGPA: minCgpa,
       }),
     })
       .then((res) => res.json())
@@ -74,7 +79,9 @@ function CreateRequisition() {
     console.log(post);
     history.push("/company-dashboard");
   };
+
   const onCreateRequisition = async () => {
+    console.log(minCgpa);
     const post = await fetch(baseURL + "/jobs", {
       method: "POST",
       headers: {
@@ -82,7 +89,7 @@ function CreateRequisition() {
       },
       body: JSON.stringify({
         companyId: companyState.id,
-        title: "hello",
+        title: "create Job",
         position: position,
         type: jobType,
         openings: noOfPositions,
@@ -90,6 +97,7 @@ function CreateRequisition() {
         location: location,
         lastDayOfSummission: new Date(endDate).getTime(),
         description: description,
+        minCGPA: minCgpa,
       }),
     })
       .then((res) => res.json())
@@ -191,6 +199,9 @@ function CreateRequisition() {
                 defaultValue={6}
                 size='small'
                 fullWidth
+                InputProps={{
+                  inputProps: { min: 0, max: 10 },
+                }}
                 onChange={(e: any) => setMinCgpa(e.target.value)}
               />
             </Grid>
