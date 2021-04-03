@@ -17,7 +17,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-
 import { RootState } from "../..";
 import { JobDetailProp } from "../../types/Jobs/JobDetailProps";
 import { formatYMD } from "../../utils/formatYMD";
@@ -97,7 +96,8 @@ function CreateRequisition() {
         location: location,
         lastDayOfSummission: new Date(endDate).getTime(),
         description: description,
-        minCGPA: minCgpa,
+        // @ts-ignore
+        minCGPA: parseFloat(minCgpa),
       }),
     })
       .then((res) => res.json())
@@ -111,41 +111,41 @@ function CreateRequisition() {
   };
 
   return (
-    <Box display='flex' justifyContent='center'>
+    <Box display="flex" justifyContent="center">
       <Card className={classes.cardWidth}>
         <Box p={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <TextField
-                label='Position'
-                placeholder='Eg: Data Analyst'
-                variant='outlined'
+                label="Position"
+                placeholder="Eg: Data Analyst"
+                variant="outlined"
                 value={position}
                 fullWidth
-                size='small'
+                size="small"
                 onChange={(e) => setPosition(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                label='No of Positions'
-                type='number'
-                variant='outlined'
+                label="No of Positions"
+                type="number"
+                variant="outlined"
                 fullWidth
                 value={noOfPositions}
-                size='small'
+                size="small"
                 onChange={(e) => setNoOfPositions(parseInt(e.target.value))}
               />
             </Grid>
             <Grid item xs={6}>
-              <FormControl variant='outlined' fullWidth size='small'>
-                <InputLabel id='job-type'>Job Type</InputLabel>
+              <FormControl variant="outlined" fullWidth size="small">
+                <InputLabel id="job-type">Job Type</InputLabel>
                 <Select
-                  labelId='job-type'
-                  id='demo-simple-select-outlined'
+                  labelId="job-type"
+                  id="demo-simple-select-outlined"
                   value={jobType}
                   onChange={onJobTypeSelect}
-                  label='Job Type'
+                  label="Job Type"
                 >
                   <MenuItem value={"Full Time"}>Full Time</MenuItem>
                   <MenuItem value={"Part Time"}>Part Time</MenuItem>
@@ -156,34 +156,41 @@ function CreateRequisition() {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <FormControl fullWidth variant='outlined' size='small' id='salary'>
-                <InputLabel htmlFor='salary'>Salary</InputLabel>
+              <FormControl
+                fullWidth
+                variant="outlined"
+                size="small"
+                id="salary"
+              >
+                <InputLabel htmlFor="salary">Salary</InputLabel>
                 <OutlinedInput
-                  id='salary'
-                  type='number'
+                  id="salary"
+                  type="number"
                   value={salary}
                   onChange={(e) => setSalary(parseInt(e.target.value))}
-                  startAdornment={<InputAdornment position='start'>₹</InputAdornment>}
+                  startAdornment={
+                    <InputAdornment position="start">₹</InputAdornment>
+                  }
                   labelWidth={50}
                 />
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                label='Location'
-                variant='outlined'
+                label="Location"
+                variant="outlined"
                 fullWidth
-                size='small'
+                size="small"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                label='Last date to apply'
-                type='date'
-                variant='outlined'
-                size='small'
+                label="Last date to apply"
+                type="date"
+                variant="outlined"
+                size="small"
                 fullWidth
                 InputLabelProps={{
                   shrink: true,
@@ -193,11 +200,11 @@ function CreateRequisition() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label='Minimum CGPA required'
-                type='number'
-                variant='outlined'
+                label="Minimum CGPA required"
+                type="number"
+                variant="outlined"
                 defaultValue={6}
-                size='small'
+                size="small"
                 fullWidth
                 InputProps={{
                   inputProps: { min: 0, max: 10 },
@@ -207,23 +214,25 @@ function CreateRequisition() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label='Job Description'
-                variant='outlined'
+                label="Job Description"
+                variant="outlined"
                 fullWidth
                 multiline
-                size='small'
-                placeholder='Give a detailed Job description including work experience, qualification criteria, etc.'
+                size="small"
+                placeholder="Give a detailed Job description including work experience, qualification criteria, etc."
                 rows={6}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
-              <Box textAlign='end'>
+              <Box textAlign="end">
                 <Button
-                  color='secondary'
-                  variant='contained'
-                  onClick={params.id ? onUpdateRequisition : onCreateRequisition}
+                  color="secondary"
+                  variant="contained"
+                  onClick={
+                    params.id ? onUpdateRequisition : onCreateRequisition
+                  }
                 >
                   {params.id ? "Update" : "Create"}
                 </Button>
