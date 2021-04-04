@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import { Bar } from "@reactchartjs/react-chart.js";
+import React, { useEffect, useState } from "react";
 
 const options = {
   scales: {
@@ -22,11 +22,24 @@ const options = {
     ],
   },
 };
+const seed = () =>
+  parseInt(((Math.random() * 100) % (Math.random() * 100)).toFixed(0));
+const random = (number: number) => {
+  return (Math.random() > (number % 10) / 10 ? 5 : -2) + number;
+};
 function Graph() {
-  const [dynamicValues, setDynamicValues] = useState<number[]>([1, 3, 11, 3, 4, 30]);
+  const [dynamicValues, setDynamicValues] = useState<number[]>([
+    seed(),
+    seed(),
+    seed(),
+    seed(),
+    seed(),
+    seed(),
+    seed(),
+  ]);
   useEffect(() => {
-    setTimeout(() => {
-      setDynamicValues([3, 6, 12, 3, 8, 43]);
+    setInterval(() => {
+      setDynamicValues((pre) => pre.map(random));
     }, 1000);
   }, []);
   const data = {
@@ -58,7 +71,7 @@ function Graph() {
   return (
     <div>
       <h1>Placements Record</h1>
-      <Bar data={data} options={options} type='Bar' />
+      <Bar data={data} options={options} type="Bar" />
     </div>
   );
 }
