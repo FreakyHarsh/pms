@@ -8,11 +8,13 @@ import {
   Divider,
   Grid,
   makeStyles,
+  Snackbar,
   TextField,
   Theme,
   Typography,
   useTheme,
 } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../..";
@@ -22,9 +24,7 @@ import { StudentState } from "../../store/reducers/StudentReducer/student.reduce
 function StudentProfile() {
   const classes = useStyles();
   const theme = useTheme();
-  const studentState: StudentState = useSelector(
-    (state: RootState) => state.studentState
-  );
+  const studentState: StudentState = useSelector((state: RootState) => state.studentState);
 
   const authState = useSelector((state: RootState) => state.authState);
   const dispatch = useDispatch();
@@ -40,13 +40,22 @@ function StudentProfile() {
   const [hsc, setHsc] = useState<any>(studentState.hsc);
   const [ssc, setSsc] = useState<any>(studentState.ssc);
   const [uploadAvatar, setUploadAvatar] = useState<any>();
+  const [openAlert, setOpenAlert] = React.useState(false);
+
   const handleAvatarSelected = (e: any) => {
     const files: any[] = Array.from(e.target.files);
     setUploadAvatar(files[0]);
   };
   const formData = new FormData();
 
+  const handleClose = (event: any, reason: any) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenAlert(false);
+  };
   const onUpdate = async () => {
+    setOpenAlert(true);
     const updatedStudent = await fetch(baseURL + "/students", {
       method: "PUT",
       headers: {
@@ -71,8 +80,11 @@ function StudentProfile() {
     console.log(updatedStudent);
     dispatch({ type: StudentActionTypes.SET_STUDENT, payload: updatedStudent });
   };
-
+  function Alert(props: any) {
+    return <MuiAlert elevation={6} variant='filled' {...props} />;
+  }
   const onUpload = async () => {
+    setOpenAlert(true);
     formData.append("avatar", uploadAvatar, uploadAvatar?.name);
     const updatedStudentAvatar = await fetch(baseURL + "/students/avatar", {
       method: "POST",
@@ -126,6 +138,7 @@ function StudentProfile() {
   }, [sem1, sem2, sem3, sem4, sem5, sem6, sem7, sem8]);
 
   const addHighSchoolScores = async () => {
+    setOpenAlert(true);
     console.log(hsc, ssc);
     const updatedStudent = await fetch(baseURL + "/students", {
       method: "PUT",
@@ -147,27 +160,24 @@ function StudentProfile() {
   };
 
   return (
-    <Box display="flex" justifyContent="center">
+    <Box display='flex' justifyContent='center'>
       <Box p={2} className={classes.cardWidth}>
         <Card>
-          <Box display="flex" p={2}>
+          <Box display='flex' p={2}>
             <Avatar
               alt={studentState.firstName}
               className={classes.large}
               src={baseURL + studentState.avatar}
             />
             <Typography
-              variant="h6"
+              variant='h6'
               noWrap
               style={{ padding: "1rem", fontFamily: "Playfair Display" }}
             >
               {studentState.firstName + " " + studentState.lastName}
             </Typography>
           </Box>
-          <Divider
-            variant="middle"
-            style={{ backgroundColor: theme.palette.primary.main }}
-          />
+          <Divider variant='middle' style={{ backgroundColor: theme.palette.primary.main }} />
           <CardContent>
             <Box px={2}>
               <Typography paragraph noWrap>
@@ -182,53 +192,48 @@ function StudentProfile() {
               <Typography style={{ maxWidth: "80%" }} paragraph noWrap>
                 Email: {studentState.email}
               </Typography>
-              <Typography paragraph>
-                Department: {studentState.department}
-              </Typography>
+              <Typography paragraph>Department: {studentState.department}</Typography>
               <Typography paragraph>Program: {studentState.program}</Typography>
-              <Typography paragraph>
-                Current Address: {studentState.currentAddress}
-              </Typography>
-              <Typography paragraph>
-                Home Address: {studentState.homeAddress}
-              </Typography>
+              <Typography paragraph>Current Address: {studentState.currentAddress}</Typography>
+              <Typography paragraph>Home Address: {studentState.homeAddress}</Typography>
               <Divider
-                variant="fullWidth"
+                variant='fullWidth'
                 style={{
                   backgroundColor: theme.palette.primary.main,
                   marginBottom: "1.3rem",
                 }}
               />
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
+              <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity='success'>
+                  Successfully Updated
+                </Alert>
+              </Snackbar>
+              <Box display='flex' justifyContent='space-between' alignItems='center'>
                 <TextField
-                  label="HSC"
-                  size="small"
-                  variant="outlined"
+                  label='HSC'
+                  size='small'
+                  variant='outlined'
                   value={hsc}
                   onChange={(e: any) => setHsc(e.target.value)}
                 />
                 <TextField
-                  label="SSC"
-                  size="small"
-                  variant="outlined"
+                  label='SSC'
+                  size='small'
+                  variant='outlined'
                   value={ssc}
                   onChange={(e: any) => setSsc(e.target.value)}
                 />
                 <Button
-                  size="small"
-                  variant="contained"
-                  color="secondary"
+                  size='small'
+                  variant='contained'
+                  color='secondary'
                   onClick={addHighSchoolScores}
                 >
                   Submit
                 </Button>
               </Box>
               <Divider
-                variant="fullWidth"
+                variant='fullWidth'
                 style={{
                   backgroundColor: theme.palette.primary.main,
                   margin: "1.3rem 0",
@@ -236,36 +241,28 @@ function StudentProfile() {
               />
               <Grid container spacing={3}>
                 <Grid item xs={12} md={9}>
-                  <label htmlFor="avatar" style={{ display: "inline-block" }}>
-                    <Box display="flex" mr={2} width="auto" alignItems="center">
-                      <Typography
-                        variant="caption"
-                        style={{ paddingRight: "10px" }}
-                      >
+                  <label htmlFor='avatar' style={{ display: "inline-block" }}>
+                    <Box display='flex' mr={2} width='auto' alignItems='center'>
+                      <Typography variant='caption' style={{ paddingRight: "10px" }}>
                         Update Avatar
                       </Typography>
                     </Box>
                   </label>
                   <input
-                    type="file"
-                    id="avatar"
+                    type='file'
+                    id='avatar'
                     onChange={handleAvatarSelected}
-                    accept=".jpeg,.png,.jpg"
+                    accept='.jpeg,.png,.jpg'
                   />
                 </Grid>
                 <Grid item xs={12} md={3}>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="secondary"
-                    onClick={onUpload}
-                  >
+                  <Button size='small' variant='contained' color='secondary' onClick={onUpload}>
                     Upload
                   </Button>
                 </Grid>
               </Grid>
               <Divider
-                variant="fullWidth"
+                variant='fullWidth'
                 style={{
                   backgroundColor: theme.palette.primary.main,
                   marginTop: "1rem",
@@ -275,145 +272,148 @@ function StudentProfile() {
               <Grid container spacing={3} style={{ marginBottom: ".5rem" }}>
                 <Grid item xs={4} md={3}>
                   <TextField
-                    label="Sem 1"
+                    label='Sem 1'
                     value={sem1}
-                    type="number"
-                    variant="outlined"
-                    size="small"
+                    type='number'
+                    variant='outlined'
+                    size='small'
                     InputProps={{
                       inputProps: {
                         max: 10,
                         min: 0,
+                        step: 0.01,
                       },
                     }}
-                    onChange={(e) => setSem1(parseInt(e.target.value))}
+                    onChange={(e) => setSem1(parseFloat(e.target.value))}
                   />
                 </Grid>
                 <Grid item xs={4} md={3}>
                   <TextField
                     value={sem2}
-                    type="number"
-                    label="Sem 2"
-                    variant="outlined"
+                    type='number'
+                    label='Sem 2'
+                    variant='outlined'
                     InputProps={{
                       inputProps: {
                         max: 10,
                         min: 0,
+                        step: 0.01,
                       },
                     }}
-                    size="small"
-                    onChange={(e) => setSem2(parseInt(e.target.value))}
+                    size='small'
+                    onChange={(e) => setSem2(parseFloat(e.target.value))}
                   />
                 </Grid>
                 <Grid item xs={4} md={3}>
                   <TextField
                     value={sem3}
-                    type="number"
-                    label="Sem 3"
-                    variant="outlined"
-                    size="small"
+                    type='number'
+                    label='Sem 3'
+                    variant='outlined'
+                    size='small'
                     InputProps={{
                       inputProps: {
                         max: 10,
                         min: 0,
+                        step: 0.01,
                       },
                     }}
-                    onChange={(e) => setSem3(parseInt(e.target.value))}
+                    onChange={(e) => setSem3(parseFloat(e.target.value))}
                   />
                 </Grid>
                 <Grid item xs={4} md={3}>
                   <TextField
                     value={sem4}
-                    label="Sem 4"
-                    type="number"
+                    label='Sem 4'
+                    type='number'
                     InputProps={{
                       inputProps: {
                         max: 10,
                         min: 0,
+                        step: 0.01,
                       },
                     }}
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) => setSem4(parseInt(e.target.value))}
+                    variant='outlined'
+                    size='small'
+                    onChange={(e) => setSem4(parseFloat(e.target.value))}
                   />
                 </Grid>
                 <Grid item xs={4} md={3}>
                   <TextField
                     value={sem5}
-                    label="Sem 5"
-                    variant="outlined"
-                    type="number"
-                    size="small"
+                    label='Sem 5'
+                    variant='outlined'
+                    type='number'
+                    size='small'
                     InputProps={{
                       inputProps: {
                         max: 10,
                         min: 0,
+                        step: 0.01,
                       },
                     }}
-                    onChange={(e) => setSem5(parseInt(e.target.value))}
+                    onChange={(e) => setSem5(parseFloat(e.target.value))}
                   />
                 </Grid>
                 <Grid item xs={4} md={3}>
                   <TextField
                     value={sem6}
-                    label="Sem 6"
-                    type="number"
-                    variant="outlined"
-                    size="small"
+                    label='Sem 6'
+                    type='number'
+                    variant='outlined'
+                    size='small'
                     InputProps={{
                       inputProps: {
                         max: 10,
                         min: 0,
+                        step: 0.01,
                       },
                     }}
-                    onChange={(e) => setSem6(parseInt(e.target.value))}
+                    onChange={(e) => setSem6(parseFloat(e.target.value))}
                   />
                 </Grid>
                 <Grid item xs={4} md={3}>
                   <TextField
                     value={sem7}
-                    label="Sem 7"
-                    variant="outlined"
-                    type="number"
+                    label='Sem 7'
+                    variant='outlined'
+                    type='number'
                     InputProps={{
                       inputProps: {
                         max: 10,
                         min: 0,
+                        step: 0.01,
                       },
                     }}
-                    size="small"
-                    onChange={(e) => setSem7(parseInt(e.target.value))}
+                    size='small'
+                    onChange={(e) => setSem7(parseFloat(e.target.value))}
                   />
                 </Grid>
                 <Grid item xs={4} md={3}>
                   <TextField
                     value={sem8}
-                    label="Sem 8"
-                    variant="outlined"
-                    type="number"
+                    label='Sem 8'
+                    variant='outlined'
+                    type='number'
                     InputProps={{
                       inputProps: {
                         max: 10,
                         min: 0,
+                        step: 0.01,
                       },
                     }}
-                    size="small"
-                    onChange={(e) => setSem8(parseInt(e.target.value))}
+                    size='small'
+                    onChange={(e) => setSem8(parseFloat(e.target.value))}
                   />
                 </Grid>
               </Grid>
-              <Box
-                p={2}
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
+              <Box p={2} display='flex' justifyContent='space-between' alignItems='center'>
                 <Typography>CGPA: {cgpi?.toFixed(2)}</Typography>
-                <a href={baseURL + studentState.resume} target="_blank">
+                <a href={baseURL + studentState.resume} target='_blank'>
                   View Resume
                 </a>
               </Box>
-              <Button variant="contained" color="secondary" onClick={onUpdate}>
+              <Button variant='contained' color='secondary' onClick={onUpdate}>
                 Update CGPA
               </Button>
             </Box>
